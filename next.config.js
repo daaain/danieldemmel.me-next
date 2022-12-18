@@ -92,7 +92,7 @@ module.exports = () => {
         {
           source:
             '/blog/2021/08/08/safely-access-your-home-nas-anywhere-with-an-openvpn-server-on-gcp',
-          destination: '/blog/safely-access-your-home-nas-anywhere-with-an-openvpn-server-on-gcp',
+          destination: '/blog/safely-access-your-home-nas-with-an-openvpn-server-on-gcp',
           permanent: true,
         },
         {
