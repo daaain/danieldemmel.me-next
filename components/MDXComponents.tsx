@@ -14,11 +14,13 @@ export const Wrapper = ({ layout, content, ...rest }: MDXLayout) => {
   return <Layout content={content} {...rest} />
 }
 
-export const EmbedPDF = ({ URL }) => (
+export const EmbedPDF = ({ URL, docId }) => (
   <div style={{ padding: '56.25% 0 0 0', position: 'relative' }}>
     <iframe
-      title={URL}
-      src={`https://docs.google.com/gview?url=${URL}&embedded=true`}
+      title={`PDF viewer document: ${docId ? docId : URL}`}
+      src={`https://drive.google.com/viewerng/viewer?url=${
+        docId ? `https://drive.google.com/uc?id=${docId}&embedded=true` : URL
+      }&pid=explorer&efh=false&a=v&chrome=false&embedded=true`}
       style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
     ></iframe>
   </div>
