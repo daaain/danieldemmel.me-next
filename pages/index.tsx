@@ -36,9 +36,12 @@ export default function Home({ posts }: InferGetStaticPropsType<typeof getStatic
             return (
               <li key={slug} className="py-4">
                 <article>
-                  <div className="space-y-2 xl:grid xl:grid-cols-4 xl:items-baseline xl:space-y-0">
+                  <div className="space-y-2 xl:grid xl:grid-cols-4 xl:items-center xl:space-y-0">
                     {images?.[0] && (
-                      <div style={{ position: 'relative', margin: '0 1rem', padding: '70% 0 0 0' }}>
+                      <div
+                        className="xl:mr-4"
+                        style={{ position: 'relative', padding: '70% 0 0 0' }}
+                      >
                         <Image
                           fill
                           src={images[0]}
