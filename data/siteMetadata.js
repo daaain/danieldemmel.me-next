@@ -12,7 +12,7 @@ const siteMetadata = {
   siteRepo: 'https://github.com/daaain/danieldemmel.me-next',
   siteLogo: '/images/logo.png',
   image: '/images/dain.jpg',
-  socialBanner: '/images/twitter-card.png', // TODO: replace
+  socialBanner: '/images/logo.png',
   email: 'hello@danieldemmel.me',
   github: 'https://github.com/daaain',
   twitter: 'https://twitter.com/daaain',
