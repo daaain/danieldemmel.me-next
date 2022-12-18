@@ -1,0 +1,86 @@
+---
+title: "Safely access your home NAS anywhere with an OpenVPN server on GCP"
+date: 2021-08-08
+tags: [openvpn, networking, nas, synology, gcp]
+images: ['/images/2021/lady-with-phone.jpg']
+summary: How to run a low cost OpenVPN server on GCP to access your NAS anywhere even if your home internet is on a shared IP
+---
+
+## Update
+
+After having used this method on and off for more than a year, I can't really recommend it because of two issues:
+
+1. OpenVPN just stops accepting connections every few months and the VM needs to be manually restarted. I haven't found an easy way to monitor its health and automate the restart of the container.
+2. If you're not in the US, Google will charge for network egress over 1GB a month, [see free tier docs](https://cloud.google.com/free/docs/free-cloud-features). It's \$0.08/GB at full price (unless you're in Indonesia or Oceania because then it's \$0.15) which isn't a big deal if you just need to access a document, but can add up.
+
+I've been using [Tailscale](https://tailscale.com/) instead which is free for personal use, uses the more modern Wireshark protocol and has simple apps for all platforms I use, including Synology. It doesn't offer the nice IP aliasing and can't share the VPN with friends and family without paying for a team plan though (or maybe yes with the new [node sharing feature](https://tailscale.com/kb/1084/sharing/)?)...
+
+______________________________________________________________________________
+
+## Motivation
+
+After our recent house move I finally had the option to have a pure fibre connection with Hyperoptic which I was very happy about, but unfortunately as it turns out they are running carrier-grade NAT. That means our home connection is on a shared public IP, so I could no longer use port forwarding on our home router to connect to my OpenVPN server running on my Synology Diskstation NAS. This made me sad as it was a completely free of charge way for me to be able to secure my connection on my phone when connecting to a public Wi-Fi and I could also access all my files whenever and wherever.
+
+So I had to move the OpenVPN server somewhere outside of our home network and let both the NAS and all our devices connect to it. I also didn't want to have to change the IP address of the NAS between connecting from home or via the VPN, so wanted to set up the route to the home IP range.
+
+I'm sure this all would also be possible with a commercial VPN provider, but as a little challenge I wanted to see if I can set this up using a free, micro VM in GCP, and luckily I was able to do it all in a couple of hours, thanks to a brilliant open source OpenVPN Docker image and the ability to easily run a container in a VM in GCP. In case you're wondering, of course this guide will work with QNAP, FreeNAS, etc too, you'll just need to figure out how to make it connect to OpenVPN as a client.
+
+## How to do it
+
+So for my own future reference and to help anyone else interested, these are the steps involved:
+
+1️⃣ Set up a Google Cloud Platform account (they have a free trial, but you'll have to give them payment details): https://console.cloud.google.com/freetrial
+
+2️⃣ Create a firewall rule to allow OpenVPN traffic – you need to open port 1194 for UDP and tag the rule with `openvpn` to be able to assign to the VM later: https://console.cloud.google.com/networking/firewalls/add
+
+![Screenshot of firewall setup][1]
+
+3️⃣ Create a [free tier][4] VM with Container-Optimized OS which will host the OpenVPN container `kylemanna/openvpn` in privileged mode (so that it can set up networking), making sure to attach a directory volume (to store the config files) and tagging it with the `openvpn` network (so that you can reach the VM from the internet): https://console.cloud.google.com/compute/instancesAdd
+
+![Screenshot of firewall setup - part 1][2]
+
+![Screenshot of firewall setup - part 2][3]
+
+4️⃣ Set up a (subdomain) DNS A record pointing to the external IP address of the VM instance or create a dynamic DNS account with a (free) provider of your choice
+
+5️⃣ Open an SSH connection into the VM – check with `pwd` if the VM user name matches with your Gmail username (otherwise you'll need to update the container volume) and if you're using a dynamic DNS provider set up its client now – you'll need to know the URL in the next step
+
+6️⃣ Follow the Quickstart steps (except `Start OpenVPN server process` as that's already taken care of by the VM) in `kylemanna/openvpn`'s README with `OVPN_DATA="/home/GMAIL_USERNAME/ovpn-data-volume"`. You'll need to repeat the last two (client certificate and configuration creation) steps for each client you want to connect with – including your NAS (make sure you note its client name down) – and you'll need to download or `cat` the the generated `CLIENTNAME.ovpn` config files: https://github.com/kylemanna/docker-openvpn#quick-start
+
+7️⃣ Set up the network route to your home network where the NAS is. For this, you'll need to edit a couple of files in the VM in `~/ovpn-data-volume`. For more info on why these are needed, read this helpful OpenVPN guide: https://community.openvpn.net/openvpn/wiki/RoutedLans
+
+Edit the following section in openvpn.conf (for example using `sudo nano ~/ovpn-data-volume/openvpn.conf`), where `192.168.168` should be the IP range of your home network where your NAS is. If your home network is on the default `192.168.0` range, make sure you change it otherwise routing will blow up when you connect to a Wi-Fi with the same default range.
+
+```
+### Route Configurations Below
+route 192.168.254.0 255.255.255.0
+route 192.168.168.0 255.255.255.0
+push "route 192.168.168.0 255.255.255.0"
+client-to-client
+client-config-dir ccd
+```
+
+Add `YOUR_NAS_CLIENT_NAME` to `~/ovpn-data-volume` (for example using `sudo touch ~/ovpn-data-volume/ccd/YOUR_NAS_CLIENT_NAME && sudo nano ~/ovpn-data-volume/ccd/YOUR_NAS_CLIENT_NAME`) with the following line:
+
+```
+iroute 192.168.168.0 255.255.255.0
+```
+
+8️⃣ At this point you will need to restart the container to make sure it picks up the new config. First find its ID with `docker ps -a` then `docker container restart CONTAINER_ID`. You can disconnect from SSH now.
+
+9️⃣ Connect your NAS as a client. For Synology see: https://kb.synology.com/en-global/DSM/help/DSM/AdminCenter/connection_network_vpnclient
+
+🔟 Connect your phone (or any other device) and enjoy using your NAS with the same connection settings as your home network! If you also want to secure your connection and route all traffic through VPN, you might need to add `redirect-gateway def1` to the `CLIENTNAME.ovpn` file before importing, unless your OpenVPN client supports setting this separately.
+
+I'm not sure if this will always be completely free to run in GCP, but should be fairly cheap. Keep an eye on your billing report just in case: https://console.cloud.google.com/billing
+
+https://console.developers.google.com/apis/api/logging.googleapis.com/overview
+
+## Credits
+
+Hero image: https://www.tuoptometrista.com/ayudas-generales-para-personas-con-baja-vision/woman/
+
+[1]: /images/2021/Firewall-setup.png
+[2]: /images/2021/VM-setup-1.png
+[3]: /images/2021/VM-setup-2.png
+[4]: https://cloud.google.com/free/docs/gcp-free-tier

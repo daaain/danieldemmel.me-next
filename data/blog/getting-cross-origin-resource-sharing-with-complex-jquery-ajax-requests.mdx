@@ -1,0 +1,108 @@
+---
+title: "Getting Cross-origin resource sharing with complex jQuery AJAX requests"
+date: 2013-01-18
+tags: [web, development, jquery, javascript, cors]
+images: ['/images/2013/resource.jpg']
+summary: CORS can be tricky, especially if you need to do something beyond the basics like authorisation or custom headers
+---
+
+I'm working on an HTML5 desktop application which needs to load some HTML text from a server, but not through an existing API. So I had to find a solution which can be set up without too much backend work and make it possible for non-technical people to easily update the content. I'm assuming that the easiest setup will be using an existing CMS system with a few custom server settings to enable cross-domain communication. It's also a security sensitive application, so the content will need to be protected with basic authorisation at least.
+
+Well, let me get things straight: CORS which is more than the simplest GET request is not easy!
+
+While trying to set up and end to end proof of concept to make sure this will work and to be able to advise with setup I ran into several blockers, so I'm going to go through them step by step.
+
+## Setting up the jQuery AJAX request
+
+For simple use cases all you need to do to is fire off a simple GET request:
+
+```javascript
+$.ajax({
+  type: "GET",
+  url: "https://www.freecodecamp.org/news/access-control-allow-origin-header-explained/",
+  success: function(response) {
+    var article = $(response)
+      .find("article")
+      .html();
+    $("body").html(article);
+  }
+});
+```
+
+If the server you're hitting is sending back the header `Access-Control-Allow-Origin` with the value `*` you're all set.
+
+<iframe
+  width="100%"
+  height="400"
+  src="//jsfiddle.net/dain/0gqxsubm/embedded/result"
+  allowFullScreen="allowfullscreen"
+  frameBorder="0"
+></iframe>
+
+However what I ended up with is far more complicated, as doing anything with custom headers (which included authorisation) you have to first make a so called [preflight](https://web.dev/cross-origin-resource-sharing/#preflight-requests-for-complex-http-calls) request. This is an OPTIONS request which only asks the server if it supports all the headers needed for the 'real' request which follows.
+
+So let's first see the full AJAX request:
+
+```javascript
+$.ajax({
+  type: "GET",
+  url: "https://www.mydomain.com/myFancyContent.php",
+  headers: {
+    MyCustomHeader: "important information"
+  },
+  xhrFields: {
+    withCredentials: true
+  },
+  username: "myuser",
+  password: "mypassword",
+  success: function() {
+    console.log("success");
+  },
+  error: function() {
+    console.log("failure");
+  }
+});
+```
+
+JQuery has some helpers for authorisation, so the easiest way to get it working is setting `xhrFields.withCredentials` to `true` and passing `username` and `password` as separate parameters, this way we don't have to worry about the intricacies of creating the auth hash ourselves.
+
+Another convenience property is `headers` which you can use to inject any custom headers you might need, without having to manually do it with `beforeSend`.
+
+## Apache config
+
+Another big stumbling block for me was to get the settings for Apache right.
+
+The very first thing you need to do is making sure `mod_headers` is enabled, which can be as simple as:
+
+```sh
+sudo a2enmod headers
+sudo /etc/init.d/apache2 force-reload
+```
+
+Once that's done, you can either edit your main `httpd.conf` or `apache.conf` files, or just create an `.htaccess` file in the folder you want to enable CORS in.
+
+These are the settings I ended up with after a lot of experimentation:
+
+```conf
+SetEnvIf Origin ^(.*)$ ORIGIN_DOMAIN=$0
+<Files "*">
+  Header add Access-Control-Allow-Origin %{ORIGIN_DOMAIN}e
+  Header add Access-Control-Allow-Methods "GET, OPTIONS"
+  Header add Access-Control-Allow-Headers "Authorization, X-Requested-With, Content-Type, Origin, Accept"
+  Header add Access-Control-Allow-Credentials "true"
+</Files>
+```
+
+The first line makes sure that `Origin` is echoed back, because as it turns out once you have some custom headers a simple `*` in `Access-Control-Allow-Origin` won't do any more. You can do some URL filtering here if you want, but this setup makes sure that even `file:///` works which is great for development.
+
+In `Access-Control-Allow-Methods` we make sure that `OPTIONS` will work, and with `Access-Control-Allow-Headers` and `Access-Control-Allow-Credentials` we set everything up for a basic authorisation handshake.
+
+Annoyingly none of these worked on the simple HTML file I uploaded, until as a desperate idea after a few hours of futile attempts I tried renaming it to PHP extension which made Apache suddenly apply all of them.
+
+If that wasn't enough, the unregistered development HTTPS security certificate also blocked my attempts to get things working. If you open any URL on the server you're using and accept the certificate this problem will go away, otherwise the options are to [install / import the certificate on a system level](https://superuser.com/questions/27268/how-do-i-disable-the-warning-chrome-gives-if-a-security-certificate-is-not-trust) or to start the browser with some flags like `--allow-running-insecure-content` for Chrome.
+
+Hope this will help someone else facing the same problems!
+
+## Credits
+
+Hero image: https://pix4free.org/photo/24104/resource.html

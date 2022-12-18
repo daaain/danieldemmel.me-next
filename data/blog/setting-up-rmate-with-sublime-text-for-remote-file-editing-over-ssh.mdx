@@ -1,0 +1,36 @@
+---
+title: "Setting up rmate with Sublime Text for remote file editing over SSH"
+date: 2012-09-02
+tags: [web, development, tools, sublimetext, ssh]
+images: ['/images/2012/terminal.jpg']
+summary: Instead of terminal editors with steep learning curve, this guide helps you to tunnel Sublime Text in to your server for remote editing – with sudo
+---
+
+If you want to be able to edit files using your local Sublime Text 2 / 3 app over SSH, you can use `rmate` which is a small remote connection script developed originally for TextMate.
+
+This is how it goes:
+
+- Install the [rsub](https://github.com/henrikpersson/rsub) plugin for ST, which is available through [Package Control](https://packagecontrol.io/packages/Package%20Control) too.
+- Add a remote forwarding line under the right host in your `~/.ssh/config` file to enable connection:
+
+```conf
+Host myfancyvps
+  Hostname 123.45.67.89
+  RemoteForward 52698 127.0.0.1:52698
+```
+
+- SSH in to your remote: `ssh myfancyvps`
+- Download rmate: `curl https://raw.githubusercontent.com/aurora/rmate/master/rmate > rmate`
+- Move it in place: `sudo mv rmate /usr/local/bin` – you can put in `~/bin` too if you only want to set it up for yourself, but sharing is caring :)
+- Make it executable: `sudo chmod +x /usr/local/bin/rmate`
+- Profit: `rmate .profile` – make sure you have an open ST2 window to enable listening!
+
+The main reason why I really like this is because you can also `sudo rmate` with system config files and be able to actually save them back, as opposed to editing via an SFTP client where you need to log in with `root` to be able to do this.
+
+Also, don't forget to open the port in your `iptables` if you have a restrictive firewall policy: `-A INPUT -p tcp --dport 52698 -j ACCEPT`. Also you have to do `iptables-save` and `iptables-restore` to [make these settings persistent after reboot](https://askubuntu.com/questions/66890/how-can-i-make-a-specific-set-of-iptables-rules-permanent).
+
+A slightly annoying caveat is that a port can't be shared with other people if you happen to be logged in at the same time, so you might have to set up separate ports in `iptables` with the first port number in the `RemoteForward` setting matching it (the local port should remain the same). In this case you have to specify the port number in each call though: `rmate -p 52699`. So probably the best is to create an alias in your `.profile`: `alias rsub='rmate -p 52699'`, but in this case you also need to add: `alias sudo='sudo '`. By adding that trailing space you make sure that the `sudo`'d command is also checked for alias substitution, so doing `sudo rsub my_system_config_file` will still work.
+
+## Credits
+
+Hero image: https://www.flickr.com/photos/stiefkind/41808172592

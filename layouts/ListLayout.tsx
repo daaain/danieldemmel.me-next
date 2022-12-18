@@ -5,6 +5,7 @@ import { CoreContent } from 'pliny/utils/contentlayer'
 import type { Blog } from 'contentlayer/generated'
 import Link from '@/components/Link'
 import Tag from '@/components/Tag'
+import Image from '@/components/Image'
 import siteMetadata from '@/data/siteMetadata'
 
 interface PaginationProps {
@@ -58,6 +59,61 @@ function Pagination({ totalPages, currentPage }: PaginationProps) {
   )
 }
 
+export function PostList({ filteredBlogPosts, displayPosts }) {
+  return (
+    <ul className="divide-y divide-gray-200 dark:divide-gray-700">
+      {!filteredBlogPosts.length && 'No posts found.'}
+      {displayPosts.map((post) => {
+        const { path, date, title, summary, tags, images } = post
+        return (
+          <li key={path} className="py-4">
+            <article className="space-y-2 xl:grid xl:grid-cols-4 xl:items-baseline xl:space-y-0">
+              {images?.[0] && (
+                <div style={{ position: 'relative', margin: '0 1rem', padding: '70% 0 0 0' }}>
+                  <Image
+                    fill
+                    src={images[0]}
+                    alt="Hero image"
+                    style={{
+                      objectFit: 'cover',
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      width: '100%',
+                      height: '100%',
+                    }}
+                  />
+                </div>
+              )}
+              <div className="space-y-3 xl:col-span-3">
+                <div>
+                  <h3 className="text-2xl font-bold leading-8 tracking-tight">
+                    <Link href={`/${path}`} className="text-gray-900 dark:text-gray-100">
+                      {title}
+                    </Link>
+                  </h3>
+                  <dl>
+                    <dt className="sr-only">Published on</dt>
+                    <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
+                      <time dateTime={date}>{formatDate(date, siteMetadata.locale)}</time>
+                    </dd>
+                  </dl>
+                  <div className="flex flex-wrap">
+                    {tags.map((tag) => (
+                      <Tag key={tag} text={tag} />
+                    ))}
+                  </div>
+                </div>
+                <div className="prose max-w-none text-gray-500 dark:text-gray-400">{summary}</div>
+              </div>
+            </article>
+          </li>
+        )
+      })}
+    </ul>
+  )
+}
+
 export default function ListLayout({
   posts,
   title,
@@ -108,41 +164,7 @@ export default function ListLayout({
             </svg>
           </div>
         </div>
-        <ul>
-          {!filteredBlogPosts.length && 'No posts found.'}
-          {displayPosts.map((post) => {
-            const { path, date, title, summary, tags } = post
-            return (
-              <li key={path} className="py-4">
-                <article className="space-y-2 xl:grid xl:grid-cols-4 xl:items-baseline xl:space-y-0">
-                  <dl>
-                    <dt className="sr-only">Published on</dt>
-                    <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
-                      <time dateTime={date}>{formatDate(date, siteMetadata.locale)}</time>
-                    </dd>
-                  </dl>
-                  <div className="space-y-3 xl:col-span-3">
-                    <div>
-                      <h3 className="text-2xl font-bold leading-8 tracking-tight">
-                        <Link href={`/${path}`} className="text-gray-900 dark:text-gray-100">
-                          {title}
-                        </Link>
-                      </h3>
-                      <div className="flex flex-wrap">
-                        {tags.map((tag) => (
-                          <Tag key={tag} text={tag} />
-                        ))}
-                      </div>
-                    </div>
-                    <div className="prose max-w-none text-gray-500 dark:text-gray-400">
-                      {summary}
-                    </div>
-                  </div>
-                </article>
-              </li>
-            )
-          })}
-        </ul>
+        <PostList filteredBlogPosts={filteredBlogPosts} displayPosts={displayPosts} />
       </div>
       {pagination && pagination.totalPages > 1 && !searchValue && (
         <Pagination currentPage={pagination.currentPage} totalPages={pagination.totalPages} />

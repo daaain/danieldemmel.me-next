@@ -1,0 +1,60 @@
+---
+title: "Why and how Github should have binary diffs"
+date: 2015-11-28
+tags: [semantic, web, open, tools]
+images: ['/images/2015/waveform.png']
+summary: To make Git (and Github) more useful for collaboration on non-textual content
+---
+
+While git and Github brought tremendous improvement to how people can manage changes and collaborate on their software and simple textual content, most people still work with various binary formats and could benefit greatly from a similar boost in the way they work.
+
+This effort would not only make Github much more useful by making binary file comparison possible, but also contribute hugely to efforts like the semantic web by compiling a library of the best open source parsers (similar to [Linguist](https://github.com/github/linguist) for code) which can be used by anyone to analyse binary files.
+
+Of course crunching through massive files would be very costly, but depending on complexity and usefulness each format could be processed to a various degree.
+
+## 1. Gather metadata
+
+As a first step only metadata would be extracted from the file. This would give a high level idea of what changed, making it possible for people to do quick sanity checks whether the changes look right.
+
+Examples:
+
+- Audio files (MP3, WAV, FLAC, etc): length, artist, title, album art, etc
+- Videos (MP4, WebM, MKV, etc): length, resolution, encoding, etc
+- Documents (DOC, DOCX, PDF, etc): number of pages, author, etc
+- Archives (ZIP, TAR, RAR, etc): file and folder structure, etc
+
+## 2. Sample binary data
+
+As a next step a small sample of the binary data could be taken, giving a glimpse into the contents of the file.
+
+Examples:
+
+- Audio files: waveform of the first few seconds
+- Videos: a few frames
+- Documents: a couple of pages
+
+## 3. Fully analyse binary data
+
+As the final step the full binary data would be analysed to enable deep understanding and comparison of content, with some error and inconsistency checks thrown in just for good measure.
+
+Examples:
+
+- Audio files: playable waveform diffs highlighting changes
+- Videos: comparison graph and clips of changed sections
+- Documents: textual and visual diffs of changes in various pages
+
+---
+
+Since Github is [already working on large file support](https://github.com/blog/1986-announcing-git-large-file-storage-lfs), this could be a very interesting complementary service, rolled out similarly to a small number of users and file formats first.
+
+This might also mean improving the diff UI to accommodate for these richer comparisons which could also benefit code, but I’ll leave that for another post. Suffice to say that pull requests should be much more suited to (near) real-time collaboration, and not just on code. And that using semantic understanding to go beyond a simple text diff should be used for visualisation (and the tools are actually already available for code via the syntax definitions in Linguist used only for code colouring).
+
+It’s difficult to foresee what kind of possibilities these would bring, but I think they could have to potential to bring open, global collaboration to a lot of new fields like design, engineering, music, etc.
+
+Also it feels the time is getting right for this, with technologies like containers which enable using (often compiled) tools for processing these binary files with much less hassle when it comes to setting environments up with all dependencies installed. If you thought Docker is only for deploying web services, [think again](https://blog.jessfraz.com/post/docker-containers-on-the-desktop/).
+
+And maybe, just maybe, this could pave the way for programming to move beyond text? I can see [Bret Victor nodding in the back](http://worrydream.com/#!/dbx)...
+
+## Credits
+
+Hero image: "Prognoz Freesound rendering with density" by endolith from https://www.flickr.com/photos/omegatron/4505407612
