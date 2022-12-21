@@ -8,7 +8,7 @@ summary: How to run a low cost OpenVPN server on GCP to access your NAS anywhere
 
 ## Update
 
-After having used this method on and off for more than a year, I can't really recommend it because of two issues:
+After having used this method on and off for more than a year, I can't fully recommend it any more because of two issues:
 
 1. OpenVPN just stops accepting connections every few months and the VM needs to be manually restarted. I haven't found an easy way to monitor its health and automate the restart of the container.
 2. If you're not in the US, Google will charge for network egress over 1GB a month, [see free tier docs](https://cloud.google.com/free/docs/free-cloud-features). It's \$0.08/GB at full price (unless you're in Indonesia or Oceania because then it's \$0.15) which isn't a big deal if you just need to access a document, but can add up.
