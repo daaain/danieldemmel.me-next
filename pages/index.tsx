@@ -32,9 +32,9 @@ export default function Home({ posts }: InferGetStaticPropsType<typeof getStatic
         <ul className="divide-y divide-gray-200 dark:divide-gray-700">
           {!posts.length && 'No posts found.'}
           {posts.slice(0, MAX_DISPLAY).map((post) => {
-            const { slug, date, title, summary, tags, images } = post
+            const { path, date, title, summary, tags, images } = post
             return (
-              <li key={slug} className="py-4">
+              <li key={path} className="py-4">
                 <article>
                   <div className="space-y-2 xl:grid xl:grid-cols-4 xl:items-center xl:space-y-0">
                     {images?.[0] && (
@@ -45,6 +45,7 @@ export default function Home({ posts }: InferGetStaticPropsType<typeof getStatic
                         <Image
                           fill
                           src={images[0]}
+                          customLink={`/${path}`}
                           alt="Hero image"
                           style={{
                             objectFit: 'cover',
@@ -62,10 +63,7 @@ export default function Home({ posts }: InferGetStaticPropsType<typeof getStatic
                       <div className="space-y-6">
                         <div>
                           <h2 className="text-2xl font-bold leading-8 tracking-tight">
-                            <Link
-                              href={`/blog/${slug}`}
-                              className="text-gray-900 dark:text-gray-100"
-                            >
+                            <Link href={`/${path}`} className="text-gray-900 dark:text-gray-100">
                               {title}
                             </Link>
                           </h2>

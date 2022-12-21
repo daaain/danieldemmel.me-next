@@ -73,6 +73,7 @@ export function PostList({ filteredBlogPosts, displayPosts }) {
                   <Image
                     fill
                     src={images[0]}
+                    customLink={`/${path}`}
                     alt="Hero image"
                     style={{
                       objectFit: 'cover',

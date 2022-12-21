@@ -89,6 +89,8 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                           height={38}
                           alt="avatar"
                           className="h-10 w-10 rounded-full"
+                          noBlur={true}
+                          shouldOpenWhenClicked={false}
                         />
                       )}
                       <dl className="whitespace-nowrap text-sm font-medium leading-5">
