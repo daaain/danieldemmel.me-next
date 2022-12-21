@@ -33,13 +33,13 @@ So for my own future reference and to help anyone else interested, these are the
 
 2️⃣ Create a firewall rule to allow OpenVPN traffic – you need to open port 1194 for UDP and tag the rule with `openvpn` to be able to assign to the VM later: https://console.cloud.google.com/networking/firewalls/add
 
-![Screenshot of firewall setup][1]
+![Screenshot of firewall setup](/images/2021/Firewall-setup.png)
 
-3️⃣ Create a [free tier][4] VM with Container-Optimized OS which will host the OpenVPN container `kylemanna/openvpn` in privileged mode (so that it can set up networking), making sure to attach a directory volume (to store the config files) and tagging it with the `openvpn` network (so that you can reach the VM from the internet): https://console.cloud.google.com/compute/instancesAdd
+3️⃣ Create a [free tier](/images/2021/VM-setup-1.png) VM with Container-Optimized OS which will host the OpenVPN container `kylemanna/openvpn` in privileged mode (so that it can set up networking), making sure to attach a directory volume (to store the config files) and tagging it with the `openvpn` network (so that you can reach the VM from the internet): https://console.cloud.google.com/compute/instancesAdd
 
-![Screenshot of firewall setup - part 1][2]
+![Screenshot of firewall setup - part 1](/images/2021/VM-setup-1.png)
 
-![Screenshot of firewall setup - part 2][3]
+![Screenshot of firewall setup - part 2](/images/2021/VM-setup-2.png)
 
 4️⃣ Set up a (subdomain) DNS A record pointing to the external IP address of the VM instance or create a dynamic DNS account with a (free) provider of your choice
 
@@ -80,7 +80,3 @@ https://console.developers.google.com/apis/api/logging.googleapis.com/overview
 
 Hero image: https://www.tuoptometrista.com/ayudas-generales-para-personas-con-baja-vision/woman/
 
-[1]: /images/2021/Firewall-setup.png
-[2]: /images/2021/VM-setup-1.png
-[3]: /images/2021/VM-setup-2.png
-[4]: https://cloud.google.com/free/docs/gcp-free-tier

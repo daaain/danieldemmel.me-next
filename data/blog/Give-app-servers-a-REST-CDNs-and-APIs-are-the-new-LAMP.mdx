@@ -16,7 +16,7 @@ Video recorded by Skills Matter, originally appeared on: https://skillsmatter.co
 
 Today I’m here to talk about a different approach to working with web apps, which was a big mindset shift for me, so I’m very excited to share it with you!
 
-![Slide 02][2]
+![Slide 02](/images/2017/002.jpg)
 
 But before I get into the technical bits, I’d like to talk a bit about water, as different ways of accessing it have a lot of interesting parallels to web apps!
 
@@ -24,7 +24,7 @@ As you probably know, water is a very precious resource. A clean water supply is
 
 The plaque on this photo is in the memory of William Pranket in the village of Stoke Sub Hamdon, where his well was the only source of water until the early 20th century.
 
-![Slide 03][3]
+![Slide 03](/images/2017/003.jpg)
 
 Improvements in delivering water to people are relatively recent, and far from consistent around the World.
 
@@ -34,7 +34,7 @@ In the worst crisis, water was delivered only every 4 days for 4 hours each time
 
 In this photo you can see how bad the situation became, people had to queue in the sun for hours to get some water from the public well.
 
-![Slide 04][4]
+![Slide 04](/images/2017/004.jpg)
 
 So these shared wells suffer from a few different problems:
 
@@ -42,7 +42,7 @@ So these shared wells suffer from a few different problems:
 - It’s impossible to completely isolate the well and the water source from contamination (as you can see in this illustration), which leads to doubtful safety
 - Relying on a single groundwater reserve or spring, each well is exposed to droughts, making water temporarily unavailable at times
 
-![Slide 05][5]
+![Slide 05](/images/2017/005.jpg)
 
 While current municipal water systems of course aren’t perfect either, the service is much better than public wells.
 
@@ -50,7 +50,7 @@ While current municipal water systems of course aren’t perfect either, the ser
 - Water coming out of the tap is safe – it’s difficult to compromise the sealed, underground pipes.
 - Supply is reliable – the available water sources are interconnected and widely distributed, getting rid of inconsistencies.
 
-![Slide 06][6]
+![Slide 06](/images/2017/006.jpg)
 
 Unfortunately a lot of time facts alone are not quite enough to enact change…
 
@@ -60,7 +60,7 @@ All the incidents were centred around the Broad Street pump, a public water acce
 
 Snow’s hypothesis was that contaminated water, not air, was the source of illness and he designed the World’s first double blind experiment to verify his theory.
 
-![Slide 07][7]
+![Slide 07](/images/2017/007.jpg)
 
 But since people have always been people, the scientific evidence left the Members of Parliament unmoved and no substantive action was taken.
 
@@ -70,7 +70,7 @@ Temperatures soaring well above 40°C made the level of the river Thames drop dr
 
 As the recently rebuilt Houses of Parliament were right next to the river, the stench suddenly created a very strong political will for action where the science could not, so the drafting and passage of new laws to fund a new sewer scheme – on a scale the World hasn’t seen before – happened in just 18 days.
 
-![Slide 08][8]
+![Slide 08](/images/2017/008.jpg)
 
 So how do these stories relate to the Web?
 
@@ -80,7 +80,7 @@ But what do I mean by “centralised app server”? I used LAMP in the title of 
 
 I call them “app servers” to create a distinction with web servers (like Apache or Nginx), ones which you need no matter what, to listen and send HTTP responses even if you just have the simplest HTML file to show.
 
-![Slide 09][9]
+![Slide 09](/images/2017/009.jpg)
 
 So the characteristics of this architecture is:
 
@@ -88,7 +88,7 @@ So the characteristics of this architecture is:
 - Content often stored in a database – where constructing a page might mean complicated queries
 - Orchestrating multiple server instances for scaling can be tricky, both from an application code and infrastructure perspective
 
-![Slide 10][10]
+![Slide 10](/images/2017/010.jpg)
 
 So what’s wrong with this approach?
 
@@ -96,7 +96,7 @@ It’s just a bit too easy to have problems with performance, security, reliabil
 
 Let’s have a look at these one by one!
 
-![Slide 11][11]
+![Slide 11](/images/2017/011.jpg)
 
 If a web application needs to execute code and do database queries, no matter how well it is optimised, the response will take some time to prepare.
 
@@ -106,13 +106,13 @@ Also, unless you have a massive hosting budget and some dedicated dev ops time t
 
 Google AMP and Facebook Instant Articles wouldn’t be around if this wasn’t a huge problem, but is creating walled gardens really a great solution?
 
-![Slide 12][12]
+![Slide 12](/images/2017/012.jpg)
 
 So caching is a sensible first step for a speedier response, before getting on the journey with instance scaling.
 
 But for a web stack which consists of multiple layers to produce the final content, caching might end up being implemented in various places.
 
-![Slide 13][13]
+![Slide 13](/images/2017/013.jpg)
 
 Unfortunately the complexity of multi layer cache can quickly spiral out of control.
 
@@ -120,7 +120,7 @@ Invalidating cache is one of the hardest problems in software development, so do
 
 So what started as a simple web site or web app will start to require some serious infrastructure and tooling work.
 
-![Slide 14][14]
+![Slide 14](/images/2017/014.jpg)
 
 It feels like there isn’t a week passing nowadays without a serious security vulnerability exposed in one back-end framework or another, and possibly even more undisclosed ones silently exploited.
 
@@ -130,13 +130,13 @@ While fixing a security problem might mean a few sleepless nights for developers
 
 Despite this, keeping on top of security updates is usually very low on most web team’s todo list.
 
-![Slide 15][15]
+![Slide 15](/images/2017/015.jpg)
 
 It seems there is no perfect world with web sites: it’s a problem if no one bothers to visit them, or if they suddenly see a lot of visitors and they stop responding.
 
 What’s the worst is that in most cases they can’t even show read only content, so even though the server side app should really only be needed for user interaction, the content itself also becomes inaccessible - Reddit is the perfect example for this.
 
-![Slide 16][16]
+![Slide 16](/images/2017/016.jpg)
 
 According to a study by Jonathan Koomey, a Stanford University professor:
 
@@ -146,7 +146,7 @@ According to a study by Jonathan Koomey, a Stanford University professor:
 - If shut down, the servers could reduce electricity load by at least 4GWs, not even mentioning the cost of manufacturing and housing them
 - These numbers are just the tip of the iceberg (as servers which are idle most of the time but do some work every now and then are excluded), so the potential cost and environmental savings are huge
 
-![Slide 17][17]
+![Slide 17](/images/2017/017.jpg)
 
 Now after having talked about the problem, let me walk you through the promise of this fabled new way of doing things.
 
@@ -157,7 +157,7 @@ So there are two important parts in this – admittedly quite long – name:
 - Firstly, the distributed asset delivery means finding a way to deliver a web app’s assets (be that HTML, CSS, Javascript, images, fonts, videos, and so on) from a web server as close to visitors as possible
 - Secondly, to handle any sort of user interaction which needs data manipulation, communication, payments or any action really, in a way which avoids running your own, persistent app servers
 
-![Slide 18][18]
+![Slide 18](/images/2017/018.jpg)
 
 So what are the characteristics of this approach?
 
@@ -165,7 +165,7 @@ So what are the characteristics of this approach?
 - Any dynamic functionality and data is delivered through APIs – accessible both at compile time and in the browser client
 - Static assets are served up from a distributed host – typically a CDN
 
-![Slide 19][19]
+![Slide 19](/images/2017/019.jpg)
 
 So how does something built with this architecture would look like from a visitor’s point, or in other words the front-end side?
 
@@ -176,7 +176,7 @@ If you have a look at how progressive web apps work, they pretty much embody the
 - With browsers implementing Service Workers, this means complete offline support using the existing app shell and already downloaded data
 - So once running, these apps only need to connect to APIs, which can be served up completely independently of where the application assets are originally from
 
-![Slide 20][20]
+![Slide 20](/images/2017/020.jpg)
 
 So this provides us with a potential for a big mindset shift, but first of all let me give you a quick introduction to CDNs. The acronym stands for Content Delivery Networks, and they are mostly known for delivering videos and images as a way to take some of the heavy load off web servers.
 
@@ -192,7 +192,7 @@ My current favourite host is Netlify, they are pretty much the Heroku of smart C
 
 But the future can be completely distributed: IPFS – which stands for InterPlanetary File System – mixed up ideas and technologies from BitTorrent and the blockchain amongst others.
 
-![Slide 21][21]
+![Slide 21](/images/2017/021.jpg)
 
 But since CDNs can only work with static content, for any interaction requiring computing we still need to connect to an API.
 
@@ -204,7 +204,7 @@ But Sports Direct, Deliveroo, Uber or any other firms employing zero hours contr
 
 Despite all the hype, these serverless functions of course still won’t write, deploy and maintain themselves…
 
-![Slide 22][22]
+![Slide 22](/images/2017/022.jpg)
 
 So before writing a single line of code, you can be even better off considering servicefull APIs, or in other words hosted services offered as APIs.
 
@@ -216,7 +216,7 @@ While the idea has been around since Web 2.0 was a thing, nowadays you can find 
 
 So unless you’re dealing with a service already on a massive scale, the developer time and worry you can save will more than pay for the cost of these “humble sweatshops”.
 
-![Slide 23][23]
+![Slide 23](/images/2017/023.jpg)
 
 If you think these metaphors were a bit contentious, you’re totally right. But rather than having the intention of making fun of the people who are suffering, I’d actually like to use this platform to dedicate a few sentences to them.
 
@@ -224,11 +224,11 @@ I think we – the tech community as a whole – aren’t doing a great job at g
 
 So if you take away only one thing from this talk, let that be taking a moment every now and then to think about the impact of your work and your words on the people around you and in the wider World, especially if they are not like you!
 
-![Slide 24][24]
+![Slide 24](/images/2017/024.jpg)
 
 Right, after this little digression, let’s see how these solutions help with the issues I talked about earlier.
 
-![Slide 25][25]
+![Slide 25](/images/2017/025.jpg)
 
 I split each of these between the two parts, so the distributed asset delivery via CDNs and serverless computing.
 
@@ -238,7 +238,7 @@ At the same time, computing on serverless infrastructure automatically scales to
 
 While in your own server no one stops you from shooting yourself in the foot, in a Function as a Service you have to work within limits, so for example on AWS Lambda any execution has to finish within 300 seconds, which might sound like a lot, but knowing the constraints will make you think about splitting up, measuring and optimising functions earlier.
 
-![Slide 26][26]
+![Slide 26](/images/2017/026.jpg)
 
 Just a bunch of files on a CDN is practically impossible to hack, but even better, there’s not much in it to do, so it’s unlikely many people will even try.
 
@@ -246,13 +246,13 @@ The virtual machines and containers running your serverless code are transient b
 
 Also, once they are spun down, security updates can be applied right away without any disruption, so next time they run, you’ll get a freshly updated container image.
 
-![Slide 27][27]
+![Slide 27](/images/2017/027.jpg)
 
 Due to their distributed nature, CDNs are very resilient to denial of service attacks, but even if a well resourced adversary manages to take one down, migrating files to another one is not difficult.
 
 Serverless infrastructure mostly operates on containers, which are very quick to spin up, so unless you go completely nuts with dependencies, even cold starts will be at an acceptable speed.
 
-![Slide 28][28]
+![Slide 28](/images/2017/028.jpg)
 
 Again, since CDNs serve only files, there’s not much computing they need to do other than routing. But also, by using and endpoint close to visitors, less network hops will be used, saving on using resources on each switch on the way.
 
@@ -260,7 +260,7 @@ And with serverless, idle time is minimised by cleaning up containers after a ve
 
 These translate to big savings both in terms of monetary and environmental resources.
 
-![Slide 29][29]
+![Slide 29](/images/2017/029.jpg)
 
 So how can you get started, you must be thinking “surely it’s a lot of work to do all these new things”?
 
@@ -270,13 +270,13 @@ Static website generators have been around for years now, and people have great 
 
 So it was only a matter of time until a new generation emerged, which I call “progressive web app pipelines” and will explain them in a moment.
 
-![Slide 30][30]
+![Slide 30](/images/2017/030.jpg)
 
 But first let’s have a look at what static website generators do, just so it’s clear what I’m talking about. The poster child for these is Jekyll, which is the Ruby based generator behind Github Pages. It’s been around for ages and is remarkably good at producing simple and fast websites, taking it way beyond the original role of generating documentation sites for open source projects.
 
 The way it works is taking Markdown content files with YAML metadata and putting them in various Liquid templates. This process does a great job at producing HTML and CSS, but Javascript is just an afterthought, stuck in the jQuery era of DOM selectors.
 
-![Slide 31][31]
+![Slide 31](/images/2017/031.jpg)
 
 So what do these new progressive web app pipelines do beyond that?
 
@@ -292,11 +292,11 @@ Some key ingredients in this are:
 - React, with its mature support for server side (or in this case compile time) generation and great ecosystem of tools like the Redux state manager
 - And Webpack with its similarly huge ecosystem, as an advanced build tool providing the pipeline and plugins for processing all assets
 
-![Slide 32][32]
+![Slide 32](/images/2017/032.jpg)
 
 But I don’t want to look like I’m blindly worshipping Gatsby, there’s another similar open source tool called Phenomic which is also well worth checking out, especially if you don’t want to use React for any reason, as they are working on supporting multiple Javascript single page application choices.
 
-![Slide 33][33]
+![Slide 33](/images/2017/033.jpg)
 
 What makes all of these tools tick though is a big, fat asset compiler, which does the hard work at build time. What this means is some high level orchestration code, which makes – in these cases – Webpack and its plugins work smoothly together and lets you focus on application code.
 
@@ -304,13 +304,13 @@ A few years back I used to dread setting toolchains up, as it meant either a lot
 
 Luckily nowadays that’s mostly history with incremental builds, live browsers refresh, hot module replacement and state replays, without having to spend a lot of time manually piecing these together.
 
-![Slide 34][34]
+![Slide 34](/images/2017/034.jpg)
 
 For dynamic content and data on the input side of these pipelines there are headless CMSs and hosted database APIs. What this means in practice is that website content writers can work on a nice visual editing interface and the content output can be accessed only via an API, making it a headless CMS.
 
 This in contrast with the more monolithic CMSs responsible for rendering content in their on templates and locking you into their ways of doing things. Similarly, to store user generated data you can use something like Firebase and use the public content (like comments, uploads, and so on) as input in your static site. This way any time there’s a change either in your code or the data sources, you can trigger a rebuild using a web hook.
 
-![Slide 35][35]
+![Slide 35](/images/2017/035.jpg)
 
 As the final part of my talk I would like to share a few cases studies with you.
 
@@ -318,19 +318,19 @@ A lot of you probably already read articles on Smashing Magazine, but in case no
 
 A year or so ago they decided to replace their overstretched Wordpress back-end with a static website generator. They used Jekyll at first, then switched to Metalsmith to be able to use Handlebars templates which can also be rendered on the front-end.
 
-![Slide 36][36]
+![Slide 36](/images/2017/036.jpg)
 
 They have a fair amount of content, so using static compilation out of the box meant that the linearly increasing compilation time spiralled to 2 hours for each change which of course wasn’t very useful.
 
 Moving on to using incremental builds (mostly by making sure to only process images if they actually changed by comparing timestamps) and splitting content per language, they managed to go down to 2-5 minutes builds depending on the number of images added.
 
-![Slide 37][37]
+![Slide 37](/images/2017/037.jpg)
 
 In developing countries like India, where devices are increasingly catching up in processing power and having modern browsers, but storage space is still precious and networks are a bit patchy, the impact of progressive web apps with offline capabilities and are much more important.
 
 So Twitter set out to write a lightweight web client as an alternative to their downloadable apps.
 
-![Slide 38][38]
+![Slide 38](/images/2017/038.jpg)
 
 Since Twitter is far from being static content and the feed is tailored to each user, they had to put in place a small Node service for initial server side rendering.
 
@@ -338,11 +338,11 @@ But the browser application itself is making full use of PWA features and CDN ba
 
 I honestly see no reason why they couldn’t use a lot of this on the desktop site too, so curious to see when will they make the jump,
 
-![Slide 39][39]
+![Slide 39](/images/2017/039.jpg)
 
 And finally as a full stack example, there’s a service called A Cloud Guru.
 
-![Slide 40][40]
+![Slide 40](/images/2017/040.jpg)
 
 They offer AWS courses, quizzes, certifications, forums, user profiles, payments and so on, just like any other similar business.
 
@@ -350,7 +350,7 @@ But what started as an experiment for them became a principle: they don’t use 
 
 They have a lot of interesting articles on their Medium blog about the journey, but what was the most interesting part for me is that despite being AWS specialists, they have very little of their own services running in Lambda. Instead, working with a more servicefull ethos by using existing services, they found that they could focus on their own application and at the same time became part of multiple communities, spreading the money and love around instead of relying on just one big cloud provider.
 
-![Slide 41][41]
+![Slide 41](/images/2017/041.jpg)
 
 As you could see there are a lot of different ways to put this approach into use and methods you can deploy independently, so the one big thing I’d like to leave with you is: When designing your service architecture, ask yourself the question if you really need to have a server running somewhere.
 
@@ -358,48 +358,6 @@ And of course there are many perfectly valid reasons to have them, on the curren
 
 But as a father of two, I can assure you that while bringing your own babies into existence is for sure an exhilarating thing (especially in the conception stage), but the responsibility of looking after them is going to stick, so you have to be careful with how many can you comfortably handle.
 
-![Slide 42][42]
+![Slide 42](/images/2017/042.jpg)
 
 Thanks!
-
-[2]: /images/2017/002.jpg
-[3]: /images/2017/003.jpg
-[4]: /images/2017/004.jpg
-[5]: /images/2017/005.jpg
-[6]: /images/2017/006.jpg
-[7]: /images/2017/007.jpg
-[8]: /images/2017/008.jpg
-[9]: /images/2017/009.jpg
-[10]: /images/2017/010.jpg
-[11]: /images/2017/011.jpg
-[12]: /images/2017/012.jpg
-[13]: /images/2017/013.jpg
-[14]: /images/2017/014.jpg
-[15]: /images/2017/015.jpg
-[16]: /images/2017/016.jpg
-[17]: /images/2017/017.jpg
-[18]: /images/2017/018.jpg
-[19]: /images/2017/019.jpg
-[20]: /images/2017/020.jpg
-[21]: /images/2017/021.jpg
-[22]: /images/2017/022.jpg
-[23]: /images/2017/023.jpg
-[24]: /images/2017/024.jpg
-[25]: /images/2017/025.jpg
-[26]: /images/2017/026.jpg
-[27]: /images/2017/027.jpg
-[28]: /images/2017/028.jpg
-[29]: /images/2017/029.jpg
-[30]: /images/2017/030.jpg
-[31]: /images/2017/031.jpg
-[32]: /images/2017/032.jpg
-[33]: /images/2017/033.jpg
-[34]: /images/2017/034.jpg
-[35]: /images/2017/035.jpg
-[36]: /images/2017/036.jpg
-[37]: /images/2017/037.jpg
-[38]: /images/2017/038.jpg
-[39]: /images/2017/039.jpg
-[40]: /images/2017/040.jpg
-[41]: /images/2017/041.jpg
-[42]: /images/2017/042.jpg
