@@ -36,7 +36,9 @@ export default function AuthorLayout({ children, content }: Props) {
             <div className="p-job-title text-gray-500 dark:text-gray-400">{occupation}</div>
             <div className="p-org text-gray-500 dark:text-gray-400">{company}</div>
           </div>
-          <div className="prose max-w-none pt-8 pb-8 dark:prose-dark xl:col-span-2">{children}</div>
+          <div className="p-note prose max-w-none pt-8 pb-8 dark:prose-dark xl:col-span-2">
+            {children}
+          </div>
         </div>
       </div>
     </>
