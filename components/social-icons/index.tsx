@@ -4,6 +4,7 @@ import Facebook from './facebook.svg'
 import Youtube from './youtube.svg'
 import Linkedin from './linkedin.svg'
 import Twitter from './twitter.svg'
+import Mastodon from './mastodon.svg'
 
 // Icons taken from: https://simpleicons.org/
 
@@ -14,6 +15,7 @@ const components = {
   youtube: Youtube,
   linkedin: Linkedin,
   twitter: Twitter,
+  mastodon: Mastodon,
 }
 
 const SocialIcon = ({ kind, href, size = 8 }) => {
@@ -25,8 +27,9 @@ const SocialIcon = ({ kind, href, size = 8 }) => {
   return (
     <a
       className="text-sm text-gray-500 transition hover:text-gray-600"
+      style={{ backgroundImage: 'none' }}
       target="_blank"
-      rel="noopener noreferrer"
+      rel="me noopener noreferrer"
       href={href}
     >
       <span className="sr-only">{kind}</span>

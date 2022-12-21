@@ -16,6 +16,7 @@ const siteMetadata = {
   email: 'hello@danieldemmel.me',
   github: 'https://github.com/daaain',
   twitter: 'https://twitter.com/daaain',
+  mastodon: 'https://fosstodon.org/@daaain',
   linkedin: 'https://www.linkedin.com/in/danieldemmel/',
   locale: 'en-GB',
   analytics: {
