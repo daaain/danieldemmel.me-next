@@ -84,7 +84,7 @@ module.exports = () => {
     async redirects() {
       return [
         {
-          source: '/JSSoundRecorder/',
+          source: '/JSSoundRecorder',
           destination: 'https://daaain.github.io/JSSoundRecorder/',
           permanent: true,
         },
