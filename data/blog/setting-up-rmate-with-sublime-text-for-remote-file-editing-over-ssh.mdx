@@ -11,12 +11,19 @@ If you want to be able to edit files using your local Sublime Text 2 / 3 app ove
 This is how it goes:
 
 - Install the [rsub](https://github.com/henrikpersson/rsub) plugin for ST, which is available through [Package Control](https://packagecontrol.io/packages/Package%20Control) too.
-- Add a remote forwarding line under the right host in your `~/.ssh/config` file to enable connection:
+- Add a remote forwarding line under the right host in your `~/.ssh/config` file to enable the connection:
 
 ```conf
 Host myfancyvps
   Hostname 123.45.67.89
-  RemoteForward 52698 127.0.0.1:52698
+  RemoteForward 52698 localhost:52698
+```
+
+Or if you want it to work on all your SSH connections you can also set it with a wildcard:
+
+```conf
+Host *
+  RemoteForward 52698 localhost:52698
 ```
 
 - SSH in to your remote: `ssh myfancyvps`
