@@ -64,7 +64,7 @@ export function PostList({ filteredBlogPosts, displayPosts }) {
     <ul className="divide-y divide-gray-200 dark:divide-gray-700">
       {!filteredBlogPosts.length && 'No posts found.'}
       {displayPosts.map((post) => {
-        const { path, date, title, summary, tags, images } = post
+        const { path, date, title, summary, tags, images, readingTime } = post
         return (
           <li key={path} className="py-4">
             <article className="space-y-2 xl:grid xl:grid-cols-4 xl:items-center xl:space-y-0">
@@ -93,11 +93,19 @@ export function PostList({ filteredBlogPosts, displayPosts }) {
                       {title}
                     </Link>
                   </h3>
-                  <dl>
-                    <dt className="sr-only">Published on</dt>
-                    <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
-                      <time dateTime={date}>{formatDate(date, siteMetadata.locale)}</time>
-                    </dd>
+                  <dl className="flex flex-wrap gap-6">
+                    <div>
+                      <dt className="sr-only">Published on</dt>
+                      <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
+                        <time dateTime={date}>{formatDate(date, siteMetadata.locale)}</time>
+                      </dd>
+                    </div>
+                    <div>
+                      <dt className="sr-only">Reading time</dt>
+                      <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
+                        {readingTime.text}
+                      </dd>
+                    </div>
                   </dl>
                   <div className="flex flex-wrap">
                     {tags.map((tag) => (

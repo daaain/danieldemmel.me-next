@@ -31,7 +31,7 @@ interface LayoutProps {
 }
 
 export default function PostLayout({ content, authorDetails, next, prev, children }: LayoutProps) {
-  const { filePath, path, slug, date, title, tags, images } = content
+  const { filePath, path, slug, date, title, tags, images, readingTime } = content
   const basePath = path.split('/')[0]
   const [loadComments, setLoadComments] = useState(true)
 
@@ -138,6 +138,9 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
             </div>
             <footer>
               <div className="divide-gray-200 text-sm font-medium leading-5 dark:divide-gray-700 xl:col-start-1 xl:row-start-2 xl:divide-y">
+                <div className="py-4 xl:py-8">
+                  {readingTime.words} words – {readingTime.text}
+                </div>
                 {tags && (
                   <div className="py-4 xl:py-8">
                     <h2 className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">

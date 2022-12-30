@@ -32,7 +32,7 @@ export default function Home({ posts }: InferGetStaticPropsType<typeof getStatic
         <ul className="divide-y divide-gray-200 dark:divide-gray-700">
           {!posts.length && 'No posts found.'}
           {posts.slice(0, MAX_DISPLAY).map((post) => {
-            const { path, date, title, summary, tags, images } = post
+            const { path, date, title, summary, tags, images, readingTime } = post
             return (
               <li key={path} className="py-4">
                 <article>
@@ -67,11 +67,19 @@ export default function Home({ posts }: InferGetStaticPropsType<typeof getStatic
                               {title}
                             </Link>
                           </h2>
-                          <dl>
-                            <dt className="sr-only">Published on</dt>
-                            <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
-                              <time dateTime={date}>{formatDate(date, siteMetadata.locale)}</time>
-                            </dd>
+                          <dl className="flex flex-wrap gap-6">
+                            <div>
+                              <dt className="sr-only">Published on</dt>
+                              <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
+                                <time dateTime={date}>{formatDate(date, siteMetadata.locale)}</time>
+                              </dd>
+                            </div>
+                            <div>
+                              <dt className="sr-only">Reading time</dt>
+                              <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
+                                {readingTime.text}
+                              </dd>
+                            </div>
                           </dl>
                           <div className="flex flex-wrap">
                             {tags.map((tag) => (
