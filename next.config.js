@@ -84,8 +84,18 @@ module.exports = () => {
     async redirects() {
       return [
         {
+          source: '/authors/daniel-demmel',
+          destination: '/about',
+          permanent: true,
+        },
+        {
           source: '/JSSoundRecorder',
           destination: 'https://daaain.github.io/JSSoundRecorder/',
+          permanent: true,
+        },
+        {
+          source: '/in-browser-prototype-boilerplate',
+          destination: 'https://daaain.github.io/in-browser-prototype-boilerplate/',
           permanent: true,
         },
         {
@@ -117,6 +127,11 @@ module.exports = () => {
         },
         {
           source: '/blog/2015/11/28/why_and_how_github_should_have_binary_diffs',
+          destination: '/blog/why-and-how-github-should-have-binary-diffs',
+          permanent: true,
+        },
+        {
+          source: '/blog/2015/11/28/why-and-how-github-should-have-binary-diffs',
           destination: '/blog/why-and-how-github-should-have-binary-diffs',
           permanent: true,
         },
