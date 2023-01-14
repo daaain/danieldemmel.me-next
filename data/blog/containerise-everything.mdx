@@ -28,63 +28,115 @@ If the embedded video above doesn't load, open it here: [https://vimeo.com/78256
 
 Make sure to also have a look at the [companion repository on Github](https://github.com/ustwo/docker-node-boilerplate), which shows how to set up a Node based development environment with Docker. Of course it would work with anything else which runs on Linux, but this simple working example should give you a good starting point.
 
-### Transcript
+### Transcript with individual slides
+
+![Slide 00](/images/2015/containerise-0.jpg)
 
 Okay. So can you hear me? Yeah. Okay. So just before we begin I will share all the slides and code examples so don't rush to take notes. It will all be available, just relax and listen.
 
 Containers and Docker are usually discussed in more like DevOps and IT infrastructure context, but this talk is more for application developers like myself because this audience has been mostly overlooked so far, even though there are a lot of benefits of using – and abusing – this technology.
 
+![Slide 01](/images/2015/containerise-1.jpg)
+
 So a bit about myself, I'm a full stack developer ustwo London and we are an independent digital product studio with a nice interdisciplinary mix of designers, developers and agile coaches. And this bright yellow beauty in the foreground is our temperamental Italian coffee machine.
+
+![Slide 02](/images/2015/containerise-2.png)
 
 So, what will I talk about today? First of all, a bit of history from the shipping industry, which has some interesting parallels with software development. Then I will explain some high-level concepts around containerisation and also other approaches towards neater development environments to set some context. And finally, I will give you a tour of Docker which is the most popular containerisation technology right now.
 
-Before we dive in, first of all just checking, can I please have a show of hands: who used some virtualisation tool like Vagrant? Okay, quite a few of you, great! And containers like Docker or LXC?
+Before we dive in, first of all just checking, can I please have a show of hands: who used some virtualisation tool like Vagrant? Okay, quite a few of you, great! And containers like Docker or LXC? Okay, so people are not completely new to the topic.
 
-Okay, so people are not completely new to the topic. But anyway, let's start by turning our clocks back several decades to look at life on sea and in the ports. The loading and unloading of individual goods in barrels, sacks and wooden crates from land transport to ship and back again on arrival was slow and cumbersome.
+![Slide 03](/images/2015/containerise-3.jpg)
+
+But anyway, let's start by turning our clocks back several decades to look at life on sea and in the ports. The loading and unloading of individual goods in barrels, sacks and wooden crates from land transport to ship and back again on arrival was slow and cumbersome.
 
 Nevertheless, this process – referred to as break-bulk shipping – was the only known way to transport goods by ship up until the second half of the 20th century. Needless to say, this process was very labour intensive. A ship could easily spend more time in ports than at sea while dockworkers manhandled cargo into and out of tight spaces, below decks. There was also a high risk of accidents, loss and theft.
 
+![Slide 04](/images/2015/containerise-4.jpg)
+
 Fast forward to 26th of April 1956. When Malcom McLean's converted World War Two tanker – the Ideal X – made its maiden voyage from Port Newark to Houston. She had a reinforced deck carrying 58 metal container boxes as well as 15,000 tons of bulk petroleum. By the time the container ship docked at the port of Houston six days later, the company was already taking orders to ship goods back to Port Newark in containers. McLean's enterprise later became known as Sea-Land Service, a company which changed the face of shipping forever. Many famous inland ports, including London's Docklands, got completely shut down, as ever larger  container ships had to use open and usually new seaside ports.
 
-Well, this is all very nice but why should we care? In the 1950s Harvard University economist, Benjamin Chinitz, predicted that containerisation would benefit New York by allowing it to ship its industrial goods more cheaply to the southern United States than it costs from other areas like the Midwest. But what actually happened is that it became cheaper to import such goods from abroad, wiping out the state's dominant apparel industry which was meant to be its beneficiary.
+![Slide 05](/images/2015/containerise-5.png)
 
-While I obviously can’t foresee the future, it looks like a new wave of containerisation is just about to transform software, particularly web development, with potentially some big consequences. But let's go back to shipping for a moment. The Economist recently declared that new research suggests that the container has been more of the real driver of globalisation than all trade agreements in the past 50 years together.
+Well, this is all very nice but why should we care? In the 1950s Harvard University economist, Benjamin Chinitz, predicted that containerisation would benefit New York by allowing it to ship its industrial goods more cheaply to the southern United States than it costs from other areas like the Midwest. But what actually happened is that it became cheaper to import such goods from abroad, wiping out the state's dominant apparel industry which was meant to be its beneficiary. While I obviously can’t foresee the future, it looks like a new wave of containerisation is just about to transform software, particularly web development, with potentially some big consequences.
 
-Well, whether you look at the dark side of globalisation like purely profit driven mega corporations or the incredible turn of history after the two world wars bringing every country working together more or less peacefully now, no one can deny that it's one of the defining trends of the late 20th century.
+![Slide 06](/images/2015/containerise-6.jpg)
+
+But let's go back to shipping for a moment. The Economist recently declared that new research suggests that the container has been more of the real driver of globalisation than all trade agreements in the past 50 years together. Well, whether you look at the dark side of globalisation like purely profit driven mega corporations or the incredible turn of history after the two world wars bringing every country working together more or less peacefully now, no one can deny that it's one of the defining trends of the late 20th century.
+
+![Slide 07](/images/2015/containerise-7.png)
 
 So let's see what are the main characteristics of shipping containers? They protect and abstract what's inside with a tough corrugated steel shell, where only the creators and the receivers need to know what's inside. They provide the standardised interface for efficient handling throughout the delivery chain. And they make it easy for everyone to scale their business quickly using this existing standard infrastructure.
 
-But most importantly the ultimate measure of value generation both in the freight industry and in software development is how much you shipped to your end users. Getting half way on an ocean journey before losing some cargo or spending hours installing and configuring dependencies never made any customer happy. But what is this problem after all? We all somehow managed to get set up right and deliver code, didn't we? Well, even if you only install dependencies for your projects, you have to actively work on, after a few new projects, things start to become a mess. A message is difficult to clean up, but even harder to restore if you need to work on some old project again.
+![Slide 08](/images/2015/containerise-8.png)
 
-And if it's not just a few projects paying for the bills, but you also want to contribute to open source libraries, which you totally should, but that means, you need to compile them, it just gets totally out of hand. So, what if we could have a software Malcom, locking each project's mess into digital equivalence of corrugated steel boxes? There are actually a few different solutions to restore some sanity to our development boxes. A more light touch approach is to use package managers and runtime versions switchers in order to assemble the right combination of libraries from everything which is installed on the same computer.
+But most importantly the ultimate measure of value generation both in the freight industry and in software development is how much you shipped to your end users. Getting half way on an ocean journey before losing some cargo or spending hours installing and configuring dependencies never made any customer happy.
 
-A more robust seal box approach though, is to use virtualisation and containerisation. So, let's have a quick look at these. The simplest approach is to use package managers and install separate versions of libraries on a project by project basis rather than in the global operating system level. This actually works reasonably well as you start out, until a few years pass and you begin to have legacy projects with all the runtime versions.
+![Slide 09](/images/2015/containerise-9.png)
 
-Or if you are working with a team where stuff randomly breaks for people on different configurations and you have to spend hours scratching your head looking at arcane error messages, I've been there. For different runtime versions there are version switchers which alias the right binaries to execute project codebase, usually with some shell acrobatics, based on which project folder you're in or using environment variables. Things start to get a bit messy here as there can be quite a lot of plumbing to make the magic happen with more complex runtimes.
+But what is this problem after all? We all somehow managed to get set up right and deliver code, didn't we? Well, even if you only install dependencies for your projects, you have to actively work on, after a few new projects things start to become a mess. A mess that is difficult to clean up, but even harder to restore if you need to work on some old project again.
 
-And of course everyone has their favourite solution or other compromise. For example, the choice between RVM and Rbenv in the Ruby community is probably as personal as tabs versus spaces. A completely different approach is to run an entire operating system in a virtualised environment independently of the whole system. This way, you can have an identical environment between all development computers, and even production servers.
+![Slide 10](/images/2015/containerise-10.jpg)
 
-The content of these virtual boxes can be moved around either as image snapshots or rebuilt from scratch by taking existing fresh installations of different operating systems and installing dependencies with some scripted recipes. This is a very powerful and versatile solution, but the downside is a big hit on the processor, memory, and hard disk on the host machine, having to potentially run several complete operating systems at the same time. And it takes ages to rebuild and restart as it's a full operating system with its own file system.
+And if it's not just a few projects paying for the bills, but you also want to contribute to open source libraries, which you totally should, but that means, you need to compile them, it just gets totally out of hand...
+
+![Slide 11](/images/2015/containerise-11.jpg)
+
+So, what if we could have a software Malcom, locking each project's mess into digital equivalence of corrugated steel boxes? There are actually a few different solutions to restore some sanity to our development boxes.
+
+![Slide 12](/images/2015/containerise-12.png)
+
+A more light touch approach is to use package managers and runtime versions switchers in order to assemble the right combination of libraries from everything which is installed on the same computer. A more robust, sealed box approach though, is to use virtualisation and containerisation. So, let's have a quick look at these.
+
+![Slide 13](/images/2015/containerise-13.png)
+
+The simplest approach is to use package managers and install separate versions of libraries on a project by project basis rather than in the global operating system level. This actually works reasonably well as you start out, until a few years pass and you begin to have legacy projects with all the runtime versions. Or if you are working with a team where stuff randomly breaks for people on different configurations and you have to spend hours scratching your head looking at arcane error messages, I've been there.
+
+![Slide 14](/images/2015/containerise-14.png)
+
+For different runtime versions there are version switchers which alias the right binaries to execute project codebase, usually with some shell acrobatics, based on which project folder you're in or using environment variables. Things start to get a bit messy here as there can be quite a lot of plumbing to make the magic happen with more complex runtimes. And of course everyone has their favourite solution or other compromise. For example, the choice between RVM and Rbenv in the Ruby community is probably as personal as tabs versus spaces.
+
+![Slide 15](/images/2015/containerise-15.png)
+
+A completely different approach is to run an entire operating system in a virtualised environment independently of the whole system. This way, you can have an identical environment between all development computers, and even production servers. The content of these virtual boxes can be moved around either as image snapshots or rebuilt from scratch by taking existing fresh installations of different operating systems and installing dependencies with some scripted recipes.
+
+This is a very powerful and versatile solution, but the downside is a big hit on the processor, memory, and hard disk on the host machine, having to potentially run several complete operating systems at the same time. And it takes ages to rebuild and restart as it's a full operating system with its own file system.
+
+![Slide 16](/images/2015/containerise-16.png)
 
 So taking the sealed box approach from full fat virtualisation but instead sharing the kernel and some low-level components from the host operating system, containerisation is offering the best of both worlds. Because there isn't any virtualisation happening on a container level, just drawing up and tearing down a few fences for isolation, startup is pretty much instant and the direct access to CPU and other hardware components eliminate the performance overheads. While Docker is currently the king in this space, the Open Container Initiative is taking the containerisation idea forward. It's backed by a big industry alliance including Microsoft who is promising to make it work natively on Windows. Apple though is notably absent at this point, but hope they are just taking their time.
 
+![Slide 17](/images/2015/containerise-17.png)
+
 So with these different approaches defined, we are ready to go into a bit more details about Docker, which is without doubt the go to solution right now. So Docker builds on an implementation called Linux Containers or LXC, which has been around for a while now, with quite a lot of details on how it actually works, but from user’s perspective, it's enough to know that the high level architecture is to run what's inside containers with limitation and prioritisation of resources and networking, a mounted file system and so on to create practically complete child operating systems inside the host.
+
+![Slide 18](/images/2015/containerise-18.png)
 
 Docker itself is open source and offers a large ecosystem of tools and contributions on top of the basic container technology. As our focus is application development here, I won't go into detail on the more DevOps side of things, like composition, orchestration, Swarms and so on, but let's look at the essentials which get you started.
 
-The Docker engine or just Docker is the core which deals with the containers themselves. It bundles together barebones Unix style utilities for handling various aspects of the containers and adds several convenience functions around them. With Docker there's a nice REST API and exposing the containers, which makes it possible both for command line tools locally and deployment scripts remotely to interact with them.
+![Slide 19](/images/2015/containerise-19.png)
+
+The Docker Engine or just Docker is the core which deals with the containers themselves. It bundles together barebones Unix style utilities for handling various aspects of the containers and adds several convenience functions around them. With Docker there's a nice REST API and exposing the containers, which makes it possible both for command line tools locally and deployment scripts remotely to interact with them.
 
 It also makes it very simple to define images with a single Dockerfile, which enables to build incremental images quickly, including downloading and compiling all the dependencies. But since Docker is Linux based, if you want to use it on Windows or Mac, it will actually need virtualisation after all, which is typically done with the open source VirtualBox and the tiny Boot2Docker image. But of course, you can have as many containers in one box as you want, inside which containers work the same way as on Linux, sharing the resources.
+
+![Slide 20](/images/2015/containerise-20.png)
 
 The Docker Hub is the place to go for community maintained images. These can be simple, base Linux distro flavours with just the bare minimum or complete application stacks from WordPress to Minecraft, ready to be started up and used.
 
 What's an interesting Dockerfile feature is that you can build on any existing image from the Hub, so you can customise your container right from the OS or just add a few missing packages to a full-fat application. And of course, you also get webhooks, so integrating continuous integration or deployment system shouldn't be a problem.
 
-And while I'm reasonably comfortable with the terminal shell, I’m also the first to admit that for example, understanding to do something really complex with Git, I won't bother doing it manually and will just happily do my commits, diffs and rebases in SourceTree app. So if you want to avoid the command line, that's totally fine. Docker recently bought the similarly open source Kitematic, which is a simple but decent UI to drive Docker. What's best about Kitematic dough is that it will take care of installing all the Docker dependencies for you including VirtualBox and Boot2Docker, so you can get started without worrying about any of these.
+![Slide 21](/images/2015/containerise-21.png)
 
-And it's even smart enough to use an existing VirtualBox installation, should you have one, which is quite refreshing compared to all the other all-in-one solutions, which just duplicate everything. And this is the last tool for today I promise and we just mention it as a next step to look out for, once you start to get a bit more into Docker.
+And while I'm reasonably comfortable with the terminal shell, I’m also the first to admit that for example, understanding to do something really complex with Git, I won't bother doing it manually and will just happily do my commits, diffs and rebases in SourceTree app. So if you want to avoid the command line, that's totally fine.
 
-So, once you start to have several containers between and maybe even within projects, or you want to deploy to and manage them on a cloud provider, Docker Machine will give you some simple commands to do this.
+Docker recently bought the similarly open source Kitematic, which is a simple but decent UI to drive Docker. What's best about Kitematic dough is that it will take care of installing all the Docker dependencies for you including VirtualBox and Boot2Docker, so you can get started without worrying about any of these. And it's even smart enough to use an existing VirtualBox installation, should you have one, which is quite refreshing compared to all the other all-in-one solutions, which just duplicate everything.
+
+![Slide 22](/images/2015/containerise-22.png)
+
+And this is the last tool for today I promise and we just mention it as a next step to look out for, once you start to get a bit more into Docker. So, once you start to have several containers between and maybe even within projects, or you want to deploy to and manage them on a cloud provider, Docker Machine will give you some simple commands to do this.
+
+![Slide 23](/images/2015/containerise-23.png)
 
 Right. So let's look at some actual code and I'll walk you through a simple Docker boilerplate repository I prepared, which is a simple, React and Sass front-end application with a bit of Express and Node service behind.
 
@@ -136,11 +188,15 @@ And this click target is... All right, okay, there's a dialogue on the other scr
 
 So it actually has an interesting place outside development as well. If you just quickly want to grab something and run it and not worry about “Oh my god. What do I need to have? What language is it even written in?” You just don’t really need to care and just set it up and it’s quite cheap and easy.
 
+![Slide 24](/images/2015/containerise-24.png)
+
 Okay, so coming back to my presentation – and I promise I didn't talk to Mike before putting the presentation together, but actually – I mentioned having multiple containers earlier when talking about Docker Machine, but you might have been wondering, why would you do that? So I think – and a lot of people will say that it's not true – but I think it's a perfectly valid way to use a container as an all-in-one system to just have a simple and quick development environment setup. But then it's worth mentioning that actually the way Docker is designed is to split your application up to smaller easily interchangeable pieces, with only one process per container. And also data should be kept in a separate data volume, which won't do anything other than persisting data be it files or databases.
 
 So just as a simple example, I drew up a WordPress website. If you had a website with heavy traffic, then you can just have an architecture where you start breaking these things up. So you could have like this, Apache webserver and then the PHP of WordPress and then MySQL database engine and then the actual database itself and then all the uploaded images and then media.
 
 And so, and it might sound like a lot of work, but since each of these containers feel essentially be a microservice or part of a pipeline, you can very easily test, scale and update the live environment. So for example if you need to add the database mirror because that ends up being the bottleneck, then you can do it without having to redo everything because it's not just contained by one, monolithic server instance. And of course, the connections themselves become much more apparent. So it will make you think of interfaces and how you define them. So I think this is a really good way to start thinking of development. So it's not only Docker will make it easy to get started with the clean and isolated environment, it will also guide you to think in a way how you actually want to compose your service once it's out there in production.
+
+![Slide 25](/images/2015/containerise-25.png)
 
 And so, you can quote me on this because I'm fairly confident that we see more and more open source projects, especially complex ones embrace containerisation for dependency management. Because all it takes after all, is someone adding a single Dockerfile and in most cases, people can still choose not to use it and just go with the existing local setup.
 
@@ -152,4 +208,8 @@ So, it doesn't really matter if you want to use a simple library and actually th
 
 But if it's so easy that you just bring the container down and then you just do a change in the text editor, not even really caring about the language itself or learning the intricacies of it and understanding what package manager it even uses then I think it is going to have huge impact and it will make it so much easier for people to also get themselves familiar with programming languages which they just didn't want to get around to try because it might be in just kind of a low long and honours task to set up.
 
+![Slide 26](/images/2015/containerise-26.png)
+
 So, yeah, that was most of what I wanted to say. And I left a little bit of time at the end. So yeah, if you have any questions, then please fire away and they're all the links here. So I haven't quite put up the slides yet, but they are going to go on my blog on this URL.
+
+![Slide 27](/images/2015/containerise-27.png)
