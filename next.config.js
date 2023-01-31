@@ -165,6 +165,12 @@ module.exports = () => {
           permanent: true,
         },
         {
+          source:
+            '/blog/2013/03/22/an-introduction-to-jquery-deferred-promise-and-the-design-pattern-in-general',
+          destination: '/blog/an-introduction-to-jquery-deferred-slash-promise',
+          permanent: true,
+        },
+        {
           source: '/blog/2014/01/19/build-your-minimum-viable-product',
           destination: '/blog/build-your-minimum-viable-product',
           permanent: true,
