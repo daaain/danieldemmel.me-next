@@ -10,7 +10,7 @@ summary: How to set up an open source NAS with a second hand tiny PC that outper
 
 A couple of weeks ago I found out that Synology [does not offer the latest (7.2+) DSM update for my Diskstation 213j](https://www.synology.com/en-global/support/download/DS213j). Which is fair enough, it's around 10 years old, so in a way I'm grateful for them to have offered OS updates until now. At the same time, this made me finally consider what's next.
 
-I've been reading about [Permacomputing](https://permacomputing.net/) (that I discovered through [Devine](https://merveilles.town/@neauoire) of [Hundred Rabbits](https://100r.co/site/home.html) fame, thanks!) so I was also considering that – even though I would like a more powerful NAS than the current one – being a little home server it really doesn't need to be the latest technology.
+I've been reading about [Permacomputing](https://permacomputing.net/) (that I discovered through [Devine](https://merveilles.town/@neauoire) of [Hundred Rabbits](https://100r.co/site/home.html) fame, thanks!) echoing the "appropriate technology" idea of E. F. Schumacher and permaculture, so I was also considering that – even though I would like a more powerful NAS than the current one – being a little home server it really doesn't need to be the latest technology or even a new device.
 
 ## Tiny PC as NAS
 
@@ -34,11 +34,11 @@ First, I found a refurbished [HP ProDesk 600 G3 Mini for £140 on BackMarket](ht
 
 ![Screenshot of cheap refurbished PC](/images/2023/backmarket-refurbished-pc.png)
 
-But I didn't really want the smallish 256GB SSD it comes with, so I spent a few hours hunting around on eBay, put in a cheeky offer of £80 for a second hand unit that came with a bit more ram too and got lucky 🍀
+But I didn't really want the smallish 256GB SSD it comes with, so I spent a few hours hunting around on eBay, put in a cheeky offer of £80 for a second hand unit that came with a bit more RAM too and got lucky 🍀
 
 ![Screenshot of my tiny PC with a banner showing offer accepted](/images/2023/tiny-pc-on-ebay.png)
 
-For choosing the right CPU it took me a while to realise that Intel has a relatively decent naming and numbering scheme where the first 1-2 digit is the generation, the following 3 digits are the class (i3/i5/i7) and the "T" postfix is the low energy version that I can highly recommend for this use case (35W peak instead of 60W). So in case of my 6500T, it's a low energy 6th generation i5, that currently is the best value, but you could try looking for 7500T or 8500T too and see if you get lucky. I'd avoid any Atom or Celeron ones as they are very slow (unless you're going for super low power), get i3 only if it's very cheap and a recent generation and skip i7 as usually it's a bit overpriced.
+For choosing the right CPU it took me a while to realise that Intel has a relatively decent naming and numbering scheme where the first 1-2 digit is the generation, the following 3 digits are the class (i3/i5/i7) and the "T" postfix is the low energy version that I can highly recommend for this use case (35W peak instead of 60W). So in case of my 6500T, it's a low energy 6th generation i5. That currently seems to be the best value, but you could try looking for 7500T or 8500T (those are especially nice as from that generation there are 6 cores instead of 4) too and see if you get lucky. I'd avoid any Atom or Celeron ones (unless you're going for super low power) as they are very slow, get i3 only if it's very cheap and a recent generation and skip i7 as usually it's a bit overpriced.
 
 As for the RAM, I know I want to run some basic machine learning models for photos and do some video transcoding, so getting 16GB is the minimum to prevent crashes without swapping.
 

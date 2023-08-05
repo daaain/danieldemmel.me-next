@@ -3,17 +3,19 @@ title: "Safely access your home NAS with an OpenVPN server on GCP"
 date: 2021-08-08
 tags: [openvpn, networking, nas, synology, gcp]
 images: ['/images/2021/lady-with-phone.jpg']
-summary: How to run a low cost OpenVPN server on GCP to access your NAS anywhere even if your home internet is on a shared IP
+summary: How to run a low cost OpenVPN server on GCP (or use Tailscale) to access your NAS anywhere even if your home internet is on a shared IP
 ---
 
 ## Update
 
 After having used this method on and off for more than a year, I can't fully recommend it any more because of two issues:
 
-1. OpenVPN just stops accepting connections every few months and the VM needs to be manually restarted. I haven't found an easy way to monitor its health and automate the restart of the container.
+1. The OpenVPN container just stops accepting connections every few months and the VM needs to be manually restarted. I haven't found an easy way to monitor its health and automate the restart of the container.
 2. If you're not in the US, Google will charge for network egress over 1GB a month, [see free tier docs](https://cloud.google.com/free/docs/free-cloud-features). It's \$0.08/GB at full price (unless you're in Indonesia or Oceania because then it's \$0.15) which isn't a big deal if you just need to access a document, but can add up.
 
-I've been using [Tailscale](https://tailscale.com/) instead which is free for personal use, uses the more modern Wireshark protocol and has simple apps for all platforms I use, including Synology. It doesn't offer the nice IP aliasing and can't share the VPN with friends and family without paying for a team plan though (or maybe yes with the new [node sharing feature](https://tailscale.com/kb/1084/sharing/)?)...
+I've been using [Tailscale](https://tailscale.com/) instead recently which is free for personal use, uses the more modern Wireshark protocol and has simple to set up apps for all platforms I use, including Synology and TrueNAS Scale. It didn't use to offer the nice IP aliasing and wasn't possible share the VPN with friends and family without paying for a team plan, but now it has  [Subnets](https://tailscale.com/kb/1019/subnets/) and a free [node sharing feature](https://tailscale.com/kb/1084/sharing/) so it does everything I need it to do! Oh, and you can also nominate any device as [exit node](https://tailscale.com/kb/1103/exit-nodes/) which you can then tunnel all internet traffic through from another. All in all it's a product with a great user experience and good enough free tier for home use.
+
+This all being said, below is still an easy way to run a Docker image in GCP cheaply (or even free).
 
 ______________________________________________________________________________
 
@@ -37,9 +39,9 @@ So for my own future reference and to help anyone else interested, these are the
 
 3️⃣ Create a [free tier](/images/2021/VM-setup-1.png) VM with Container-Optimized OS which will host the OpenVPN container `kylemanna/openvpn` in privileged mode (so that it can set up networking), making sure to attach a directory volume (to store the config files) and tagging it with the `openvpn` network (so that you can reach the VM from the internet): https://console.cloud.google.com/compute/instancesAdd
 
-![Screenshot of firewall setup - part 1](/images/2021/VM-setup-1.png)
+![Screenshot of VM setup - part 1](/images/2021/VM-setup-1.png)
 
-![Screenshot of firewall setup - part 2](/images/2021/VM-setup-2.png)
+![Screenshot of VM setup - part 2](/images/2021/VM-setup-2.png)
 
 4️⃣ Set up a (subdomain) DNS A record pointing to the external IP address of the VM instance or create a dynamic DNS account with a (free) provider of your choice
 
@@ -49,9 +51,9 @@ So for my own future reference and to help anyone else interested, these are the
 
 7️⃣ Set up the network route to your home network where the NAS is. For this, you'll need to edit a couple of files in the VM in `~/ovpn-data-volume`. For more info on why these are needed, read this helpful OpenVPN guide: https://community.openvpn.net/openvpn/wiki/RoutedLans
 
-Edit the following section in openvpn.conf (for example using `sudo nano ~/ovpn-data-volume/openvpn.conf`), where `192.168.168` should be the IP range of your home network where your NAS is. If your home network is on the default `192.168.0` range, make sure you change it otherwise routing will blow up when you connect to a Wi-Fi with the same default range.
+Edit the following section in openvpn.conf (for example using `sudo nano ~/ovpn-data-volume/openvpn.conf`), where `192.168.168.*` should be the IP range of your home network where your NAS is. If your home network is on the default `192.168.0.*` range, make sure you change it otherwise routing will blow up when you connect to a Wi-Fi with the same default range.
 
-```
+```conf
 ### Route Configurations Below
 route 192.168.254.0 255.255.255.0
 route 192.168.168.0 255.255.255.0
@@ -62,7 +64,7 @@ client-config-dir ccd
 
 Add `YOUR_NAS_CLIENT_NAME` to `~/ovpn-data-volume` (for example using `sudo touch ~/ovpn-data-volume/ccd/YOUR_NAS_CLIENT_NAME && sudo nano ~/ovpn-data-volume/ccd/YOUR_NAS_CLIENT_NAME`) with the following line:
 
-```
+```conf
 iroute 192.168.168.0 255.255.255.0
 ```
 
@@ -74,9 +76,6 @@ iroute 192.168.168.0 255.255.255.0
 
 I'm not sure if this will always be completely free to run in GCP, but should be fairly cheap. Keep an eye on your billing report just in case: https://console.cloud.google.com/billing
 
-https://console.developers.google.com/apis/api/logging.googleapis.com/overview
-
 ## Credits
 
 Hero image: https://www.tuoptometrista.com/ayudas-generales-para-personas-con-baja-vision/woman/
-
