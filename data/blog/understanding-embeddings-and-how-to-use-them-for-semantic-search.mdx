@@ -5,6 +5,7 @@ tags:
   - talk
   - embedding
   - machine learning
+  - ai
 images:
   - /images/2023/Large%20language%20models%20and%20embedding%202.jpeg
 summary: Part one of the series Building applications using embeddings vector search and Large Language Models
@@ -12,7 +13,7 @@ summary: Part one of the series Building applications using embeddings vector se
 
 This article is the first in the series **Building applications using embeddings vector search and Large Language Models**. In these blog posts I'll explain these concepts and the process of building a semantic document search pipeline. These materials are based on an internal documentation search tool and a talk I gave about it at [Beryl](https://beryl.cc/).
 
-To produce the posts from the recorded talk, I used Whisper.cpp to transcribe what I said and asked GPT-4 to clean up the transcription. Then I edited the text to add some missing bits and make it sound less like a robot 🤖
+To produce the posts from the recorded talk, I used [Whisper.cpp](https://github.com/ggerganov/whisper.cpp) to transcribe what I said and asked GPT-4 to clean up the transcription. Then I edited the text to add some missing bits and make it sound less like a robot 🤖
 
 ![Slide](/images/2023/Large%20language%20models%20and%20embedding%201.jpeg)
 
@@ -56,7 +57,7 @@ In general, machine learning models don’t work with text as strings. Everythin
 
 ![Slide](/images/2023/Large%20language%20models%20and%20embedding%209.jpeg)
 
-One interesting, direct application of embeddings is visual search. This is an example of a search engine that uses CLIP – a model by OpenAI – that mixes images and words describing them. It does it by embedding both images and words in the same space so related ones are close to each other across modalities. This is also how DALL-E and Stable Diffusion can generate images from words. CLIP takes the words and embeds them, which they then use to generate the image that matches the words. So this is a simple example where you can enter words like purple or gold and get images that match them.
+One interesting, direct application of embeddings is visual search. [This faucet finder](https://observablehq.com/@simonw/search-for-faucets-with-clip-api) is an example of a search engine that uses [CLIP](https://github.com/openai/CLIP) – an actually open source model by OpenAI – that mixes images and words describing them. It does it by embedding both images and words in the same space so related ones are close to each other across modalities. This is also how DALL-E and Stable Diffusion can generate images from words: CLIP takes the words and embeds them, which the image generators then use to create the image that matches the words. So this is a simple example where you can enter words like purple or gold and get images that match them.
 
 ![Slide](/images/2023/Large%20language%20models%20and%20embedding%2010.jpeg)
 
@@ -64,8 +65,10 @@ But you can also enter more interesting words like Minecraft and get images of b
 
 ![Slide](/images/2023/Large%20language%20models%20and%20embedding%2011.jpeg)
 
-This is even more interesting: I entered Beryl and the model returned images of faucets with logos of the Red Dot Design Award on them. So it understood Berylness as design award winning lights and translated that to faucets. I'd say the rounded rectangular shapes also remind me a bit of the original Laserlight. This is so amazing and unexpected! It’s very hard to predict though what you will get from this kind of search. It’s not based on keywords, but proximity in the conceptual space of the embeddings.
+This is even more interesting: I entered Beryl and the model returned images of faucets with logos of the Red Dot Design Award on them. So it understood Berylness as design award winning lights and translated that to faucets. I'd say the rounded rectangular shapes also remind me a bit of the original Laserlight. This is so amazing and unexpected! It’s very hard to predict though what you will get from this kind of "vibes-based" search. It’s not based on keywords, but proximity in the conceptual space of the embeddings.
 
 So to sum it up, you can use different embedding models to create a rich, semantic search very easily across various things like documents, articles, images, etc. But because it can be difficult to know what you will get, it's often a good idea to implement a hybrid search, mixing results from an embedding model and a more straightforward keyword search, and rank them into a combined result set. See for example the vector database [Weaviate's approach for hybrid search](https://weaviate.io/blog/hybrid-search-fusion-algorithms).
 
-Oh, on that note, if you are only working with a few documents or images, you can generate embeddings in memory or store them in a few JSON files and reload to memory later, but if you have a bigger set you want to search in, you'll need to use a vector database. This can either be a dedicated engine like [Weaviate](https://weaviate.io), [Chroma](https://www.trychroma.com/) or [FAISS](https://faiss.ai) or an existing one with an extension like PostgreSQL with [pgvector](https://github.com/pgvector/pgvector).
+Oh, on that note, if you are only working with a few documents or images, you can generate embeddings in memory or store them in a few JSON files and reload to memory later, but if you have a bigger set you want to search in, you'll need to use a vector database. This can either be a dedicated engine like [Weaviate](https://weaviate.io), [Qdrant](https://github.com/qdrant/qdrant), [Chroma](https://www.trychroma.com/) or [FAISS](https://faiss.ai) or an existing one with an extension like PostgreSQL with [pgvector](https://github.com/pgvector/pgvector).
+
+Credits: Simon Willison for his work on various tools and explanations, [his blog post on embedding](https://simonwillison.net/2023/Oct/23/embeddings/) in particular.
