@@ -30,7 +30,20 @@ export const EmbedVimeo = ({ code, hash }) => (
   <div style={{ padding: '56.25% 0 0 0', position: 'relative' }}>
     <iframe
       src={`https://player.vimeo.com/video/${code}?color=c9ff23&h=${hash}&badge=0&autopause=0&player_id=0&app_id=58479`}
-      allow="autoplay; fullscreen; picture-in-picture"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowFullScreen
+      style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 0 }}
+      title={code}
+    ></iframe>
+    <Script src="https://player.vimeo.com/api/player.js" />
+  </div>
+)
+
+export const EmbedYoutube = ({ code, hash }) => (
+  <div style={{ padding: '56.25% 0 0 0', position: 'relative' }}>
+    <iframe
+      src={`https://www.youtube-nocookie.com/embed/${code}?si=${hash}`}
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
       allowFullScreen
       style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 0 }}
       title={code}

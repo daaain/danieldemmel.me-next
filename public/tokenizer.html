@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+    <head>
+        <title>LLM Tokenizer</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-eval' 'unsafe-inline' https://cdn.jsdelivr.net;"/> -->
+        <link rel="icon" type="image/svg+xml" href="favicons/token.svg" />
+        <link href="tokenizer.css" rel="stylesheet">
+    </head>
+    <body>
+        <h1><img src="favicons/token.svg" alt="Token"><img src="favicons/token.svg" alt="Token"><img src="favicons/token.svg" alt="Token"><span>Online LLM Tokenizer</span><img src="favicons/token.svg" alt="Token"><img src="favicons/token.svg" alt="Token"><img src="favicons/token.svg" alt="Token"></h1>
+        <p>
+            A pure Javascript tokenizer running in your browser that can load <code>tokenizer.json</code> and <code>tokenizer_config.json</code> from any repository on Huggingface. You can use it to count tokens and compare how different large language model vocabularies work. It's also useful for debugging prompt templates.
+        </p>
+        <textarea id="textInput" name="textInput" autofocus placeholder="Enter the text you want to tokenize" style="height: 5em;">
+[INST] <<SYS>>
+You are a friendly Llama.
+<</SYS>>
+
+Do you spit at people?[/INST]</textarea>
+        <ul id="models"></ul>
+    </body>
+    <script type="module" async src="tokenizer.js"></script>
+</html>

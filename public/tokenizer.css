@@ -1,0 +1,64 @@
+body {
+  /* max-width: 40em; */
+  margin: 2em auto;
+  padding: 2em 1em;
+  font-family: Helvetica, Arial, sans-serif;
+  font-weight: 300;
+  color: #3c3c43;
+}
+@media (prefers-color-scheme: dark) {
+  body,
+  textarea {
+    color: #cde6f5;
+    background-color: #3c3c43;
+  }
+}
+h1 {
+  display: flex;
+  justify-content: space-around;
+}
+h1 img {
+  width: 1em;
+  height: 1em;
+}
+h1 span {
+  height: 0.85em;
+  align-self: center;
+}
+h1,
+h2 {
+  font-weight: 400;
+}
+p {
+  text-align: justify;
+}
+textarea#textInput {
+  width: 100%;
+  box-sizing: border-box;
+  overflow-y: hidden;
+  padding: 0.5em;
+  border: 1px solid #777;
+  border-radius: 7px;
+}
+ul#models {
+  word-wrap: break-word;
+  padding: 0;
+}
+ul#models li {
+  list-style: none;
+  margin: 2em 0;
+  border: 1px solid #bbb;
+  border-radius: 7px;
+  padding: 0.5em 1em 1em 1em;
+  box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, 0.2);
+}
+ul#models li span {
+  display: ruby-base;
+  font-size: 0.7em;
+  margin: 0 0.15em;
+}
+ul#models li code {
+  display: ruby-text;
+  font-size: 2em;
+  letter-spacing: 0.05em;
+}
