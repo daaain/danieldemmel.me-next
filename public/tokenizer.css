@@ -17,9 +17,13 @@ h1 {
   display: flex;
   justify-content: space-around;
 }
-h1 img {
+h1 img,
+h2 img {
   width: 1em;
   height: 1em;
+}
+h2 img {
+  translate: 0 0.15em;
 }
 h1 span {
   height: 0.85em;

@@ -20,9 +20,10 @@ let models = []
 function loadModels() {
   const storedModels = localStorage.getItem(KEY_MODELS)
   try {
-    if (storedModels === null) throw Error()
+    if (storedModels === null) throw Error('No models found in LocalStorage, using default list.')
     models = JSON.parse(storedModels)
-  } catch {
+  } catch (error) {
+    console.log(error)
     models = [
       'Xenova/gpt-3',
       'Xenova/gpt-4',
@@ -68,9 +69,9 @@ async function loadTokenizers() {
       try {
         loadedModels[model] = await AutoTokenizer.from_pretrained(model)
       } catch (error) {
+        console.error('Model loading error:' + error)
         loadedModels[model] = { error }
       }
-
       // some tokenizers strip spaces, let's prevent it so we can render text with the token numbers
       if (loadedModels[model]?.decoder?.decoders?.at(-1)?.config?.type === 'Strip') {
         loadedModels[model].decoder.decoders.pop()
@@ -83,12 +84,7 @@ async function loadTokenizers() {
     // TODO: make it possible to reorder them?
     // TODO: add token count to each box
     modelsList.appendChild(newModelListItem)
-    textInput.addEventListener('input', (event) => {
-      textInput.style.height = 0
-      textInput.style.height = textInput.scrollHeight + 2 + 'px'
-      textInputContent = event.target.value
-      updateTokens()
-    })
+
     updateTokens()
   }
 
@@ -127,7 +123,7 @@ function updateTokens() {
         .reduce(renderTokenAndText, '')
 
       modelBlockWithTextAndTokens = `
-        <h2>${modelName} | Token count: ${tokens.length}</h2>
+        <h2>${modelName} <img src="favicons/token.svg" alt="Token"> Token count: ${tokens.length}</h2>
         ${textFromTokens}
       `
     }
