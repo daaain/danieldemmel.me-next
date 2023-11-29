@@ -48,7 +48,6 @@ export const EmbedYoutube = ({ code, hash }) => (
       style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 0 }}
       title={code}
     ></iframe>
-    <Script src="https://player.vimeo.com/api/player.js" />
   </div>
 )
 
@@ -61,4 +60,5 @@ export const MDXComponents: ComponentMap = {
   BlogNewsletterForm,
   EmbedPDF,
   EmbedVimeo,
+  EmbedYoutube,
 }

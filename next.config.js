@@ -8,12 +8,12 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 const ContentSecurityPolicy = `
   default-src 'self';
   script-src 'self' 'unsafe-eval' 'unsafe-inline' giscus.app *.vimeo.com;
-  style-src 'self' 'unsafe-inline';
+  style-src 'self' 'unsafe-inline' giscus.app;
   img-src * blob: data:;
   media-src 'none';
   connect-src *;
   font-src 'self';
-  frame-src giscus.app *.vimeo.com drive.google.com jsfiddle.net;
+  frame-src giscus.app *.vimeo.com *.youtube-nocookie.com drive.google.com jsfiddle.net;
 `
 
 const securityHeaders = [
