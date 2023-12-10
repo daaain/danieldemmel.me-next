@@ -8,7 +8,7 @@ summary: Getting up and running, gotchas I came across and my favourite apps
 
 ## Motivation
 
-This is a follow-up post to [Build a cheap but fast home NAS system](./build-a-cheap-but-fast-home-nas-system) in which I wrote up how to find some great hardware for a home server. 
+This is a follow-up post to [Build a cheap but fast home NAS system](./build-a-cheap-but-fast-home-nas-system) in which I wrote up how to find some great hardware for a home server.
 
 But why would you want a home server? For me it started with just wanting to store and share photos, videos and music with flatmates (and later family), so the first device I got – the Linksys NSLU2 (a.k.a. SLUG) – was just simply something I could plug in a couple of USB hard disks and an ethernet cable. But over the years even the cheapest hardware became more capable, so other uses opened up. We could stream music from a NAS directly to an old Apple AirPort so playing music became social on a proper sound system using the AirPort's digital output (no thanks to the overpriced Sonos speakers). Films could be streamed or played from files directly on a big screen (no thanks to TVs, but particularly "smart" ones laden with bloatware, ads and surveillance). But in all honesty, simply just being able to automatically back up stuff from all devices without paying a steep monthly fee – it gets a bit expensive once you accumulate more than a terabyte of data which is very easy if you like taking a lot of photos and videos.
 
@@ -32,7 +32,7 @@ I thought I will be able to use Disk Utility to "restore" a USB stick from the I
 
 As [I mentioned in my previous post about hardware](https://www.danieldemmel.me/blog/build-a-cheap-but-fast-home-nas-system#boot-disk), you'll need a separate disk for TrueNAS to boot from. I chose a tiny flash drive that only has a relatively limited number of writes, so as promised, here is how you can decrease the amount of disk activity to the minimum.
 
-The two main things that would use the boot disk by default are logs and applications, but it is possible to set TrueNAS to store them on the data pool. For app storage, enable `System Settings > Advanced > Storage > System Dataset Pool` and for logs, set `System Settings > Advanced > Syslog > Use System Dataset: Enabled`. This way most of the busy writes will happen on the internal SSD so 1) the flash drive write cycles aren't used up quickly, 2) stuff stays nice and fast, and 3) if the flash drive does fail you'll just need to reinstall the OS and restore the config (that you should periodically backup using `System Settings > General > Manage Configuration > Download File`) to get everything back. 
+The two main things that would use the boot disk by default are logs and applications, but it is possible to set TrueNAS to store them on the data pool. For app storage, enable `System Settings > Advanced > Storage > System Dataset Pool` and for logs, set `System Settings > Advanced > Syslog > Use System Dataset: Enabled`. This way most of the busy writes will happen on the internal SSD so 1) the flash drive write cycles aren't used up quickly, 2) stuff stays nice and fast, and 3) if the flash drive does fail you'll just need to reinstall the OS and restore the config (that you should periodically backup using `System Settings > General > Manage Configuration > Download File`) to get everything back.
 
 After these settings are in place, you should be able to see that the disk usage on the flash drive is down to kilobytes here and there – have a look at the bottom chart called `sda` in the screenshot below:
 
@@ -54,7 +54,7 @@ Now you're ready to push data from your device via `rsync` without extra authent
 
 One of the best features of TrueNAS Scale is that they made it easy to install and update applications using a small, embedded Kubernetes server ([K3s](https://k3s.io/) if you're curious). The apps are defined as Helm Charts so even if they need multiple components (like web server, worker, database, etc) you don't need to separately install and configure so that they work with each other. In case you aren't a seasoned NAS user, it's probably useful to clarify that they are "apps" in a sense that you can install them easily, but they are mostly server side, just chugging along in the background doing useful things. So there won't really be a dedicated, native UI to open, but they often do come with a web interface you can access on any device, or even a client app you can download, but that'll be a separate thing.
 
-There are loads of apps available even if you only use the official TrueNAS channel, but I highly recommend also adding the TrueCharts catalog. You can do that by going to ` Apps> Manage Catalogs > Add Catalog` and pasting in `https://github.com/truecharts/catalog` after accepting the disclaimer. Now you can have a look in the `Apps > Available Applications` tab and start installing away.
+There are loads of apps available even if you only use the official TrueNAS channel, but I highly recommend also adding the TrueCharts catalog. You can do that by going to `Apps> Manage Catalogs > Add Catalog` and pasting in `https://github.com/truecharts/catalog` after accepting the disclaimer. Now you can have a look in the `Apps > Available Applications` tab and start installing away.
 
 But wait, when trying to get your first app to access your files on Host Path (otherwise they'll just mount empty volumes), you'll probably get this unpleasant popup:
 
@@ -65,9 +65,10 @@ In `Applications`, go to `Settings > Advanced Settings`, and uncheck `Enable Hos
 As well as giving app access to the host file system, you should also tick `Host Network` to make them accessible on your home server's IP address and the app's port.
 
 I'll list a few apps below that I highly recommend, but it's nice to just browse what there is available to install and look them up. I found a lot of new, amazing ones that I had no idea about!
+
 ### Remote access
 
-A home server (despite the name) is much more useful if you can access it anywhere. I used to have OpenVPN server set up ([see my earlier article how to go about it if you're interested](./safely-access-your-home-nas-with-an-openvpn-server-on-gcp)), but it doesn't work well if your home doesn't have a public IP and it's a bit annoying having to generate and distribute certificates. Luckily [Tailscale](https://tailscale.com/) implemented the newer WireShark protocol with super easy to use apps, web admin interface and relay servers I can 100% recommend. It's free for personal use and you can share your home server with other users as part of it.
+A home server (despite the name) is much more useful if you can access it anywhere. I used to have OpenVPN server set up ([see my earlier article how to go about it if you're interested](./safely-access-your-home-nas-with-an-openvpn-server-on-gcp)), but it doesn't work well if your home doesn't have a public IP and it's a bit annoying having to generate and distribute certificates. Luckily [Tailscale](https://tailscale.com/) implemented the newer WireShark protocol with super easy to use apps, web admin interface and relay servers I can 100% recommend. It's free for personal use and you can [share your home server](https://tailscale.com/kb/1084/sharing/) with other users as part of the free package (but you can't have them join the same Tailnet).
 
 By default you'll get a different IP address for each device over the VPN which makes it a bit annoying having to keep changing it to access TrueNAS and apps from home or elsewhere, but luckily there's a solution. You can set up [Tailscale Route](https://tailscale.com/kb/1019/subnets/) by making your home server a Subnet Router, just make sure to Approve Subnet on Machines page. I changed my home IP range from the default 192.168.0.0/24 as you can't have it clashing on a different network on a public WiFi or it will just mess up your connection.
 
@@ -90,7 +91,7 @@ sudo chmod a+r /etc/rancher/k3s/k3s.yaml
 k3s kubectl exec -n ix-photoprism `k3s kubectl -n ix-photoprism get pod -o name --field-selector=status.phase==Running` -- photoprism index --cleanup
 ```
 
-## File Browser
+### File Browser
 
 TrueNas Scale (as of 22.12 / Bluefin version) does not have a built-in web based file browser. Using SMB shares this is not a massive issue on a computer, but sometimes I just want to have a look at a config file or something on my phone, so I installed [File Browser](https://filebrowser.org/features). The TrueNAS repo one didn't want to deploy for me, but the TrueCharts one worked – this is in general a good thing to try. The default user to log in with is `admin` / `admin`.
 
