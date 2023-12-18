@@ -17,6 +17,7 @@ const COLOURS = [
 
 let models = []
 
+// TODO: take model list from URL params?
 function loadModels() {
   const storedModels = localStorage.getItem(KEY_MODELS)
   try {
@@ -30,10 +31,10 @@ function loadModels() {
       'mistralai/Mistral-7B-v0.1',
       'hf-internal-testing/llama-tokenizer',
       'deepseek-ai/deepseek-coder-6.7b-instruct',
-      'microsoft/phi-1_5',
-      '01-ai/Yi-34B',
-      'Xenova/bert-base-cased',
-      'Xenova/t5-small',
+      // 'microsoft/phi-1_5',
+      // '01-ai/Yi-34B',
+      // 'Xenova/bert-base-cased',
+      // 'Xenova/t5-small',
       // 'obvious/error',
       // 'meta-llama/Llama-2-7b-chat-hf',
     ]
@@ -43,6 +44,10 @@ function loadModels() {
 
 function saveModels() {
   localStorage.setItem(KEY_MODELS, JSON.stringify(models))
+}
+
+function addModel(name) {
+  localStorage.setItem(KEY_MODELS, JSON.stringify([...models, name]))
 }
 
 loadModels()
@@ -62,36 +67,32 @@ textInput.addEventListener('input', (event) => {
 })
 
 async function loadTokenizers() {
-  modelsList.innerHTML = ''
-
+  console.log('Loading models...')
   for (const model of models) {
     if (!(model in loadedModels)) {
       try {
+        console.log('Loading model: ' + model)
         loadedModels[model] = await AutoTokenizer.from_pretrained(model)
       } catch (error) {
         console.error('Model loading error:' + error)
         loadedModels[model] = { error }
       }
-      // some tokenizers strip spaces, let's prevent it so we can render text with the token numbers
+
+      console.log('Loaded model', loadedModels[model])
+      // some tokenizers strip spaces, let's prevent it so we can render them with the token numbers
       if (loadedModels[model]?.decoder?.decoders?.at(-1)?.config?.type === 'Strip') {
         loadedModels[model].decoder.decoders.pop()
       }
+
+      const newModelListItem = document.createElement('li')
+      newModelListItem.dataset.model = model
+      // TODO: add delete button
+      // TODO: make it possible to reorder them?
+      modelsList.appendChild(newModelListItem)
     }
-
-    const newModelListItem = document.createElement('li')
-    newModelListItem.dataset.model = model
-    // TODO: add delete button
-    // TODO: make it possible to reorder them?
-    // TODO: add token count to each box
-    modelsList.appendChild(newModelListItem)
-
-    updateTokens()
   }
 
-  // const addModelListItem = document.createElement('li')
-  // addModelListItem.id = 'addModel'
-  // addModelListItem.innerHTML = `<input /><button class="addModel">Add</button>`
-  // modelsList.appendChild(addModelListItem)
+  updateTokens()
 }
 
 const renderTokenAndText = (acc, { token, text }, index) => {
@@ -132,3 +133,11 @@ function updateTokens() {
 }
 
 await loadTokenizers()
+
+const addModelBox = document.getElementById('addModel')
+addModelBox.querySelector('button').addEventListener('click', async () => {
+  addModel(addModelBox.querySelector('input').value)
+  loadModels()
+  await loadTokenizers()
+  window.scrollTo(0, document.body.scrollHeight)
+})
