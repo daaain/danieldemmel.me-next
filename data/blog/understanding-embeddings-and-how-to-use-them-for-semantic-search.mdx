@@ -71,4 +71,6 @@ So to sum it up, you can use different embedding models to create a rich, semant
 
 Oh, on that note, if you are only working with a few documents or images, you can generate embeddings in memory or store them in a few JSON files and reload to memory later, but if you have a bigger set you want to search in, you'll need to use a vector database. This can either be a dedicated engine like [Weaviate](https://weaviate.io), [Qdrant](https://github.com/qdrant/qdrant), [Chroma](https://www.trychroma.com/) or [FAISS](https://faiss.ai) or an existing one with an extension like PostgreSQL with [pgvector](https://github.com/pgvector/pgvector).
 
+If you want to go deeper, make sure you read [Vicki Boykis's ebook "What are embeddings"](https://vickiboykis.com/what_are_embeddings/). Its price (free!) betrays the quality of content that is written and structured so well!
+
 Credits: Simon Willison for his work on various tools and explanations, [his blog post on embedding](https://simonwillison.net/2023/Oct/23/embeddings/) in particular.
