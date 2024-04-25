@@ -87,8 +87,13 @@ Once you have your photos pushed from Synchthing, you can use [Photoprism](https
 The only gotcha I found was that since I didn't want to duplicate my photos by letting Photoprism import them, it doesn't automatically index freshly uploaded media. As a workaround, you can trigger re-indexing manually in the web UI, or set it up on a schedule using [TrueNAS Cron Jobs](https://www.truenas.com/docs/scale/scaletutorials/systemsettings/advanced/managecronjobsscale/). I got a permission denied error when trying to run a script in the K3s pod that I found how to fix [in a forum thread](https://www.truenas.com/community/threads/shell-access-to-apps-permission-denied.107099/#post-740809) and then found out how to address an application [in another thread](https://www.truenas.com/community/threads/need-help-directing-cron-job-to-an-app.111930/) so in the end this is the script I came up with that does the job:
 
 ```sh
-sudo chmod a+r /etc/rancher/k3s/k3s.yaml
 k3s kubectl exec -n ix-photoprism `k3s kubectl -n ix-photoprism get pod -o name --field-selector=status.phase==Running` -- photoprism index --cleanup
+```
+
+To make it work though I had to adjust the permissions on `k3s.yaml` (this is a one time thing you can do in the `System Settings > Shell`, though it does seem it gets reset when TrueNAS gets updated so need to redo afterwards):
+
+```sh
+sudo chmod a+r /etc/rancher/k3s/k3s.yaml
 ```
 
 ### File Browser
