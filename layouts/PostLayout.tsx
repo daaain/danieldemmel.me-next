@@ -1,43 +1,54 @@
-import { useState, ReactNode } from 'react'
-import { Comments } from 'pliny/comments'
-import { CoreContent } from 'pliny/utils/contentlayer'
-import type { Blog, Authors } from 'contentlayer/generated'
-import Link from '@/components/Link'
-import PageTitle from '@/components/PageTitle'
-import SectionContainer from '@/components/SectionContainer'
-import { BlogSEO } from '@/components/SEO'
-import Image from '@/components/Image'
-import Tag from '@/components/Tag'
-import siteMetadata from '@/data/siteMetadata'
-import ScrollTopAndComment from '@/components/ScrollTopAndComment'
+import { useState, ReactNode } from "react";
+import { Comments } from "pliny/comments";
+import { CoreContent } from "pliny/utils/contentlayer";
+import type { Blog, Authors } from "contentlayer/generated";
+import Link from "@/components/Link";
+import PageTitle from "@/components/PageTitle";
+import SectionContainer from "@/components/SectionContainer";
+import { BlogSEO } from "@/components/SEO";
+import Image from "@/components/Image";
+import Tag from "@/components/Tag";
+import siteMetadata from "@/data/siteMetadata";
+import ScrollTopAndComment from "@/components/ScrollTopAndComment";
 
-const editUrl = (path) => `${siteMetadata.siteRepo}/blob/main/data/${path}`
+const editUrl = (path) => `${siteMetadata.siteRepo}/blob/main/data/${path}`;
 const discussUrl = (path) =>
-  `https://mobile.twitter.com/search?q=${encodeURIComponent(`${siteMetadata.siteUrl}/${path}`)}`
+  `https://mobile.twitter.com/search?q=${encodeURIComponent(`${siteMetadata.siteUrl}/${path}`)}`;
 
 const postDateTemplate: Intl.DateTimeFormatOptions = {
-  weekday: 'long',
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-}
+  weekday: "long",
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+};
 
 interface LayoutProps {
-  content: CoreContent<Blog>
-  authorDetails: CoreContent<Authors>[]
-  next?: { path: string; title: string }
-  prev?: { path: string; title: string }
-  children: ReactNode
+  content: CoreContent<Blog>;
+  authorDetails: CoreContent<Authors>[];
+  next?: { path: string; title: string };
+  prev?: { path: string; title: string };
+  children: ReactNode;
 }
 
-export default function PostLayout({ content, authorDetails, next, prev, children }: LayoutProps) {
-  const { filePath, path, slug, date, title, tags, images, readingTime } = content
-  const basePath = path.split('/')[0]
-  const [loadComments, setLoadComments] = useState(true)
+export default function PostLayout({
+  content,
+  authorDetails,
+  next,
+  prev,
+  children,
+}: LayoutProps) {
+  const { filePath, path, slug, date, title, tags, images, readingTime } =
+    content;
+  const basePath = path.split("/")[0];
+  const [loadComments, setLoadComments] = useState(true);
 
   return (
     <SectionContainer>
-      <BlogSEO url={`${siteMetadata.siteUrl}/${path}`} authorDetails={authorDetails} {...content} />
+      <BlogSEO
+        url={`${siteMetadata.siteUrl}/${path}`}
+        authorDetails={authorDetails}
+        {...content}
+      />
       <ScrollTopAndComment />
       <article className="h-entry">
         <div className="xl:divide-y xl:divide-gray-200 xl:dark:divide-gray-700">
@@ -48,7 +59,10 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                   <dt className="sr-only">Published on</dt>
                   <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
                     <time className="dt-published" dateTime={date}>
-                      {new Date(date).toLocaleDateString(siteMetadata.locale, postDateTemplate)}
+                      {new Date(date).toLocaleDateString(
+                        siteMetadata.locale,
+                        postDateTemplate,
+                      )}
                     </time>
                   </dd>
                 </div>
@@ -57,18 +71,26 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                 <PageTitle>{title}</PageTitle>
               </div>
               {images?.[0] && (
-                <div style={{ position: 'relative', margin: '2rem 0', padding: '50% 0 0 0' }}>
+                // TODO: can this be done without wrapping div?
+                // https://jakearchibald.com/2022/img-aspect-ratio/#so-which-method-should-we-use
+                <div
+                  style={{
+                    position: "relative",
+                    margin: "2rem 0",
+                    padding: "50% 0 0 0",
+                  }}
+                >
                   <Image
                     fill
                     src={images[0]}
                     alt="Hero image"
                     style={{
-                      objectFit: 'cover',
-                      position: 'absolute',
+                      objectFit: "cover",
+                      position: "absolute",
                       top: 0,
                       left: 0,
-                      width: '100%',
-                      height: '100%',
+                      width: "100%",
+                      height: "100%",
                     }}
                   />
                 </div>
@@ -81,7 +103,10 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
               <dd>
                 <ul className="flex justify-center space-x-8 sm:space-x-12 xl:block xl:space-x-0 xl:space-y-8">
                   {authorDetails.map((author) => (
-                    <li className="p-author h-card flex items-center space-x-2" key={author.name}>
+                    <li
+                      className="p-author h-card flex items-center space-x-2"
+                      key={author.name}
+                    >
                       {author.avatar && (
                         <Image
                           src={author.avatar}
@@ -95,17 +120,16 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                       )}
                       <dl className="whitespace-nowrap text-sm font-medium leading-5">
                         <dt className="sr-only">Name</dt>
-                        <dd className="p-name text-gray-900 dark:text-gray-100">{author.name}</dd>
-                        <dt className="sr-only">Twitter</dt>
-                        <dd>
-                          {author.twitter && (
-                            <Link
-                              href={author.twitter}
-                              className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
-                            >
-                              {author.twitter.replace('https://twitter.com/', '@')}
-                            </Link>
-                          )}
+                        <dd className="p-name text-gray-900 dark:text-gray-100">
+                          {author.name}
+                        </dd>
+                        <dt className="sr-only">Occupation</dt>
+                        <dd className="p-job-title text-gray-500 dark:text-gray-300">
+                          {author.occupation} with
+                          <br />
+                          19 years professional
+                          <br />
+                          experience
                         </dd>
                       </dl>
                     </li>
@@ -130,9 +154,16 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                   id="comment"
                 >
                   {!loadComments && (
-                    <button onClick={() => setLoadComments(true)}>Load Comments</button>
+                    <button onClick={() => setLoadComments(true)}>
+                      Load Comments
+                    </button>
                   )}
-                  {loadComments && <Comments commentsConfig={siteMetadata.comments} slug={slug} />}
+                  {loadComments && (
+                    <Comments
+                      commentsConfig={siteMetadata.comments}
+                      slug={slug}
+                    />
+                  )}
                 </div>
               )}
             </div>
@@ -192,5 +223,5 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
         </div>
       </article>
     </SectionContainer>
-  )
+  );
 }
