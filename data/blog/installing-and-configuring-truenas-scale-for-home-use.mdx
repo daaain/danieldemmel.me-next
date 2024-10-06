@@ -2,7 +2,7 @@
 title: Installing and configuring TrueNAS Scale for home use
 date: 2023-08-21
 tags: [software, truenas, open source, nas, permacomputing, diy, home lab]
-images: ['/images/2023/truenas_scale_screenshot.png']
+images: ['/images/2023/truenas_scale_screenshot.webp']
 summary: Getting up and running, gotchas I came across and my favourite apps
 ---
 
@@ -36,7 +36,7 @@ The two main things that would use the boot disk by default are logs and applica
 
 After these settings are in place, you should be able to see that the disk usage on the flash drive is down to kilobytes here and there – have a look at the bottom chart called `sda` in the screenshot below:
 
-![Disk usage charts](/images/2023/truenas_disk_usage_charts.png)
+![Disk usage charts](/images/2023/truenas_disk_usage_charts.webp)
 
 ### File sharing
 
@@ -58,7 +58,7 @@ There are loads of apps available even if you only use the official TrueNAS chan
 
 But wait, when trying to get your first app to access your files on Host Path (otherwise they'll just mount empty volumes), you'll probably get this unpleasant popup:
 
-![TrueNAS_can_not_mount_host_path.png](/images/2023/TrueNAS_can_not_mount_host_path.png)
+![Error message: TrueNAS can not mount host path](/images/2023/TrueNAS_can_not_mount_host_path.webp)
 
 In `Applications`, go to `Settings > Advanced Settings`, and uncheck `Enable Host Path Safety Checks`. Otherwise you can't have both SMB (or NFS) shares and apps accessing the same directory. This is a security / ownership feature that makes sense in an enterprise setting, but annoying enough to work around, so as a home user it's the simplest to disable. If you want to understand more about it, [read this relevant forum thread](https://www.truenas.com/community/threads/docker-nfs-bug.103994/).
 

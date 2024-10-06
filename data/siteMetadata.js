@@ -10,9 +10,9 @@ const siteMetadata = {
   theme: 'system', // system, dark or light
   siteUrl: 'https://www.danieldemmel.me',
   siteRepo: 'https://github.com/daaain/danieldemmel.me-next',
-  siteLogo: '/images/logo.png',
+  siteLogo: '/images/logo.webp',
   image: '/images/dain.jpg',
-  socialBanner: '/images/logo.png',
+  socialBanner: '/images/logo.webp',
   email: 'hello@danieldemmel.me',
   github: 'https://github.com/daaain',
   twitter: 'https://twitter.com/daaain',

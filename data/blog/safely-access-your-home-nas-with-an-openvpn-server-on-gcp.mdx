@@ -31,25 +31,25 @@ I'm sure this all would also be possible with a commercial VPN provider, but as 
 
 So for my own future reference and to help anyone else interested, these are the steps involved:
 
-1️⃣ Set up a Google Cloud Platform account (they have a free trial, but you'll have to give them payment details): https://console.cloud.google.com/freetrial
+1️⃣ Set up a Google Cloud Platform account (they have a free trial, but you'll have to give them payment details): [https://console.cloud.google.com/freetrial](https://console.cloud.google.com/freetrial)
 
-2️⃣ Create a firewall rule to allow OpenVPN traffic – you need to open port 1194 for UDP and tag the rule with `openvpn` to be able to assign to the VM later: https://console.cloud.google.com/networking/firewalls/add
+2️⃣ Create a firewall rule to allow OpenVPN traffic – you need to open port 1194 for UDP and tag the rule with `openvpn` to be able to assign to the VM later: [https://console.cloud.google.com/networking/firewalls/add](https://console.cloud.google.com/networking/firewalls/add)
 
-![Screenshot of firewall setup](/images/2021/Firewall-setup.png)
+![Screenshot of firewall setup](/images/2021/Firewall-setup.webp)
 
-3️⃣ Create a [free tier](/images/2021/VM-setup-1.png) VM with Container-Optimized OS which will host the OpenVPN container `kylemanna/openvpn` in privileged mode (so that it can set up networking), making sure to attach a directory volume (to store the config files) and tagging it with the `openvpn` network (so that you can reach the VM from the internet): https://console.cloud.google.com/compute/instancesAdd
+3️⃣ Create a [free tier](/images/2021/VM-setup-1.webp) VM with Container-Optimized OS which will host the OpenVPN container `kylemanna/openvpn` in privileged mode (so that it can set up networking), making sure to attach a directory volume (to store the config files) and tagging it with the `openvpn` network (so that you can reach the VM from the internet): [https://console.cloud.google.com/compute/instancesAdd](https://console.cloud.google.com/compute/instancesAdd)
 
-![Screenshot of VM setup - part 1](/images/2021/VM-setup-1.png)
+![Screenshot of VM setup - part 1](/images/2021/VM-setup-1.webp)
 
-![Screenshot of VM setup - part 2](/images/2021/VM-setup-2.png)
+![Screenshot of VM setup - part 2](/images/2021/VM-setup-2.webp)
 
 4️⃣ Set up a (subdomain) DNS A record pointing to the external IP address of the VM instance or create a dynamic DNS account with a (free) provider of your choice
 
 5️⃣ Open an SSH connection into the VM – check with `pwd` if the VM user name matches with your Gmail username (otherwise you'll need to update the container volume) and if you're using a dynamic DNS provider set up its client now – you'll need to know the URL in the next step
 
-6️⃣ Follow the Quickstart steps (except `Start OpenVPN server process` as that's already taken care of by the VM) in `kylemanna/openvpn`'s README with `OVPN_DATA="/home/GMAIL_USERNAME/ovpn-data-volume"`. You'll need to repeat the last two (client certificate and configuration creation) steps for each client you want to connect with – including your NAS (make sure you note its client name down) – and you'll need to download or `cat` the the generated `CLIENTNAME.ovpn` config files: https://github.com/kylemanna/docker-openvpn#quick-start
+6️⃣ Follow the Quickstart steps (except `Start OpenVPN server process` as that's already taken care of by the VM) in `kylemanna/openvpn`'s README with `OVPN_DATA="/home/GMAIL_USERNAME/ovpn-data-volume"`. You'll need to repeat the last two (client certificate and configuration creation) steps for each client you want to connect with – including your NAS (make sure you note its client name down) – and you'll need to download or `cat` the the generated `CLIENTNAME.ovpn` config files: [https://github.com/kylemanna/docker-openvpn#quick-start](https://github.com/kylemanna/docker-openvpn#quick-start)
 
-7️⃣ Set up the network route to your home network where the NAS is. For this, you'll need to edit a couple of files in the VM in `~/ovpn-data-volume`. For more info on why these are needed, read this helpful OpenVPN guide: https://community.openvpn.net/openvpn/wiki/RoutedLans
+7️⃣ Set up the network route to your home network where the NAS is. For this, you'll need to edit a couple of files in the VM in `~/ovpn-data-volume`. For more info on why these are needed, read this helpful OpenVPN guide: [https://community.openvpn.net/openvpn/wiki/RoutedLans](https://community.openvpn.net/openvpn/wiki/RoutedLans)
 
 Edit the following section in openvpn.conf (for example using `sudo nano ~/ovpn-data-volume/openvpn.conf`), where `192.168.168.*` should be the IP range of your home network where your NAS is. If your home network is on the default `192.168.0.*` range, make sure you change it otherwise routing will blow up when you connect to a Wi-Fi with the same default range.
 
@@ -70,12 +70,12 @@ iroute 192.168.168.0 255.255.255.0
 
 8️⃣ At this point you will need to restart the container to make sure it picks up the new config. First find its ID with `docker ps -a` then `docker container restart CONTAINER_ID`. You can disconnect from SSH now.
 
-9️⃣ Connect your NAS as a client. For Synology see: https://kb.synology.com/en-global/DSM/help/DSM/AdminCenter/connection_network_vpnclient
+9️⃣ Connect your NAS as a client. For Synology see: [https://kb.synology.com/en-global/DSM/help/DSM/AdminCenter/connection_network_vpnclient](https://kb.synology.com/en-global/DSM/help/DSM/AdminCenter/connection_network_vpnclient)
 
 🔟 Connect your phone (or any other device) and enjoy using your NAS with the same connection settings as your home network! If you also want to secure your connection and route all traffic through VPN, you might need to add `redirect-gateway def1` to the `CLIENTNAME.ovpn` file before importing, unless your OpenVPN client supports setting this separately.
 
-I'm not sure if this will always be completely free to run in GCP, but should be fairly cheap. Keep an eye on your billing report just in case: https://console.cloud.google.com/billing
+I'm not sure if this will always be completely free to run in GCP, but should be fairly cheap. Keep an eye on your billing report just in case: [https://console.cloud.google.com/billing](https://console.cloud.google.com/billing)
 
 ## Credits
 
-Hero image: https://www.tuoptometrista.com/ayudas-generales-para-personas-con-baja-vision/woman/
+Hero image: [https://www.tuoptometrista.com/ayudas-generales-para-personas-con-baja-vision/woman/](https://www.tuoptometrista.com/ayudas-generales-para-personas-con-baja-vision/woman/)>
