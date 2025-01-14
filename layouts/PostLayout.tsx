@@ -193,11 +193,6 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                   &larr; Back to the blog
                 </Link>
               </div>
-              {siteMetadata.newsletter.provider && (
-                <div className="mt-4 flex items-center justify-center pt-4">
-                  <NewsletterForm />
-                </div>
-              )}
             </footer>
           </div>
         </div>

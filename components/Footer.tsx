@@ -1,13 +1,19 @@
 import Link from './Link'
 import siteMetadata from '@/data/siteMetadata'
 import SocialIcon from '@/components/social-icons'
+import { NewsletterForm } from 'pliny/ui/NewsletterForm'
 
 const ICON_SIZE = 8
 
 export default function Footer() {
   return (
     <footer>
-      <div className="h-card mt-16 flex flex-col items-center">
+      <div className="h-card mt-12 flex flex-col items-center">
+        {siteMetadata.newsletter.provider && (
+          <div className="mb-6 flex items-center justify-center">
+            <NewsletterForm />
+          </div>
+        )}
         <div className="mb-3 flex space-x-4">
           <SocialIcon
             className="u-email"
