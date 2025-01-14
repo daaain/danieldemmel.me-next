@@ -10,6 +10,7 @@ import Image from '@/components/Image'
 import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
 import ScrollTopAndComment from '@/components/ScrollTopAndComment'
+import { NewsletterForm } from 'pliny/ui/NewsletterForm'
 
 const editUrl = (path) => `${siteMetadata.siteRepo}/blob/main/data/${path}`
 const discussUrl = (path) =>
@@ -108,7 +109,7 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                         <dd className="p-job-title text-gray-500 dark:text-gray-300">
                           {author.occupation} with
                           <br />
-                          19 years professional
+                          {new Date().getFullYear() - 2005} years of professional
                           <br />
                           experience
                         </dd>
@@ -192,6 +193,11 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                   &larr; Back to the blog
                 </Link>
               </div>
+              {siteMetadata.newsletter.provider && (
+                <div className="mt-4 flex items-center justify-center pt-4">
+                  <NewsletterForm />
+                </div>
+              )}
             </footer>
           </div>
         </div>

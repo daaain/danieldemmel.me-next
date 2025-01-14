@@ -16,4 +16,5 @@ Convert images to WebP:
 
 ```sh
 cwebp -lossless image.png -o image.webp
+cwebp image.jpg -o image.webp
 ```
