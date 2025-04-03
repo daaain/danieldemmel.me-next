@@ -1,0 +1,21 @@
+/* hide from ie5 mac \*/
+html.hasFlash {
+	height: 100%;
+	overflow: hidden;
+}
+.hasFlash #flash {
+	height: 100%;
+}
+/* end hide */
+.hasFlash body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+}
+.hasFlash body * {
+	display: none;
+}
+.hasFlash #flash {
+	display: block;
+}
