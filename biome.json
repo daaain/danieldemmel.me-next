@@ -6,7 +6,8 @@
     "formatter": {
       "quoteStyle": "single",
       "lineWidth": 100,
-      "semicolons": "asNeeded"
+      "semicolons": "asNeeded",
+      "trailingCommas": "es5"
     }
   }
 }

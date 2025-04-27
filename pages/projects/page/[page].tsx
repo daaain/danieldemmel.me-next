@@ -1,14 +1,12 @@
-import { PageSEO } from '@/components/SEO'
-import siteMetadata from '@/data/siteMetadata'
 import ListLayout from '@/layouts/ListLayout'
 import { allCoreContent, sortedBlogPost } from 'pliny/utils/contentlayer'
 import { POSTS_PER_PAGE } from '../index'
-import { InferGetStaticPropsType } from 'next'
+import type { InferGetStaticPropsType } from 'next'
 import { allProjects } from 'contentlayer/generated'
 import type { Project } from 'contentlayer/generated'
 
 export const getStaticPaths = async () => {
-  const totalPosts = allBlogs
+  const totalPosts = allProjects
   const totalPages = Math.ceil(totalPosts.length / POSTS_PER_PAGE)
   const paths = Array.from({ length: totalPages }, (_, i) => ({
     params: { page: (i + 1).toString() },
@@ -25,10 +23,10 @@ export const getStaticProps = async (context) => {
     params: { page },
   } = context
   const posts = sortedBlogPost(allProjects) as Project[]
-  const pageNumber = parseInt(page as string)
+  const pageNumber = Number.parseInt(page as string)
   const initialDisplayPosts = posts.slice(
     POSTS_PER_PAGE * (pageNumber - 1),
-    POSTS_PER_PAGE * pageNumber,
+    POSTS_PER_PAGE * pageNumber
   )
   const pagination = {
     currentPage: pageNumber,

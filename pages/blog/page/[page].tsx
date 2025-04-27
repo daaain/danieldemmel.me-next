@@ -3,7 +3,7 @@ import siteMetadata from '@/data/siteMetadata'
 import ListLayout from '@/layouts/ListLayout'
 import { allCoreContent, sortedBlogPost } from 'pliny/utils/contentlayer'
 import { POSTS_PER_PAGE } from '../index'
-import { InferGetStaticPropsType } from 'next'
+import type { InferGetStaticPropsType } from 'next'
 import { allBlogs } from 'contentlayer/generated'
 import type { Blog } from 'contentlayer/generated'
 
@@ -25,7 +25,7 @@ export const getStaticProps = async (context) => {
     params: { page },
   } = context
   const posts = sortedBlogPost(allBlogs) as Blog[]
-  const pageNumber = parseInt(page as string)
+  const pageNumber = Number.parseInt(page as string)
   const initialDisplayPosts = posts.slice(
     POSTS_PER_PAGE * (pageNumber - 1),
     POSTS_PER_PAGE * pageNumber
