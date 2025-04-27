@@ -17,5 +17,6 @@ html.hasFlash {
 	display: none;
 }
 .hasFlash #flash {
+	height: calc(100% - 2em);
 	display: block;
 }

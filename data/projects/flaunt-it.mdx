@@ -1,0 +1,45 @@
+---
+title: "flaunt-it*"
+date: 2008-05-05
+tags: [flash, website, animation]
+images: ['/images/2025/flaunt-it.webp']
+summary: Flash website for a creative decoration company
+projectLink: /projects-static/flaunt-it/index.html
+---
+
+[Open the flaunt-it* website](/projects-static/flaunt-it/index.html)
+
+## Born in the age of Flash
+
+In 2008 – before the iPhone was announced and when jQuery was less than 2 years old – creating a
+website with rich animation was almost impossible without Flash, especially if you wanted to make
+sure that it works on Internet Explorer which a lot of people still used.
+
+In this context, when Steve Winney – who ran a successful graphic design company before – approached
+ustwo to create a web presence for flaunt-it*, we decided to design a visually striking site with a
+randomised layout on a single-page canvas, where each portfolio work and piece of information was a
+tile that dynamically animated to grow and shrink as you click them to see more and close afterwards.
+
+## Internet history preserved – an aside
+
+In his 2010 open letter – "[Thoughts on Flash](https://en.wikipedia.org/wiki/Thoughts_on_Flash)" –
+Steve Jobs brutally put down Adobe and promised to never make Flash available on iOS. Though a lot
+what wrote was hypocritical, he was right that Adobe didn't do a great job with Flash on mobile
+devices and in general made a mess of the platform after buying it off Macromedia. Without delving
+too much into details, from this point on the writing was on the wall, especially with the big push
+to make the web more interactive and with Internet Explorer finally starting to lose market share.
+
+This was generally a good thing as the web is an open platform and what was only possible in Flash
+earlier slowly became doable with HTML, CSS, and Javascript. However the discontinuation of the Flash platform by Adobe meant that more than a decade of web history slowly became impossible to experience.
+
+Of course very few people are going to shed tears for old corporate websites and banner ads, but Flash was unique because of its user friendly authoring experience with keyframes and simple scripting, making it easier for designers and animators to create really unique and trailblazing pieces, not just websites as such. There were a lot of games too, but what I personally miss the most is the rich vector animations made possible by Flash, which in my opinion are still not matched by tools created since like Lottie, see for example the [Drum Machine](https://archive.org/details/flash_Drum_Machine).
+
+## Ruffle player
+
+So how is it possible that the Drum Machine page and the flaunt-it* website is possible to see again without Flash?
+
+While the authoring environment (IDE) is gone, a bunch of amazing people rewrote the player from scratch in Rust, which is a safer and faster emulator that can run SWF files.
+
+It's called [Ruffle](https://ruffle.rs/) and it's open source, reaching 90%+ feature coverage in 2024.
+
+Best of all, it's possible to load with Javascript, so no installation needed! And Steve Jobs might be spinning in his grave, because it works on iOS too...

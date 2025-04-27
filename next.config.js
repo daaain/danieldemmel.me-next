@@ -185,6 +185,11 @@ module.exports = () => {
           destination: '/blog/indiewebify-yourself',
           permanent: true,
         },
+        {
+          source: '/projects/flaunt-it/index.html',
+          destination: '/projects-static/flaunt-it/index.html',
+          permanent: true,
+        },
       ]
     },
   })

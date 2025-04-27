@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/router'
 import { formatDate } from 'pliny/utils/formatDate'
 import { CoreContent } from 'pliny/utils/contentlayer'
-import type { Blog } from 'contentlayer/generated'
+import type { Blog, Project } from 'contentlayer/generated'
 import Link from '@/components/Link'
 import Tag from '@/components/Tag'
 import Image from '@/components/Image'
@@ -13,10 +13,11 @@ interface PaginationProps {
   currentPage: number
 }
 interface ListLayoutProps {
-  posts: CoreContent<Blog>[]
+  posts: CoreContent<Blog | Project>[]
   title: string
-  initialDisplayPosts?: CoreContent<Blog>[]
+  initialDisplayPosts?: CoreContent<Blog | Project>[]
   pagination?: PaginationProps
+  hideTags?: boolean
 }
 
 function Pagination({ totalPages, currentPage }: PaginationProps) {
@@ -28,41 +29,35 @@ function Pagination({ totalPages, currentPage }: PaginationProps) {
   return (
     <div className="space-y-2 pt-6 pb-8 md:space-y-5">
       <nav className="flex justify-between">
-        {!prevPage && (
-          <button className="cursor-auto disabled:opacity-50" disabled={!prevPage}>
-            Previous
-          </button>
-        )}
-        {prevPage && (
+        {prevPage ? (
           <Link
             href={currentPage - 1 === 1 ? `/${basePath}/` : `/${basePath}/page/${currentPage - 1}`}
             rel="prev"
           >
             Previous
           </Link>
+        ) : (
+          <span className="opacity-50">Previous</span>
         )}
         <span>
           {currentPage} of {totalPages}
         </span>
-        {!nextPage && (
-          <button className="cursor-auto disabled:opacity-50" disabled={!nextPage}>
-            Next
-          </button>
-        )}
-        {nextPage && (
+        {nextPage ? (
           <Link href={`/${basePath}/page/${currentPage + 1}`} rel="next">
             Next
           </Link>
+        ) : (
+          <span className="opacity-50">Next</span>
         )}
       </nav>
     </div>
   )
 }
 
-export function PostList({ filteredBlogPosts, displayPosts }) {
+export function PostList({ filteredBlogPosts, displayPosts, hideTags }) {
   return (
     <ul className="divide-y divide-gray-200 dark:divide-gray-700">
-      {!filteredBlogPosts.length && 'No posts found.'}
+      {!filteredBlogPosts.length && 'No entries found.'}
       {displayPosts.map((post) => {
         const { path, date, title, summary, tags, images, readingTime } = post
         return (
@@ -107,11 +102,13 @@ export function PostList({ filteredBlogPosts, displayPosts }) {
                       </dd>
                     </div>
                   </dl>
-                  <div className="flex flex-wrap">
-                    {tags.map((tag) => (
-                      <Tag key={tag} text={tag} />
-                    ))}
-                  </div>
+                  {!hideTags && (
+                    <div className="flex flex-wrap">
+                      {tags.map((tag) => (
+                        <Tag key={tag} text={tag} />
+                      ))}
+                    </div>
+                  )}
                 </div>
                 <div className="prose max-w-none text-gray-500 dark:text-gray-400">{summary}</div>
               </div>
@@ -128,6 +125,7 @@ export default function ListLayout({
   title,
   initialDisplayPosts = [],
   pagination,
+  hideTags = false,
 }: ListLayoutProps) {
   const [searchValue, setSearchValue] = useState('')
   const filteredBlogPosts = posts.filter((post) => {
@@ -173,7 +171,11 @@ export default function ListLayout({
             </svg>
           </div>
         </div>
-        <PostList filteredBlogPosts={filteredBlogPosts} displayPosts={displayPosts} />
+        <PostList
+          filteredBlogPosts={filteredBlogPosts}
+          displayPosts={displayPosts}
+          hideTags={hideTags}
+        />
       </div>
       {pagination && pagination.totalPages > 1 && !searchValue && (
         <Pagination currentPage={pagination.currentPage} totalPages={pagination.totalPages} />

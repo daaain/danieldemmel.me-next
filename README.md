@@ -5,7 +5,7 @@ A new incarnation of my personal website and blog, using Next.js.
 ## Development
 
 ```sh
-nvm use
+mise activate
 yarn install
 yarn dev
 ```
