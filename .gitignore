@@ -21,7 +21,7 @@ public/sitemap.xml
 # production
 /build
 *.xml
-!public/projects/flaunt-it/xml/flaunt.xml
+!public/projects-static/flaunt-it/xml/flaunt.xml
 
 # rss feed
 /public/feed.xml
