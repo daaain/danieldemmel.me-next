@@ -15,7 +15,7 @@ const siteMetadata = {
   socialBanner: '/images/logo.webp',
   email: 'hello@danieldemmel.me',
   github: 'https://github.com/daaain',
-  mastodon: 'https://fosstodon.org/@daaain',
+  mastodon: 'https://hachyderm.io/@dain',
   linkedin: 'https://www.linkedin.com/in/danieldemmel/',
   locale: 'en-GB',
   analytics: {
