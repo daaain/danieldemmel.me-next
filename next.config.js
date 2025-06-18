@@ -89,16 +89,6 @@ module.exports = () => {
           permanent: true,
         },
         {
-          source: '/JSSoundRecorder',
-          destination: 'https://daaain.github.io/JSSoundRecorder/',
-          permanent: true,
-        },
-        {
-          source: '/in-browser-prototype-boilerplate',
-          destination: 'https://daaain.github.io/in-browser-prototype-boilerplate/',
-          permanent: true,
-        },
-        {
           source:
             '/blog/2012/09/02/setting-up-rmate-with-sublime-text-for-remote-file-editing-over-ssh',
           destination: '/blog/setting-up-rmate-with-sublime-text-for-remote-file-editing-over-ssh',
