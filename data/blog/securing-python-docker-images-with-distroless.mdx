@@ -1,0 +1,125 @@
+---
+title: "Using Distroless in production instead of Alpine"
+date: 2025-08-08
+tags: [docker, web, development, javacript, python]
+images: ['/images/2025/distroless-logo.svg']
+summary: I hereby renounce years of suffering with native extension compilations breaking
+---
+
+## "Just use Alpine"
+
+The container base image you choose can make or break your deployment experience. While Alpine Linux has become the de facto standard for "small, production ready" Docker images, it comes with hidden costs that many developers discover only after sweaty debugging sessions 😅
+
+Inspired by Apple's private AI server infrastructure (see [Private Cloud Compute: A new frontier for AI privacy in the cloud](https://security.apple.com/blog/private-cloud-compute/)) where they explained how they "excluded components that are traditionally critical to data center administration, such as remote shells and system introspection and observability tools," I wanted to see how difficult it would be to do something similar with Docker images using Google's Distroless.
+
+What also has been an ongoing pain point for me is that I've been using Alpine as base for production, which is sufficiently different from mainstream Linux distributions like Debian and Ubuntu, while also having a much smaller community (fewer guides, Q&As, Stack Overflow answers, etc). The `musl` `libc` implementation that Alpine uses instead of `glibc` creates compatibility issues that can consume hours of debugging time. Unless you have a really good reason to invest in figuring out these Alpine-specific quirks, you will not have a good time.
+
+**Don't suffer with `muslc` when you can have `glibc`.**
+
+If you don't know and / or don't care, you'll unlikely to benefit from `muslc` when running web services – it's designed to be leaner and run in resource constrained environments, but there are probably hundreds of easier optimisations you could be doing.
+
+Node native extensions often don't work out of the box, and you end up having to read through really long GitHub issues, trying desperate workarounds. Python packages with C extensions can bring you similar groans, though anecdotally I haven't run into that many personally.
+
+Distroless images offer a useful alternative: you get (most of) the security benefits of a minimal attack surface while maintaining compatibility with the broader Linux ecosystem. They're built on Debian, so your development environment matches production, and you avoid the musl/glibc compatibility malarkey.
+
+## Node
+
+Going from the full Debian official Node image (that I already used for a less annoying local development experience) to `gcr.io/distroless/nodejs20-debian12:nonroot` was amazingly smooth.
+
+One gotcha is that you need `CMD ["server.js"]` not `CMD ["node", "server.js"]` otherwise you'll get `Error: Cannot find module '/WORKDIR/node'`:
+
+```sh
+node:internal/modules/cjs/loader:1148
+  throw err;
+  ^
+
+Error: Cannot find module '/app/node'
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1145:15)
+    at Module._load (node:internal/modules/cjs/loader:986:27)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:174:12)
+    at node:internal/main/run_main_module:28:49 {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: []
+}
+```
+
+## Python
+
+Python is a bit trickier, because the Distroless team doesn't maintain images for different Python versions – you can only get what's included in the current Debian distribution.
+
+That said, it's not super difficult to have `uv` install a different Python version and then copy the files over to the Distroless image in a subsequent stage. Make sure to use the `cc` image though, because Python will need the C libraries for native bindings.
+
+See this relatively simple example below from GitHub issue [#1703 – support different python versions (3.12, 3.13)](https://github.com/GoogleContainerTools/distroless/issues/1703):
+
+```dockerfile
+FROM debian:12-slim AS builder
+
+RUN --mount=type=bind,source=.,target=/app \
+    --mount=from=ghcr.io/astral-sh/uv,source=/uv,target=/usr/bin/uv \
+    --mount=type=cache,target=/root/.cache/uv \
+    <<EOF
+
+    set -Eeux
+
+    # Install specific Python version from .python-version
+    uv python install --project=/app --managed-python --install-dir=/tmp/python
+
+    # Move Python into /usr/local
+    (cd /tmp/python/* && tar -cf- .) | (cd /usr/local && tar -xf-)
+    rm -r /tmp/python
+
+    # Install dependencies and the package
+    export UV_PROJECT_ENVIRONMENT=/usr/local
+    uv sync --project=/app --frozen --compile-bytecode --link-mode=copy --no-dev --no-editable --no-managed-python
+EOF
+
+# Using distroless as a main runtime image
+# (add "debug-" tag prefix if you need a shell/busybox binary)
+FROM gcr.io/distroless/cc-debian12:nonroot
+
+# Copy Python interpreter and the package from the builder stage
+COPY --from=builder /usr/local /usr/local
+
+# Run as non-root
+USER nonroot
+
+ENTRYPOINT ["/usr/local/bin/py-hello-cmd"]
+```
+
+## Security
+
+One important thing to note is that a small Distroless image in itself doesn't guarantee security – vulnerabilities don't come from files sitting around and increasing image size. The security benefit comes from reducing the attack surface by removing unnecessary binaries, shells, and system utilities that could be exploited if an attacker gains access to your container.
+
+If you want to understand this issue in more detail, read the [Why distroless containers aren't the security solution you think they are](https://www.redhat.com/en/blog/why-distroless-containers-arent-security-solution-you-think-they-are) article on the Red Hat blog.
+
+That said, I found out from the article [Choosing the best Node.js Docker image](https://snyk.io/blog/choosing-the-best-node-js-docker-image/) on the Snyk blog where they did the work of scanning a bunch of different images for vulnerabilities that Distroless actually performs quite well, with only a handful of low-priority (mostly `glibc`) vulnerabilities that would be very difficult to exploit.
+
+This is the table from the article:
+
+|Image tag|Node.js runtime version|OS dependencies|OS security vulnerabilities|High and Critical vulnerabilities|Medium vulnerabilities|Low vulnerabilities|Node.js runtime vulnerabilities|Image size|Yarn available|
+|---|---|---|---|---|---|---|---|---|---|
+|node:latest|22.1.0|413|179|3|0|176|0|1135MB|Yes|
+|node:bookworm|22.1.0|413|179|3|0|176|0|1135MB|Yes|
+|node:bookworm-slim|22.1.0|88|37|2|0|35|0|233MB|Yes|
+|node:lts-bookworm-slim|20.13.1|88|37|2|0|35|0|219MB|Yes|
+|node:alpine|22.1.0|17|1|0|0|1|0|145MB|Yes|
+|gcr.io/distroless/nodejs22-debian12|22.1.0|8|16|0|0|16|0|186MB|No|
+|cgr.dev/chainguard/node:latest|22.1.0|25|0|0|0|0|0|134MB|No|
+|cgr.dev/chainguard/node:latest-dev|22.1.0|66|0|0|0|0|0|651MB|Yes|
+
+The data shows that while Alpine has fewer total vulnerabilities, Distroless eliminates high and critical vulnerabilities too while maintaining a similarly reasonable image size. If you don't have a dedicated infra and dev ops team helping out, this trade-off makes a lot of sense.
+
+## Debugging
+
+...you can't debug because there's no shell in the Distroless image 🙀
+
+You can rebuild using the `debug` Distroless image tags (so there are `latest`, `nonroot`, `debug`, and `debug-nonroot` tags you can use); attach a volume with tools (see more in [Docker: How To Debug Distroless And Slim Containers](https://iximiuz.com/en/posts/docker-debug-slim-containers/)); etc.
+
+But often I found the quick fix of making the real production image wait and inspectings the file system using Docker Desktop does the job:
+
+```sh
+# Node
+docker run --rm --name="test-image" your_image:latest -e 'setTimeout(() => console.log("Done"), 99999999)'
+# Python
+docker run --rm --name="test-image" your_image:latest -c 'import time; time.sleep(9999)'
+```
