@@ -1,5 +1,4 @@
 body {
-  /* max-width: 40em; */
   margin: 2em auto;
   padding: 2em 1em;
   font-family: Helvetica, Arial, sans-serif;
@@ -61,13 +60,17 @@ ul#models li {
   padding: 0.5em 1em 1em 1em;
   box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, 0.2);
 }
-ul#models li span {
-  display: ruby-base;
-  font-size: 0.7em;
-  margin: 0 0.15em;
+ul#models li ruby {
+  margin: 0;
 }
-ul#models li code {
-  display: ruby-text;
+ul#models li rt {
+  font-size: 0.7em;
+}
+ul#models li rb {
   font-size: 2em;
   letter-spacing: 0.05em;
+  font-family: monospace;
+}
+ruby {
+  ruby-position: under;
 }
