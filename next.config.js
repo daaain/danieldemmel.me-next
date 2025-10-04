@@ -180,6 +180,11 @@ module.exports = () => {
           destination: '/projects-static/flaunt-it/index.html',
           permanent: true,
         },
+        {
+          source: '/tokenizer.html',
+          destination: '/tokenizer/',
+          permanent: true,
+        },
       ]
     },
   })
