@@ -187,5 +187,17 @@ module.exports = () => {
         },
       ]
     },
+    async rewrites() {
+      return [
+        {
+          source: '/tokenizer',
+          destination: '/tokenizer/index.html',
+        },
+        {
+          source: '/tokenizer/',
+          destination: '/tokenizer/index.html',
+        },
+      ]
+    },
   })
 }
