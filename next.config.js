@@ -197,6 +197,22 @@ module.exports = () => {
           source: '/tokenizer/',
           destination: '/tokenizer/index.html',
         },
+        {
+          source: '/tokenizer.css',
+          destination: '/tokenizer/tokenizer.css',
+        },
+        {
+          source: '/tokenizer.js',
+          destination: '/tokenizer/tokenizer.js',
+        },
+        {
+          source: '/transformers.js',
+          destination: '/tokenizer/transformers.js',
+        },
+        {
+          source: '/favicons/token.svg',
+          destination: '/tokenizer/favicons/token.svg',
+        },
       ]
     },
   })
