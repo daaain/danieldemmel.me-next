@@ -15,6 +15,11 @@
             "source": "/claude-code-log/:path*",
             "destination": "https://daaain.github.io/claude-code-log/:path*",
             "permanent": true
+        },
+        {
+            "source": "/tokenizer.html",
+            "destination": "/tokenizer/",
+            "permanent": true
         }
     ]
 }
