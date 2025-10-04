@@ -1,5 +1,6 @@
 {
     "$schema": "https://openapi.vercel.sh/vercel.json",
+    "buildCommand": "git submodule update --init --recursive && yarn run build",
     "redirects": [
         {
             "source": "/JSSoundRecorder/:path*",
