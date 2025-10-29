@@ -1,0 +1,77 @@
+---
+title: The leftist case for generative AI
+date: 2025-10-29
+tags:
+  - llm
+  - ai
+
+images:
+  - /images/2025/ETH_Apertus_Keyvisual_Final-LY2-3.avif
+summary: Outright rejection of gen AI won't get us the best outcomes
+---
+
+After reading Jacky's article [An exploration on what could be a leftist position on generative AI](https://www.jacky.wtf/essays/2025/left-ai/) via [Tante's post](https://tldr.nettime.org/@tante/115448308729711122), I was a bit sad that the lefty parts of Mastodon I follow are so staunchly anti-AI.
+
+Of course, I share a lot of their concerns about the environmental impact of the insane data center build-out, the baking in of current social stereotypes and weird values, the ways this level of automation can enable even higher corporate and state surveillance, etc.
+
+Where I think differently is that I'm pretty sure this genie isn't going back into the bottle – I mean I have half a terabyte of models on my laptop that would be difficult to take away – so saying that LLMs / VLMs ("AI") just don't have any use on the left and needs to be 100% rejected and opposed is a mistake.
+
+You shouldn't bring a knife to a gunfight, so I think the only way to resist the right will be to use some of the nicer manifestations of these technologies to get augmented to counter their shenanigans. AI is absolutely a dual-use technology, at least the up until the current generation of LLMs are absolutely gullible enough to be used for pretty much anything.
+
+Huge models in data centres for everyone is definitely unsustainable though, my dream is for people to be able to run models locally on their devices and for these models to be small, sparse, focused, and extendable.
+
+To a degree some of these are pretty much there today, I have an M2 Max Macbook Pro that I got at work refurbished and I'm very pleased betting on RAM as there have been incredible, sparse Mixture-of-Experts models coming out lately (gpt-oss 120B, Qwen3 Next 80B, etc) that are closing the gap on frontier models while still running at a decent speed (= also low energy use) even on this years old laptop. Of course I fully realise that this is still very expensive hardware (~£2K nowadays in October 2025), but even assuming linear, incremental improvements with open weight models, we're talking a couple years for today's frontier model level to run on much more affordable laptops and even phones.
+
+I also wanted to acknowledge that yes, most of the open weight models aren't open source, there's a small, but growing undercurrent of models coming out of various organisations, like:
+
+- Allen AI's OLMo - <https://allenai.org/olmo>
+- Swiss AI's Apertus - <https://www.swiss-ai.org/apertus>
+- Latam-GPT – <https://www.latamgpt.org>
+- Hugging Face's SmolLM2 - <https://huggingface.co/blog/Kseniase/insidesmol>
+
+These are fully reproducible with open data and training recipes (though of course the training is still resource intensive). Some of them are competitive in their size category, but most of them aren't cutting edge, yet. I can imagine a world where there are enough public funds for these models to move the needle, but in any case due to their openness the time and money invested in them compounds.
+
+Anyway, without further ado, I wanted to talk about some ideas what lefty uses I can imagine for AI.
+
+## Uses of local, open weights LLM / VLM / omni (audio too) models
+
+### Accessibility / assitive technology
+
+This is a very important category to help people with various disabilities – physical, mental, monetary, etc – decrease societal barriers while waiting for systemic changes to happen.
+
+Examples:
+
+- describing images – I adore lovingly hand crafted alt texts like the next Fediverse guy, but there'll never be a time when everyone does it. Now there's [Altbot](https://github.com/micr0-dev/AltBot) but this could be a [browser extension](https://github.com/daaain/image-alt-text-generator-extension)
+- fixing and explaining grammar – streaming all your text to Grammarly, putting up with the low effort built-in OS spell checkers that can't catch grammatically correct nonsense, or running a tiny LLM (see [WritingTools](https://github.com/theJayTea/WritingTools) or [Harper](https://github.com/Automattic/harper))
+- translating and improving foreign language writing
+- helping with tone of writing – this is a massive source of anxiety and time sink for autistic people
+- explaining and tutoring from a piece of writing – the reverse of making ChatGPT write your homework
+- speech transcription and clean up – this doesn't need to be done by corporate meeting bots, runs on a phone now
+- expressive text-to-speech – newer TTS models don't sound like a 1960s sci-fi robot any more which is a huge difference if you have to listen to them all the time
+
+### Sousveillance / breaking surveillance and technofeudalism
+
+Surveillance doesn't have to go one way, observing entities in power takes a lot of work. Also, technofeudalism derives its power by algorithmic enforcement that has to be resisted. Cory Doctorow is a venerable source of ideas in this realm, so I linked a bunch of his posts below.
+
+Examples:
+
+- analysing political and corporate documents – research and analysis for investigative journalism is severely bottlenecked by the person hours required to do needle in the haystack work
+- reverse engineering and [breaking enshittified devices and their firmware](https://pluralistic.net/2023/01/12/beg-forgiveness-ask-permission/#deerey-me) (also [this](https://codetiger.github.io/blog/the-day-my-smart-vacuum-turned-against-me/) where both the blog post sounds LLM generated (wish he skipped the cheesy AI image though...) and [the script was definitely done with the help of Claude](https://github.com/codetiger/VacuumRobot/commit/0b3340f231f5cae8d266fdf60b6f7ac1032bad7a#diff-bc37d034bad564583790a46f19d807abfe519c5671395fd494d8cce506c42947R212) – sure, possible without, but he might have not bothered)
+- resisting [algorithmic bossware](https://pluralistic.net/2024/11/26/hawtch-hawtch/#you-treasure-what-you-measure), [algorithmic wage discrimination](https://pluralistic.net/2024/12/18/loose-flapping-ends/#luigi-has-a-point), etc
+
+### Custom software creation
+
+This is more of a second order effect, but by making creation of software easier, more niche and underfunded needs can be fulfilled.
+
+Examples:
+
+- coop / cohousing / etc management
+- open source alternatives to corporate services
+
+## Closing words
+
+These are by no means exhaustive (I'll probably keep updating as I run into or come up with more ideas), more just to inspire ideas, as I think complete refusal on ideological grounds will just play into the hands of the tech bros and right wing governments who will gleefully exploit AI to entrench their power.
+
+## Credits
+
+Hero image from <https://www.swiss-ai.org/apertus>

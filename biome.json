@@ -1,4 +1,9 @@
 {
+  "files": {
+    "includes": [
+      "!public/transformers.js"
+    ]
+  },
   "formatter": {
     "indentStyle": "space"
   },
