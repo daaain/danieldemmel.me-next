@@ -1,0 +1,103 @@
+---
+title: My current development tooling setup
+date: 2025-11-04
+tags: [llm, ai, development, patterns, tools]
+images: ['/images/2025/claude-code-log.webp']
+summary: How do I mix local LLMs with cloud ones and code gen with continuous learning
+---
+
+## General setup
+
+I actually spend a decent amount of my time setting up a lot of automated guardrails and a reproducible development environment setup as these greatly increase the chance of catching mistakes and let agents self-correct. The nice thing is that these are very valuable for humans too:
+
+- strict linting with automated formatting (these need to be fast, so Rust for life with Biome and Ruff)
+- strong typing (I guess more relevant for TypeScript and Python I use as this is a given with Java for example), no `any`s or other workarounds and escape hatches as these can disable type safety for entire downstream sections
+- runtime typing – Zod and Pydantic to enforce typing runtime and generate meaningful error messages
+- I'm too ~~lazy~~ busy for 100% TDD, but try make sure there's a healthy [Testing Trophy](https://kentcdodds.com/blog/the-testing-trophy-and-testing-classifications) where again I spend my time on setting up solid integration testing infrastructure with isolated tests, using real database (but making sure it's a freshly seeded test db) and emulators for cloud services, etc as mocking is hard and LLMs are exceptionally good at writing pointless tests with it
+- it's also worth setting up the fastest end-to-end testing library you can find, for us having Playwright for browser testing is great as you can have the agent write re-runnable tests rather than do one-offs with an MCP
+- pre-commit (fast linting) and pre-push (slow linting and unit tests) git hooks to prevent easily avoidable follow-up commits fixing basic issues (especially important if you let your agent commit, which I don't, but I'm not here to judge if you do)
+- reproducible development environment with Docker Compose, running it in daemonised mode so the both me and the agent can tail the logs
+- full git worktree support with automatic port number incrementing for multiple app container support with shared database and emulator containers – this setup is also forgiving with over-eager agents launching and forgetting about app instances (at least until you run out of RAM)
+
+## Code gen
+
+There are many, very different approaches to agentic code generation. Some people prefer:
+
+- tons of upfront documentation / specs to make sure they get exactly what they want
+- elaborate systems of Markdown files with agent personas and memories
+- lots of MCPs to try to automate various aspects of development
+
+I personally found these can often be more effort that what they worth or using up way too many tokens so you end up running out of context before getting much useful work out of the agent. You can also lock yourself into a local maximum, over-optimising for current agent capabilities.
+
+My practice is closer to what Simon Willison called [vibe engineering](https://simonwillison.net/2025/Oct/7/vibe-engineering/).
+
+I also found [Peter Steinberger's blog post on his practices](https://steipete.me/posts/just-talk-to-it) super interesting even though some of his practices are only suitable for single person projects (like running parallel agents in the same repo and telling them to do atomic commits of only their own changes).
+
+## Workflows
+
+### Big, new feature
+
+The reason I'm not a big fan of big specs and PRDs is that agents are getting good enough to pleasantly surprise you with a solution you wouldn't have thought of, so you don't want to narrow the solution space upfront too much. Of course, this might only be true for my particular context in a startup with a small team, but different if you ~~sold your soul to~~ work at Megacorp Inc.
+
+- Always use Plan mode, it forces the agent to properly gather context before diving in
+- Add "Please let me know if you have any questions before making the plan!" at the end so you can discuss the high level architecture and decisions before even generating the plan (I know you can revise the plan too, but this is a faster loop)
+- Include the most relevant files into the context to make it much quicker for the agent to find its bearing (and ensure that it follows the best example in a larger codebase, especially if practices are evolving)
+- Paste in the most relevant documentation page URL (or even the contents of the page) if you're using the latest version of a library – or use an MCP like Context7
+
+### Small fix
+
+- Paste screenshot of issue, logs, stack trace
+- Tersely list a few issues that are somewhat related (so can share context research), agents can handle a few small issues with their todo list tools pretty reliably now
+
+### Tough bug
+
+- Ask agent to connect with debugging MCPs
+- Use plan mode to make sure it does more thorough context gathering
+- See if the plan remotely makes sense or if I'm not sure, let it loop with debug tools until progress is made
+- Might even give the problem to both Claude Code and Codex to see which one strikes gold first
+
+### Surgical edit
+
+I have a decent Mac (96GB M2 Max) which can now run highly sparse MoE models like Qwen3 Next 80B A3B at incredible speeds (especially using MLX, I get sub-second prompt processing times and ~60 tokens / sec generation), so for small edits I don't actually use an agent or a cloud LLM, but instead keep the model loaded at all time in LM Studio and connect to it with the Continue.dev VS Code plugin:
+
+- <kbd>cmd</kbd> + <kbd>i</kbd> shortcut for direct editing
+- <kbd>cmd</kbd> + <kbd>l</kbd> for chatting about the selection.
+
+Sometimes I go directly to LM Studio chat to consider alternative patterns of implementing something, like which array looping alternative would be most idiomatic or tradeoffs between language or browser APIs.
+
+### Chore
+
+I never had so well tooled repositories even with much bigger teams, because I extensively use agents keep on top of these improvements. In fact, I'd argue before you start using them for feature work, you should start with the code quality and automation, otherwise it'll be very difficult to resist slop creeping in.
+
+In terms of workflow this is a bit like new features, in that I'd ask the agent to do some incremental improvement and have a chat about the approach, but I mostly keep these as background tasks that I kick off on an n+1 worktree copy and try to be as hands-off as possible. What that means in practice is letting the agent deal with Coderabbit feedback or even asking another instance to review and implement its recommendations. So basically letting the agent loop until it's down to inconsequential details and only then I'd review myself. If it ends up being too sloppy, restart from scratch instead of manually trying to save the branch with a lot of back and forth.
+
+Examples:
+
+- increase type coverage or make it stricter (forcing the agent to dig in the library or search the web to use proper types)
+- refactor duplicated code
+- add runtime type checks instead of just compile time ones
+- increase test coverage
+- paste in migration guide from a library and let the agent deal with it – bonus points for combining it with the previous step first
+
+## Parallel agents
+
+I keep trying to let different agents tackle issues on their own, but so far haven't had much luck with any of them. There are probably multiple reasons for this, but I think the main one is that their sandboxes are usually too restricted to be able to autonomously spin up a working development and debugging environment, so they just end up blindly coding and cheerfully declaring "✅ Production ready!" to half-baked changes. I'm sure they'll eventually get there and with enough work they could be useful now, but I'll just play the waiting game.
+
+What I did have more luck with is running multiple agents locally, using git worktree. I actually have 4 copies of the main repo at work, running 1-3 agents and usually using the 4th to check out and review PRs.
+
+## Preventing brain rot and slop
+
+What I find fascinating is that because LLM responses are so malleable, you can use them in a way that creates the right system that enables the right habits.
+
+So my workflow example above making the agent ask clarifying questions before creating the plan isn't useful just for being more effective at building the right thing, but it's also great at forcing me to understand the codebase, think about the architectural and implementation choices, etc. So it preserves or maybe even enhances practicing the most important parts of software engineering, while removing the need to get bogged down in the details and having to remember all language and library APIs.
+
+Then the other habit I'm getting more into is to avoid some random distraction and instead use the time while the agent is working to think about the meta architecture, which often ends up being another agent asked to do refactoring on another git worktree branch 😅
+
+Also, I hold myself accountable to review all LLM generated code and a good way to ensure this is to create atomic commits with meaningful increments. That way I have to take the time to read and understand all the changes as I'm staging them. The "atomic" part might sometimes slip, but I still hand-stage changes in hunks using a git GUI ([Fork](https://git-fork.com/)).
+
+I think spending time thinking about this learning aspect and finding ways to implement it is probably the most important long term investment to not completely outsource thinking and atrophy as software engineers and critical thinkers.
+
+## What I want to try next
+
+- running agents in a Docker container with limited network access so I can use YOLO mode (`--dangerously-skip-permissions`)
+- writing Skills to modularise CLAUDE.md and give a bit more detailed instructions about things like browser e2e testing without overwhelming the context
