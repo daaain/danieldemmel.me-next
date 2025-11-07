@@ -10,14 +10,14 @@ summary: How do I mix local LLMs with cloud ones and code gen with continuous le
 
 I actually spend a decent amount of my time setting up a lot of automated guardrails and a reproducible development environment setup as these greatly increase the chance of catching mistakes and let agents self-correct. The nice thing is that these are very valuable for humans too:
 
-- strict linting with automated formatting (these need to be fast, so Rust for life with Biome and Ruff)
-- strong typing (I guess more relevant for TypeScript and Python I use as this is a given with Java for example), no `any`s or other workarounds and escape hatches as these can disable type safety for entire downstream sections
-- runtime typing – Zod and Pydantic to enforce typing runtime and generate meaningful error messages
-- I'm too ~~lazy~~ busy for 100% TDD, but try make sure there's a healthy [Testing Trophy](https://kentcdodds.com/blog/the-testing-trophy-and-testing-classifications) where again I spend my time on setting up solid integration testing infrastructure with isolated tests, using real database (but making sure it's a freshly seeded test db) and emulators for cloud services, etc as mocking is hard and LLMs are exceptionally good at writing pointless tests with it
-- it's also worth setting up the fastest end-to-end testing library you can find, for us having Playwright for browser testing is great as you can have the agent write re-runnable tests rather than do one-offs with an MCP
-- pre-commit (fast linting) and pre-push (slow linting and unit tests) git hooks to prevent easily avoidable follow-up commits fixing basic issues (especially important if you let your agent commit, which I don't, but I'm not here to judge if you do)
-- reproducible development environment with Docker Compose, running it in daemonised mode so the both me and the agent can tail the logs
-- full git worktree support with automatic port number incrementing for multiple app container support with shared database and emulator containers – this setup is also forgiving with over-eager agents launching and forgetting about app instances (at least until you run out of RAM)
+- **strict linting with automated formatting** – these need to be fast, so Rust for life with Biome and Ruff
+- **strong typing** with no `any`s or other workarounds and escape hatches as these can disable type safety for entire downstream sections – I guess more relevant for TypeScript and Python I use as this is a given with Java for example
+- **runtime typing** – Zod and Pydantic to enforce typing runtime and generate meaningful error messages
+- I'm too ~~lazy~~ busy for 100% TDD, but try make sure there's a healthy [Testing Trophy](https://kentcdodds.com/blog/the-testing-trophy-and-testing-classifications) where again I spend my time on setting up **solid integration testing infrastructure** with isolated tests, using real database (but making sure it's a freshly seeded test db) and emulators for cloud services, etc as mocking is hard and LLMs are exceptionally good at writing pointless tests with it
+- it's also worth setting up the fastest **end-to-end testing** library you can find, for us having Playwright for browser testing is great as you can have the agent write re-runnable tests rather than do one-offs with an MCP
+- pre-commit (fast linting) and pre-push (slow linting and unit tests) **git hooks** to prevent easily avoidable follow-up commits fixing basic issues – especially important if you let your agent commit, which I don't, but I'm not here to judge if you do
+- **reproducible development environment** with Docker Compose – running it in daemonised mode so both me and the agent can tail the logs
+- full **git worktree support** with automatic port number incrementing for multiple app container support with shared database and emulator containers – this setup is also forgiving with over-eager agents launching and forgetting about app instances (at least until you run out of RAM)
 
 ## Code gen
 
@@ -58,7 +58,7 @@ The reason I'm not a big fan of big specs and PRDs is that agents are getting go
 
 ### Surgical edit
 
-I have a decent Mac (96GB M2 Max) which can now run highly sparse MoE models like Qwen3 Next 80B A3B at incredible speeds (especially using MLX, I get sub-second prompt processing times and ~60 tokens / sec generation), so for small edits I don't actually use an agent or a cloud LLM, but instead keep the model loaded at all time in LM Studio and connect to it with the Continue.dev VS Code plugin:
+I have a decent Mac (96GB M2 Max) which can now run highly sparse MoE models like Qwen3 Next 80B A3B at incredible speeds (especially using MLX, I get sub-second prompt processing times and ~60 tokens / sec generation), so for small edits I don't actually use an agent or a cloud LLM, but instead keep the model loaded all the time in LM Studio and connect to it with the Continue.dev VS Code plugin:
 
 - <kbd>cmd</kbd> + <kbd>i</kbd> shortcut for direct editing
 - <kbd>cmd</kbd> + <kbd>l</kbd> for chatting about the selection.
