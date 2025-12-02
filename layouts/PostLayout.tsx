@@ -68,6 +68,7 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                 >
                   <Image
                     fill
+                    priority
                     src={images[0]}
                     alt="Hero image"
                     style={{

@@ -30,7 +30,7 @@ export default function Home({ posts }: InferGetStaticPropsType<typeof getStatic
         </div>
         <ul className="divide-y divide-gray-200 dark:divide-gray-700">
           {!posts.length && 'No posts found.'}
-          {posts.slice(0, MAX_DISPLAY).map((post) => {
+          {posts.slice(0, MAX_DISPLAY).map((post, index) => {
             const { path, date, title, summary, tags, images, readingTime } = post
             return (
               <li key={path} className="py-4">
@@ -43,6 +43,7 @@ export default function Home({ posts }: InferGetStaticPropsType<typeof getStatic
                       >
                         <Image
                           fill
+                          priority={index === 0}
                           src={images[0]}
                           customLink={`/${path}`}
                           alt="Hero image"
