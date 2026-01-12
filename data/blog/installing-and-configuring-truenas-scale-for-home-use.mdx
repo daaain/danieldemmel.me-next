@@ -52,17 +52,7 @@ Now you're ready to push data from your device via `rsync` without extra authent
 
 ## Apps
 
-One of the best features of TrueNAS Scale is that they made it easy to install and update applications using a small, embedded Kubernetes server ([K3s](https://k3s.io/) if you're curious). The apps are defined as Helm Charts so even if they need multiple components (like web server, worker, database, etc) you don't need to separately install and configure so that they work with each other. In case you aren't a seasoned NAS user, it's probably useful to clarify that they are "apps" in a sense that you can install them easily, but they are mostly server side, just chugging along in the background doing useful things. So there won't really be a dedicated, native UI to open, but they often do come with a web interface you can access on any device, or even a client app you can download, but that'll be a separate thing.
-
-There are loads of apps available even if you only use the official TrueNAS channel, but I highly recommend also adding the TrueCharts catalog. You can do that by going to `Apps> Manage Catalogs > Add Catalog` and pasting in `https://github.com/truecharts/catalog` after accepting the disclaimer. Now you can have a look in the `Apps > Available Applications` tab and start installing away.
-
-But wait, when trying to get your first app to access your files on Host Path (otherwise they'll just mount empty volumes), you'll probably get this unpleasant popup:
-
-![Error message: TrueNAS can not mount host path](/images/2023/TrueNAS_can_not_mount_host_path.webp)
-
-In `Applications`, go to `Settings > Advanced Settings`, and uncheck `Enable Host Path Safety Checks`. Otherwise you can't have both SMB (or NFS) shares and apps accessing the same directory. This is a security / ownership feature that makes sense in an enterprise setting, but annoying enough to work around, so as a home user it's the simplest to disable. If you want to understand more about it, [read this relevant forum thread](https://www.truenas.com/community/threads/docker-nfs-bug.103994/).
-
-As well as giving app access to the host file system, you should also tick `Host Network` to make them accessible on your home server's IP address and the app's port.
+One of the best features of TrueNAS Scale is that they made it easy to install and update applications using ~~a small, embedded Kubernetes server ([K3s](https://k3s.io/) if you're curious)~~ Docker. The apps are defined as Docker Compose templates so even if they need multiple components (like web server, worker, database, etc) you don't need to separately install and configure so that they work with each other. In case you aren't a seasoned NAS user, it's probably useful to clarify that they are "apps" in a sense that you can install them easily, but they are mostly server side, just chugging along in the background doing useful things. So there won't really be a dedicated, native UI to open, but they often do come with a web interface you can access on any device, or even a client app you can download, but that'll be a separate thing.
 
 I'll list a few apps below that I highly recommend, but it's nice to just browse what there is available to install and look them up. I found a lot of new, amazing ones that I had no idea about!
 
@@ -82,19 +72,27 @@ To replace Dropbox on your devices you can install [Syncthing](https://syncthing
 
 ### Photo library
 
-Once you have your photos pushed from Synchthing, you can use [Photoprism](https://www.photoprism.app/) to index them and run some machine learning magic to recognise faces, objects, colours, etc, putting Google Photos to shame. They don't have such a full featured app as Google Photos to replace as the main gallery app on Android, but having a full quality photo and video backup with a web viewer is already pretty good.
+(Edit: I used to recommend Photoprism, but Immich ended up being a better fit with proper external library support.)
 
-The only gotcha I found was that since I didn't want to duplicate my photos by letting Photoprism import them, it doesn't automatically index freshly uploaded media. As a workaround, you can trigger re-indexing manually in the web UI, or set it up on a schedule using [TrueNAS Cron Jobs](https://www.truenas.com/docs/scale/scaletutorials/systemsettings/advanced/managecronjobsscale/). I got a permission denied error when trying to run a script in the K3s pod that I found how to fix [in a forum thread](https://www.truenas.com/community/threads/shell-access-to-apps-permission-denied.107099/#post-740809) and then found out how to address an application [in another thread](https://www.truenas.com/community/threads/need-help-directing-cron-job-to-an-app.111930/) so in the end this is the script I came up with that does the job:
+Once you have your photos pushed from Synchthing, you can use [Immich](https://immich.app/) to index them and run some machine learning magic to recognise faces, objects, colours, etc, almost putting Google Photos to shame. They don't have such a full featured app as Google Photos to replace as the main gallery app on Android, but having a full quality photo and video backup with a web viewer is already pretty good.
 
-```sh
-k3s kubectl exec -n ix-photoprism `k3s kubectl -n ix-photoprism get pod -o name --field-selector=status.phase==Running` -- photoprism index --cleanup
-```
+Make sure to follow the [installation docs](https://docs.immich.app/install/truenas/), as there are some tricky bits like having to set up datasets with Apps preset for data and Generic for Postgres.
 
-To make it work though I had to adjust the permissions on `k3s.yaml` (this is a one time thing you can do in the `System Settings > Shell`, though it does seem it gets reset when TrueNAS gets updated so need to redo afterwards):
+### Ad blocking
 
-```sh
-sudo chmod a+r /etc/rancher/k3s/k3s.yaml
-```
+Adguard Home
+
+Needs router DNS redirected to it, so can take internet out if you have issues with your NAS, but otherwise very useful to block ads at the DNS level so phone apps are also protected.
+
+### Voice assistant (Smart Home)
+
+HomeAssistant
+
+[Set up datasets](https://apps.truenas.com/resources/deploy-home-assistant/)
+
+The important thing here too is to use Apps preset for data and media and Generic for Postgres.
+
+Bit limited in the container comparing to full HAOS, but I prefer it for simplicity.
 
 ### File Browser
 
