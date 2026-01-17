@@ -18,6 +18,11 @@
             "permanent": true
         },
         {
+            "source": "/jquery-deferred-intro/jquery-deferred-intro/slides.html",
+            "destination": "https://daaain.github.io/jquery-deferred-intro/jquery-deferred-intro/slides.html",
+            "permanent": true
+        },
+        {
             "source": "/tokenizer.html",
             "destination": "/tokenizer/",
             "permanent": true

@@ -161,6 +161,11 @@ module.exports = () => {
           permanent: true,
         },
         {
+          source: '/blog/installing-and-configuring-truenas-scale-for-home-use.mdx',
+          destination: '/blog/installing-and-configuring-truenas-scale-for-home-use',
+          permanent: true,
+        },
+        {
           source: '/blog/2014/01/19/build-your-minimum-viable-product',
           destination: '/blog/build-your-minimum-viable-product',
           permanent: true,
