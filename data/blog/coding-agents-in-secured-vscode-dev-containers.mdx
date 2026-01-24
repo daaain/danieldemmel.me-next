@@ -1,0 +1,595 @@
+---
+title: Coding agents in secured VS Code dev containers
+date: 2026-01-24
+tags: [ai, development, llm, tools, security, docker]
+images: ['/images/2026/devcontainer.webp']
+summary: How to sandbox coding agents while maintaining development flexibility - the ideal balance between security and convenience
+---
+
+## Why do we need sandboxed agents
+
+Simon Willison describes [the lethal trifecta](https://simonwillison.net/2025/Jun/16/the-lethal-trifecta/) as the combination of:
+
+1. **Access to an LLM** - the agent can generate arbitrary code and commands
+2. **The ability to execute code** - the agent can run what it generates
+3. **Access to untrusted content** - web pages, `npm` packages, user files that could contain prompt injections
+
+When all three are present, you've got a recipe for trouble. A malicious `npm` package or a cleverly crafted webpage could inject prompts that convince the agent to execute harmful commands. Even without malicious intent, the agent could make mistakes with destructive consequences.
+
+The goal isn't to eliminate risk entirely – it's to limit the blast radius. If something goes wrong, we want it contained to the sandbox rather than having full access to your machine, credentials, and the ability to push malicious code to your repositories.
+
+## The future might be cloud, but it's not here yet
+
+Claude Code Web is useful for exploration, but it's not empowered and flexible enough to run specific test harnesses that provide the way for Claude to verify its work. This is of course not specific to CC Web and is solvable, but I'm not ready to pay full LLM API inference costs + a custom containerised infra provider and invest into working around their quirks.
+
+## VS Code dev container is team sharing heaven
+
+I'd like my teammates to be able to benefit from my side quests investing in tooling. For example, I created a browser testing Skill using [browser-debugger-cli](https://github.com/szymdzum/browser-debugger-cli) (that wraps Chrome Devtools access into a CLI instead of MCP for agents) but it only helps if the scripts are zero setup, otherwise Claude Code will flail around in other people's sessions until they invest in setting up and debugging tools.
+
+VS Code dev containers aren't designed for coding agents - the implementation prioritises convenience shortcuts rather than sandboxing - but it's a perfect starting point for reproducible dev environments. Another important piece for me was to wrap the IDE "backend" into a container, to eliminate people getting false positive linter / type errors by forgetting to install new dependencies, etc.
+
+I'd know, I've been harping on about [containerising dev environments](/blog/containerise-everything) for more than a decade! Dev containers have been around for years too, I gave them a go a few times, but never got to a point where they were good enough. Now finally, with a bit of LLM help to keep the momentum and the kinks of the implementation ironed out throughout the years, I managed to set it up in a way that makes dev experince better rather than compromise it!
+
+### The basic structure
+
+A minimal secured dev container setup needs three files:
+
+**`.devcontainer/devcontainer.json`** - the main configuration that VS Code reads:
+
+```json
+{
+  "name": "Secured Dev Container",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "app",
+  "workspaceFolder": "/app",
+  "remoteUser": "vscode",
+  "shutdownAction": "stopCompose",
+  "remoteEnv": {
+    "SSH_AUTH_SOCK": "",
+    "GPG_AGENT_INFO": "",
+    "BROWSER": "",
+    "VSCODE_IPC_HOOK_CLI": ""
+  },
+  "postStartCommand": "find /tmp -maxdepth 1 -name 'vscode-ssh-auth-*.sock' -delete 2>/dev/null || true",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "dev.containers.dockerCredentialHelper": false,
+        "dev.containers.copyGitConfig": false
+      }
+    }
+  }
+}
+```
+
+**`.devcontainer/docker-compose.yml`** - defines the dev container and the Docker socket proxy:
+
+```yaml
+services:
+  docker-proxy:
+    image: tecnativa/docker-socket-proxy:latest
+    environment:
+      # Read-only operations - allowed
+      CONTAINERS: 1
+      IMAGES: 1
+      INFO: 1
+      NETWORKS: 1
+      VOLUMES: 1
+      # Dangerous operations - blocked
+      POST: 0
+      BUILD: 0
+      COMMIT: 0
+      EXEC: 0
+      SWARM: 0
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - dev
+
+  app:
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+    volumes:
+      - ..:/app:cached
+    environment:
+      DOCKER_HOST: tcp://docker-proxy:2375
+    networks:
+      - dev
+    depends_on:
+      - docker-proxy
+    command: sleep infinity
+
+networks:
+  dev:
+    external: true
+```
+
+**`.devcontainer/Dockerfile`** - crucially, without sudo:
+
+```dockerfile
+FROM node:lts
+
+# Use bash with pipefail
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+# Install useful tools (sudo intentionally omitted for security)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git \
+    vim \
+    ripgrep \
+    fd-find \
+    docker-cli \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create non-root user
+ARG USERNAME=vscode
+ARG USER_UID=1000
+ARG USER_GID=$USER_UID
+
+RUN groupadd --gid $USER_GID $USERNAME \
+    && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME
+
+USER $USERNAME
+WORKDIR /app
+
+CMD ["sleep", "infinity"]
+```
+
+The external network (`dev` in this example) allows your dev container to communicate with sibling services like databases or emulators that you might have running in other containers.
+
+## Securing dev containers
+
+Right, so here's where it gets interesting. VS Code dev containers are designed to be convenient, not secure. They actively work against you by injecting various - otherwise helpful - features that happen to be security holes when you're running an autonomous coding agent.
+
+### The threat model
+
+What are we actually protecting against?
+
+- **Malicious npm packages** - supply chain attacks that execute arbitrary code during `npm install` (using the `postInstall` hook) or at runtime
+- **Prompt injection** - malicious content in files, URLs, or API responses that manipulates the agent into executing harmful commands
+- **AI mistakes** - even without malicious intent, the agent could make errors with destructive consequences
+
+The goal is a sandbox where the agent can work freely while limiting the blast radius of any compromise.
+
+### Docker socket proxy - preventing container escape
+
+The most obvious attack vector is Docker itself. With direct socket access, escaping the container is trivial:
+
+```bash
+docker run -it --privileged --pid=host -v /:/host alpine chroot /host
+```
+
+That's complete host access in a single command. Not ideal...
+
+The [Tecnativa docker-socket-proxy](https://github.com/Tecnativa/docker-socket-proxy) intercepts Docker API calls and blocks dangerous operations. With `POST: 0` and `EXEC: 0`, the agent can still view container logs (useful for debugging sibling services) but can't create new containers or execute commands in existing ones.
+
+**What the agent can do:**
+
+- `docker ps` - list running containers
+- `docker logs <container>` - view container logs
+- `docker inspect <container>` - inspect container details
+
+**What the agent cannot do:**
+
+- `docker run` - create new containers
+- `docker exec` - execute commands in other containers
+- `docker build` - build images
+
+Why not just remove Docker access entirely? Being able to view logs of sibling containers (postgres, emulators, etc.) is genuinely useful for debugging. The proxy preserves this capability while blocking escape vectors.
+
+### Privilege escalation prevention - no sudo
+
+This one's simple: don't install sudo. A non-root user with sudo access can escalate to root and bypass container restrictions.
+
+```bash
+$ sudo -l
+bash: sudo: command not found
+```
+
+If you see your agent wants to use another tool, add it to the Dockerfile.
+
+### Git push prevention - no SSH keys
+
+Malicious code could push itself to a remote repository, establishing persistence or spreading to other systems. The fix is straightforward: don't mount SSH keys into the container. You'll also need to prevent VS Code from injecting them, see in a bit.
+
+One credential that is unavoidable is the one for your agent – unless you're happy to log in every time – so keep it in a gitignored directory on the host:
+
+```yaml
+# In .devcontainer/docker-compose.yml - no ~/.ssh mount
+volumes:
+  - ../.claude-docker/.claude.json:/home/vscode/.claude.json
+```
+
+**What the agent can do:**
+
+- `git log`, `git status`, `git diff` - full read access
+- `git commit`, `git branch` - local commits and branches
+- `git stash`, `git checkout` - local operations
+
+**What the agent cannot do:**
+
+- `git push` - fails with SSH authentication error
+- `git fetch` from private repos - no credentials
+
+Changes are still tracked by git, so you can review everything before pushing yourself. I personally find this an incredibly good compromise, the agent can use all the basic git functions, but unable to do destructive commands.
+
+### VS Code IPC hardening - the lesser-known attack surface
+
+This is the sneaky one. VS Code's remote development model creates multiple Unix sockets in `/tmp` that enable communication between the container and host. [Research by The Red Guild](https://blog.theredguild.org/leveraging-vscode-internals-to-escape-containers/) demonstrates these can be abused for container escape:
+
+| Socket | Purpose | Attack Vector |
+|--------|---------|---------------|
+| `vscode-ssh-auth-*.sock` | SSH agent forwarding | Use host SSH keys without authorisation |
+| `vscode-ipc-*.sock` | CLI integration | Execute commands on host via `code` CLI |
+| `vscode-git-*.sock` | Git extension IPC | Git credential access |
+
+The mitigation is to clear the environment variables that expose these socket paths:
+
+```json
+{
+  "remoteEnv": {
+    "SSH_AUTH_SOCK": "",
+    "GPG_AGENT_INFO": "",
+    "BROWSER": "",
+    "VSCODE_IPC_HOOK_CLI": ""
+  },
+  "postStartCommand": "find /tmp -maxdepth 1 -name 'vscode-ssh-auth-*.sock' -delete 2>/dev/null || true"
+}
+```
+
+Why delete the SSH socket file too? Clearing `SSH_AUTH_SOCK` prevents standard tools from finding the socket, but a targeted attack could discover it via `find /tmp -name 'vscode-ssh-auth-*.sock'`. Deleting the file ensures even direct connection attempts fail.
+
+**What each mitigation does:**
+
+| Variable | When Cleared | Trade-off |
+|----------|--------------|-----------|
+| `SSH_AUTH_SOCK` | SSH tools can't find agent | Can't use host SSH keys |
+| `GPG_AGENT_INFO` | GPG can't find agent | Can't sign with host GPG keys |
+| `BROWSER` | `xdg-open`/`open` fail | Links won't open in host browser |
+| `VSCODE_IPC_HOOK_CLI` | `code` command fails | Can't open files in VS Code from terminal |
+
+You also want to disable VS Code's credential injection:
+
+```json
+{
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "dev.containers.dockerCredentialHelper": false,
+        "dev.containers.copyGitConfig": false
+      }
+    }
+  }
+}
+```
+
+### Triggering actions in sibling containers
+
+With read-only Docker access, `docker exec` is blocked. So how does the agent interact with other services?
+
+The answer is HTTP endpoints. If your agent needs to trigger actions in a database container or restart a service, expose an HTTP endpoint for that action. This is actually better design anyway - explicit, logged, and rate-limitable.
+
+For example, instead of `docker exec postgres pg_dump`, have a small HTTP service that accepts a request and runs the backup.
+
+### Accepted risks
+
+Not everything can be locked down without making development impractical. These are the trade-offs:
+
+| Risk | Impact | Why Accepted |
+|------|--------|--------------|
+| Network egress | Data exfiltration possible | Development requires internet access |
+| Workspace write access | Source code can be modified | Essential for development; git tracks changes |
+| Claude credentials readable | OAuth token could be stolen | Token is revocable; limited blast radius |
+| Environment variables | Secrets in .env accessible | Development requires env vars, no production keys |
+| Local file read access | Any file in /app readable | Essential for development |
+
+The key insight is that these risks are containable. Network egress could be monitored, workspace changes are tracked by git, and tokens can be revoked.
+
+### Verification commands
+
+Quick checks that security controls are working:
+
+```bash
+# Docker escape blocked
+docker run alpine echo "test"  # Should fail with 403
+
+# Sudo unavailable
+sudo whoami  # Should fail
+
+# Git push blocked
+git push  # Should fail with SSH error
+
+# Read operations work
+docker ps  # Should list containers
+git log --oneline -5  # Should show history
+```
+
+## Agents need tight feedback loops, or you get slop
+
+Since LLMs are statistical next token prediction machines (as much as that's hard to believe reading some of the more impressive outputs), they can not think through the code as such - they have no way of verifying anything purely "in their head" like humans. So the only way to not just play the slop slot machine is to give them tools to verify their output **in context**. Once you do, the arc of their coding session will bend towards making something working rather than compounding errors by having to work blind.
+
+People pushing the boundaries of agentic code generation have been working on increasingly ambitious orchestration platforms, but code generation volume isn't really the bottleneck even with just one or few agents. I think the most valuable pieces for coding agent tooling is an ecosystem of skills tested and adapted for your particular project, with which any new piece of code can reliably be verified. I'm working on web projects mostly, so for me these are strict type checkers and linters, integration tests with high fidelity emulators for backend pieces, and browser access for frontend and end-to-end testing. At work I think maybe as much as half of my time during the last half a year has been invested in "gold plating" our repositories with these tools. What's brilliant is that these are just as useful for humans as they are for LLMs - while I can theoretically think through how code behaves in my head, it's a difficult and slow process, so all these guardrails can help me spend less time on syntax and micro-decisions and direct my thinking and attention to the architectural and system level tradeoffs I need to decide on.
+
+## Working code
+
+Putting it all together, here's the (almost) full config from a Node app:
+
+### `.devcontainer/devcontainer.json`
+
+The `initializeCommand` is a bit complex because it needs to be compatible with running multiple git worktree copies. The last bits are making sure to precreate `.claude-docker/.bash_history` and `.claude-docker/.claude.json` as Docker has the annoying habit of creating a directory on the host if nothing exists for a file host mount volume. What's cool is that this runs **on the host** – as opposed to `command` in `docker-compose.yml` later – so you can generate env vars dynamically.
+
+```json
+{
+  "name": "Claude Code",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "claude-code",
+  "workspaceFolder": "/app",
+  "remoteUser": "vscode",
+  "shutdownAction": "stopCompose",
+  "remoteEnv": {
+    "SSH_AUTH_SOCK": "",
+    "GPG_AGENT_INFO": "",
+    "BROWSER": "",
+    "VSCODE_IPC_HOOK_CLI": ""
+  },
+  "initializeCommand": "bash -c 'mkdir -p .devcontainer && echo \"WORKTREE_NAME=$(basename \"$PWD\")\" > .devcontainer/.env && echo \"GIT_MAIN_REPO_PATH=$(realpath \"$(git rev-parse --git-common-dir 2>/dev/null)/..\" 2>/dev/null || echo \"$PWD\")\" >> .devcontainer/.env && echo \"LOCAL_WORKSPACE_FOLDER=$PWD\" >> .devcontainer/.env && echo \"HOST_HOME=$HOME\" >> .devcontainer/.env && echo \"HOST_UID=$(id -u)\" >> .devcontainer/.env && echo \"HOST_GID=$(id -g)\" >> .devcontainer/.env && mkdir -p .claude-docker && touch .claude-docker/.bash_history && [ -f .claude-docker/.claude.json ] || echo '{}' > .claude-docker/.claude.json'",
+  "postStartCommand": "find /tmp -maxdepth 1 -name 'vscode-ssh-auth-*.sock' -delete 2>/dev/null || true",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "dev.containers.dockerCredentialHelper": false,
+        "dev.containers.copyGitConfig": false,
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "terminal.integrated.automationProfile.linux": {
+          "path": "/bin/bash"
+        },
+        "terminal.integrated.profiles.linux": {
+          "bash": {
+            "path": "/bin/bash"
+          }
+        }
+      },
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "biomejs.biome",
+        "prisma.prisma",
+        "zenstack.zenstack",
+        "johnpapa.vscode-peacock",
+        "anthropic.claude-code",
+        "ms-azuretools.vscode-docker"
+      ]
+    }
+  }
+}
+```
+
+### `.devcontainer/docker-compose.yml`
+
+```yaml
+services:
+  docker-proxy:
+    image: tecnativa/docker-socket-proxy:latest
+    environment:
+      # Read-only operations - allowed
+      CONTAINERS: 1
+      IMAGES: 1
+      INFO: 1
+      NETWORKS: 1
+      VOLUMES: 1
+      # Dangerous operations - blocked
+      POST: 0
+      BUILD: 0
+      COMMIT: 0
+      EXEC: 0
+      SWARM: 0
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - dev
+
+  # Forwards localhost:3000-3005 inside devcontainer to the app container
+  # This allows Auth0 redirects to work with dynamic port assignment
+  # (Auth0 has localhost:3000-3005 registered as allowed callback URLs)
+  localhost-proxy:
+    image: alpine/socat
+    network_mode: "service:claude-code"
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        APP_HOST="${WORKTREE_NAME:-platform-frontend-next}"
+        for port in 3000 3001 3002 3003 3004 3005; do
+          socat TCP-LISTEN:$$port,fork,reuseaddr TCP:$$APP_HOST:3000 &
+        done
+        wait
+    restart: unless-stopped
+    depends_on:
+      - claude-code
+
+  claude-code:
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+      args:
+        USER_UID: ${HOST_UID:-1000}
+        USER_GID: ${HOST_GID:-1000}
+    container_name: claude-code-${WORKTREE_NAME:-default}
+    volumes:
+      # Workspace
+      - ..:/app:cached
+      # Isolated node_modules per worktree
+      - node-modules:/app/node_modules
+      # Git worktree support - mount main repo's .git to same absolute path
+      - ${GIT_MAIN_REPO_PATH}/.git:${GIT_MAIN_REPO_PATH}/.git:cached
+      # Claude config and logs (no SSH keys mounted - blocks git push)
+      - ${HOST_HOME}/.claude:/home/vscode/.claude:cached
+      - ${LOCAL_WORKSPACE_FOLDER}/.claude-docker/.claude.json:/home/vscode/.claude.json
+      - ${LOCAL_WORKSPACE_FOLDER}/.claude-docker/.bash_history:/home/vscode/.bash_history
+      # Shared pnpm store (macOS path with Linux fallback)
+      - ${PNPM_STORE_PATH:-${HOST_HOME}/Library/pnpm/store}:/home/vscode/.local/share/pnpm/store:cached
+      # Playwright browser cache (persists between container restarts)
+      - playwright-browsers:/home/vscode/.cache/ms-playwright
+    environment:
+      DOCKER_HOST: tcp://docker-proxy:2375
+      DATABASE_URL: postgresql://postgres:password@postgres:5432/onboarding-db
+      DATABASE_HOST: postgres
+      DATABASE_PORT: 5432
+      BQ_EMULATOR_HOST: http://bigquery-emulator:9050
+      PLAYWRIGHT_BROWSERS_PATH: /home/vscode/.cache/ms-playwright
+    env_file:
+      - .env
+      - ../.env
+    networks:
+      - dev
+    depends_on:
+      - docker-proxy
+    # These are running here instead of Dockerfile to ensure freshness and happen in the background while the IDE is already open
+    command: >
+      bash -c '. /home/vscode/.bashrc &&
+      curl -fsSL https://claude.ai/install.sh | bash &&
+      pnpm config set global-bin-dir /home/vscode/.local/bin &&
+      pnpm config set store-dir /home/vscode/.local/share/pnpm/store &&
+      pnpm install &&
+      just playwright-ensure-browsers;
+      sleep infinity'
+
+networks:
+  dev:
+    external: true
+
+volumes:
+  node-modules:
+    name: claude-code-${WORKTREE_NAME:-default}-node-modules
+  playwright-browsers:
+    name: claude-code-${WORKTREE_NAME:-default}-playwright-browsers
+```
+
+### `Dockerfile`
+
+This is based of Debian and install Node manually to be able to track the version in `.nvmrc`.
+
+```dockerfile
+FROM debian:trixie
+
+# Use bash for the shell with pipefail
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+# Install system dependencies (sudo intentionally omitted for security)
+# To get Chromium deps via Playwright you can run:
+# pnpm --filter platform-frontend-next exec playwright install chromium --with-deps --dry-run
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates \
+    curl \
+    git \
+    xz-utils \
+    jq \
+    vim \
+    ripgrep \
+    fd-find \
+    htop \
+    less \
+    tree \
+    docker-cli \
+    wget \
+    locales \
+    just \
+    unzip \
+    libasound2t64 libatk-bridge2.0-0t64 libatk1.0-0t64 libatspi2.0-0t64 libcairo2 libcups2t64 libdbus-1-3 libdrm2 libgbm1 libglib2.0-0t64 libnspr4 libnss3 libpango-1.0-0 libx11-6 libxcb1 libxcomposite1 libxdamage1 libxext6 libxfixes3 libxkbcommon0 libxrandr2 xvfb fonts-noto-color-emoji fonts-unifont libfontconfig1 libfreetype6 xfonts-scalable fonts-liberation fonts-ipafont-gothic fonts-wqy-zenhei fonts-tlwg-loma-otf fonts-freefont-ttf \
+    && rm -rf /var/lib/apt/lists/*
+
+# Generate and configure locale
+RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && \
+    locale-gen
+ENV LANG=en_US.UTF-8
+ENV LC_ALL=en_US.UTF-8
+
+# Create non-root user using host user ID / GID numbers
+ARG USERNAME=vscode
+ARG USER_UID=1000
+ARG USER_GID=$USER_UID
+
+RUN if getent group $USER_GID >/dev/null; then \
+        useradd --uid $USER_UID --gid $USER_GID -m $USERNAME; \
+    else \
+        groupadd --gid $USER_GID $USERNAME && \
+        useradd --uid $USER_UID --gid $USER_GID -m $USERNAME; \
+    fi
+
+RUN mkdir -p /app/node_modules /app/apps/platform-frontend/node_modules \
+    /usr/local/lib/node_modules && chown -R $USER_UID:$USER_GID /app
+
+# Install Node.js using the version in .nvmrc
+COPY .nvmrc /tmp/.nvmrc
+RUN NODE_VERSION=$(cat /tmp/.nvmrc | tr -d '[:space:]') \
+    && curl -fsSL "https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-arm64.tar.xz" \
+    | tar -xJ -C /usr/local --strip-components=1 \
+    && rm /tmp/.nvmrc \
+    && npm install -g pnpm@10.12.4 --prefix /home/vscode/.local \
+    && chown -R $USER_UID:$USER_GID /home/vscode/.local
+
+# Switch to non-root user for remaining setup
+USER $USERNAME
+
+# Set up shell environment
+ENV SHELL=/bin/bash
+ENV PNPM_HOME="/home/vscode/.local/share/pnpm"
+RUN sed -i '1i export PATH="$PNPM_HOME:$HOME/.local/bin:$PATH"' ~/.bashrc \
+    && mkdir -p /home/vscode/.local/share/pnpm/global /home/vscode/.local/bin \
+    /home/vscode/.cache/ms-playwright && npm config set prefix /home/vscode/.local
+
+WORKDIR /app
+
+# Note: Claude Code and dependencies are installed on container startup
+
+CMD ["sleep", "infinity"]
+
+```
+
+### `.devcontainer/container-prompt.md`
+
+You might want to inject a custom prompt orienting your agent to prevent wasted tool calls. In my case this is an addendum to `CLAUDE.md` and I use it with: `claude --append-system-prompt "$(cat .devcontainer/container-prompt.md)"`
+
+```markdown
+You are running inside a Docker DevContainer.
+
+## Network - IMPORTANT
+Use container hostnames, NOT localhost:
+- `postgres` for PostgreSQL (port 5432)
+- `bigquery-emulator` for BigQuery (port 9050)
+- `fake-gcs` for GCS emulator (port 8000)
+- The app container is named after the worktree directory (e.g., `platform-feature-branch`)
+
+## Docker Access (Read-Only)
+Docker access is via a socket proxy that only allows read operations:
+- `docker ps` - List running containers
+- `docker logs <container>` - View container logs
+- `docker inspect <container>` - Inspect container details
+
+**Blocked operations** (for security):
+- `docker run` - Cannot create new containers
+- `docker exec` - Cannot exec into containers
+- `docker build` - Cannot build images
+
+This prevents container escape attacks from malicious code or prompt injection.
+
+## Git Access (Read + Local Commit Only)
+- `git log`, `git status`, `git diff` - Full read access to history
+- `git commit`, `git branch` - Can make local commits and branches
+- `git push` - **BLOCKED** (no SSH keys mounted)
+
+This prevents malicious code from pushing to remote repositories.
+
+## Database
+- DATABASE_URL is pre-configured to use `postgres` hostname
+- BQ_EMULATOR_HOST points to the BigQuery emulator
+
+## File System
+- Project is at `/app` (same as app container)
+- node_modules are in isolated Docker volumes (not synced to host)
+
+## Privilege Restrictions
+- No sudo access - cannot escalate privileges
+- Non-root user (vscode) with limited capabilities
+```
+
+I hope this full example will help you to get going quicker, it took me a while to hand tune the small details to make sure the dev container rebuild and startup are quick.

@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "start": "next dev",
-    "dev": "INIT_CWD=$PWD next dev",
+    "dev": "contentlayer build && INIT_CWD=$PWD next dev",
     "build": "INIT_CWD=$PWD next build && cross-env NODE_OPTIONS='--experimental-json-modules' node -r esbuild-register ./scripts/postbuild.mjs",
     "serve": "next start",
+    "content": "contentlayer dev",
     "analyze": "cross-env ANALYZE=true next build",
     "lint": "next lint --fix --dir pages --dir components --dir lib --dir layouts --dir scripts"
   },
