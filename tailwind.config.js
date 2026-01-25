@@ -28,10 +28,14 @@ module.exports = {
       },
       fontFamily: {
         sans: ['Inter', ...fontFamily.sans],
+        display: ['var(--font-heading)', 'Georgia', 'serif'],
       },
       colors: {
         primary: colors.teal,
         gray: colors.neutral,
+        lime: {
+          accent: '#cbec56',
+        },
       },
       typography: (theme) => ({
         DEFAULT: {

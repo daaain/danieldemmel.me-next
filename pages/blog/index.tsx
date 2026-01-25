@@ -9,7 +9,7 @@ import type { Blog } from 'contentlayer/generated'
 export const POSTS_PER_PAGE = 10
 
 export const getStaticProps = async () => {
-  const posts = sortedBlogPost(allBlogs) as Blog[]
+  const posts = sortedBlogPost(allBlogs.filter((post) => post.draft !== true)) as Blog[]
   const initialDisplayPosts = posts.slice(0, POSTS_PER_PAGE)
   const pagination = {
     currentPage: 1,

@@ -10,8 +10,6 @@ import siteMetadata from '@/data/siteMetadata'
 import ScrollTopAndComment from '@/components/ScrollTopAndComment'
 
 const editUrl = (path) => `${siteMetadata.siteRepo}/blob/main/data/${path}`
-// const discussUrl = (path) =>
-//   `https://mobile.twitter.com/search?q=${encodeURIComponent(`${siteMetadata.siteUrl}/${path}`)}`
 
 const postDateTemplate: Intl.DateTimeFormatOptions = {
   weekday: 'long',
@@ -28,9 +26,8 @@ interface LayoutProps {
   children: ReactNode
 }
 
-export default function PostLayout({ content, authorDetails, next, prev, children }: LayoutProps) {
-  const { filePath, path, slug, date, title, projectLink, images, readingTime } = content
-  const basePath = path.split('/')[0]
+export default function PostLayout({ content, authorDetails, children }: LayoutProps) {
+  const { filePath, slug, date, title, projectLink, images, readingTime } = content
   const [loadComments, setLoadComments] = useState(true)
 
   return (
@@ -123,10 +120,6 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                 {children}
               </div>
               <div className="pt-6 pb-6 text-sm text-gray-700 dark:text-gray-300">
-                {/* <Link href={discussUrl(path)} rel="nofollow">
-                  Discuss on Twitter
-                </Link>
-                {' • '} */}
                 <Link href={editUrl(filePath)}>View on GitHub</Link>
               </div>
               {siteMetadata.comments && (

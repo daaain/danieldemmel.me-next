@@ -8,11 +8,18 @@ import '@/css/custom.css'
 import { ThemeProvider } from 'next-themes'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
+import { Bricolage_Grotesque } from 'next/font/google'
 
 import siteMetadata from '@/data/siteMetadata'
 import { Analytics } from 'pliny/analytics'
 import { SearchProvider } from 'pliny/search'
 import LayoutWrapper from '@/components/LayoutWrapper'
+
+const bricolage = Bricolage_Grotesque({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-heading',
+})
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -21,11 +28,13 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta content="width=device-width, initial-scale=1" name="viewport" />
       </Head>
       <Analytics analyticsConfig={siteMetadata.analytics} />
-      <LayoutWrapper>
-        <SearchProvider searchConfig={siteMetadata.search}>
-          <Component {...pageProps} />
-        </SearchProvider>
-      </LayoutWrapper>
+      <div className={`${bricolage.variable}`}>
+        <LayoutWrapper>
+          <SearchProvider searchConfig={siteMetadata.search}>
+            <Component {...pageProps} />
+          </SearchProvider>
+        </LayoutWrapper>
+      </div>
     </ThemeProvider>
   )
 }

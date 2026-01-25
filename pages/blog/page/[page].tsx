@@ -8,7 +8,7 @@ import { allBlogs } from 'contentlayer/generated'
 import type { Blog } from 'contentlayer/generated'
 
 export const getStaticPaths = async () => {
-  const totalPosts = allBlogs
+  const totalPosts = allBlogs.filter((post) => post.draft !== true)
   const totalPages = Math.ceil(totalPosts.length / POSTS_PER_PAGE)
   const paths = Array.from({ length: totalPages }, (_, i) => ({
     params: { page: (i + 1).toString() },
@@ -24,7 +24,7 @@ export const getStaticProps = async (context) => {
   const {
     params: { page },
   } = context
-  const posts = sortedBlogPost(allBlogs) as Blog[]
+  const posts = sortedBlogPost(allBlogs.filter((post) => post.draft !== true)) as Blog[]
   const pageNumber = Number.parseInt(page as string)
   const initialDisplayPosts = posts.slice(
     POSTS_PER_PAGE * (pageNumber - 1),

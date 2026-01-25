@@ -9,7 +9,9 @@ import type { Project } from 'contentlayer/generated'
 export const POSTS_PER_PAGE = 10
 
 export const getStaticProps = async () => {
-  const projects = sortedBlogPost(allProjects) as Project[]
+  const projects = sortedBlogPost(
+    allProjects.filter((project) => project.draft !== true)
+  ) as Project[]
   const initialDisplayProjects = projects.slice(0, POSTS_PER_PAGE)
   const pagination = {
     currentPage: 1,
