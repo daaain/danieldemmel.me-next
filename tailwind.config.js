@@ -67,6 +67,8 @@ module.exports = {
             },
             pre: {
               backgroundColor: theme('colors.gray.800'),
+              whiteSpace: 'pre-wrap',
+              wordBreak: 'break-word',
             },
             code: {
               color: theme('colors.pink.500'),
@@ -135,6 +137,8 @@ module.exports = {
             },
             pre: {
               backgroundColor: theme('colors.gray.800'),
+              whiteSpace: 'pre-wrap',
+              wordBreak: 'break-word',
             },
             code: {
               backgroundColor: theme('colors.gray.800'),
