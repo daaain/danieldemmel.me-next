@@ -1,10 +1,9 @@
-/* eslint-disable react/display-name */
-import React from 'react'
 import Script from 'next/script'
-import { MDXLayout, ComponentMap } from 'pliny/mdx-components'
-import { TOCInline } from 'pliny/ui/TOCInline'
-import { Pre } from 'pliny/ui/Pre'
+import type { ComponentMap, MDXLayout } from 'pliny/mdx-components'
 import { BlogNewsletterForm } from 'pliny/ui/NewsletterForm'
+import { Pre } from 'pliny/ui/Pre'
+import { TOCInline } from 'pliny/ui/TOCInline'
+import React from 'react'
 
 import Image from './Image'
 import CustomLink from './Link'
@@ -22,7 +21,7 @@ export const EmbedPDF = ({ URL, docId }) => (
         docId ? `https://drive.google.com/uc?id=${docId}&embedded=true` : URL
       }&pid=explorer&efh=false&a=v&chrome=false&embedded=true`}
       style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
-    ></iframe>
+    />
   </div>
 )
 
@@ -34,7 +33,7 @@ export const EmbedVimeo = ({ code, hash }) => (
       allowFullScreen
       style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 0 }}
       title={code}
-    ></iframe>
+    />
     <Script src="https://player.vimeo.com/api/player.js" />
   </div>
 )
@@ -47,7 +46,7 @@ export const EmbedYoutube = ({ code, hash }) => (
       allowFullScreen
       style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 0 }}
       title={code}
-    ></iframe>
+    />
   </div>
 )
 

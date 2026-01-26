@@ -1,8 +1,8 @@
+import siteMetadata from '@/data/siteMetadata'
+import type { Authors, Blog } from 'contentlayer/generated'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import siteMetadata from '@/data/siteMetadata'
-import { CoreContent } from 'pliny/utils/contentlayer'
-import type { Blog, Authors } from 'contentlayer/generated'
+import type { CoreContent } from 'pliny/utils/contentlayer'
 interface CommonSEOProps {
   title: string
   description: string
@@ -119,8 +119,8 @@ export const BlogSEO = ({
     images.length === 0
       ? [siteMetadata.socialBanner]
       : typeof images === 'string'
-      ? [images]
-      : images
+        ? [images]
+        : images
 
   const featuredImages = imagesArr.map((img) => {
     return {

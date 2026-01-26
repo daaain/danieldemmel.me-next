@@ -1,6 +1,6 @@
 import { generateSitemap } from 'pliny/utils/generate-sitemap.js'
-import siteMetadata from '../data/siteMetadata.js'
 import { allBlogs } from '../.contentlayer/generated/index.mjs'
+import siteMetadata from '../data/siteMetadata.js'
 
 const sitemap = () => {
   generateSitemap(siteMetadata.siteUrl, allBlogs)

@@ -48,3 +48,6 @@ yarn-error.log*
 .contentlayer
 .env
 .obsidian
+
+CLAUDE.md
+tsconfig.tsbuildinfo

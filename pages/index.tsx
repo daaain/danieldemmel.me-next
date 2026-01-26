@@ -1,12 +1,12 @@
+import Image from '@/components/Image'
 import Link from '@/components/Link'
 import { PageSEO } from '@/components/SEO'
-import Image from '@/components/Image'
 import siteMetadata from '@/data/siteMetadata'
-import { formatDate } from 'pliny/utils/formatDate'
-import { sortedBlogPost, allCoreContent } from 'pliny/utils/contentlayer'
-import type { InferGetStaticPropsType } from 'next'
 import { allBlogs, allProjects } from 'contentlayer/generated'
 import type { Blog, Project } from 'contentlayer/generated'
+import type { InferGetStaticPropsType } from 'next'
+import { allCoreContent, sortedBlogPost } from 'pliny/utils/contentlayer'
+import { formatDate } from 'pliny/utils/formatDate'
 
 const MAX_POSTS = 4
 

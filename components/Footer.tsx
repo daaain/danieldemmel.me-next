@@ -1,7 +1,7 @@
-import Link from './Link'
-import siteMetadata from '@/data/siteMetadata'
 import SocialIcon from '@/components/social-icons'
+import siteMetadata from '@/data/siteMetadata'
 import { NewsletterForm } from 'pliny/ui/NewsletterForm'
+import Link from './Link'
 
 const ICON_SIZE = 8
 
@@ -30,9 +30,9 @@ export default function Footer() {
         </div>
         <div className="mb-2 flex space-x-2 text-sm text-gray-500 dark:text-gray-400">
           <div className="p-name">{siteMetadata.author}</div>
-          <div>{` • `}</div>
+          <div>{' • '}</div>
           <div>{`CC BY-SA 4.0 ${new Date().getFullYear()}`}</div>
-          <div>{` • `}</div>
+          <div>{' • '}</div>
           <Link className="u-url u-uid" href="/">
             {siteMetadata.title}
           </Link>

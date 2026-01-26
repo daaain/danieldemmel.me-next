@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
 import { useTheme } from 'next-themes'
+import { useEffect, useState } from 'react'
 
 const ThemeSwitch = () => {
   const [mounted, setMounted] = useState(false)
@@ -10,6 +10,7 @@ const ThemeSwitch = () => {
 
   return (
     <button
+      type="button"
       aria-label="Toggle Dark Mode"
       className="ml-1 mr-1 h-8 w-8 rounded p-1 sm:ml-4"
       onClick={() => setTheme(theme === 'dark' || resolvedTheme === 'dark' ? 'light' : 'dark')}
@@ -19,6 +20,7 @@ const ThemeSwitch = () => {
         viewBox="0 0 20 20"
         fill="currentColor"
         className="text-gray-900 dark:text-gray-100"
+        aria-hidden="true"
       >
         {mounted && (theme === 'dark' || resolvedTheme === 'dark') ? (
           <path

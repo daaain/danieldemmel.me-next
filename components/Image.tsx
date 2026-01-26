@@ -1,4 +1,4 @@
-import NextImage, { ImageProps } from 'next/image'
+import NextImage, { type ImageProps } from 'next/image'
 import Link from './Link'
 
 const Image = ({

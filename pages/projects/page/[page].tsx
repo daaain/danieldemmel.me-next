@@ -1,9 +1,9 @@
 import ListLayout from '@/layouts/ListLayout'
-import { allCoreContent, sortedBlogPost } from 'pliny/utils/contentlayer'
-import { POSTS_PER_PAGE } from '../index'
-import type { InferGetStaticPropsType } from 'next'
 import { allProjects } from 'contentlayer/generated'
 import type { Project } from 'contentlayer/generated'
+import type { InferGetStaticPropsType } from 'next'
+import { allCoreContent, sortedBlogPost } from 'pliny/utils/contentlayer'
+import { POSTS_PER_PAGE } from '../index'
 
 export const getStaticPaths = async () => {
   const totalPosts = allProjects.filter((project) => project.draft !== true)

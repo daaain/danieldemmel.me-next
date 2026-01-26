@@ -1,31 +1,31 @@
 {
-    "$schema": "https://openapi.vercel.sh/vercel.json",
-    "buildCommand": "git submodule update --init --recursive && yarn run build",
-    "redirects": [
-        {
-            "source": "/JSSoundRecorder/:path*",
-            "destination": "https://daaain.github.io/JSSoundRecorder/:path*",
-            "permanent": true
-        },
-        {
-            "source": "/in-browser-prototype-boilerplate/:path*",
-            "destination": "https://daaain.github.io/in-browser-prototype-boilerplate/:path*",
-            "permanent": true
-        },
-        {
-            "source": "/claude-code-log/:path*",
-            "destination": "https://daaain.github.io/claude-code-log/:path*",
-            "permanent": true
-        },
-        {
-            "source": "/jquery-deferred-intro/jquery-deferred-intro/slides.html",
-            "destination": "https://daaain.github.io/jquery-deferred-intro/jquery-deferred-intro/slides.html",
-            "permanent": true
-        },
-        {
-            "source": "/tokenizer.html",
-            "destination": "/tokenizer/",
-            "permanent": true
-        }
-    ]
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "git submodule update --init --recursive && yarn run build",
+  "redirects": [
+    {
+      "source": "/JSSoundRecorder/:path*",
+      "destination": "https://daaain.github.io/JSSoundRecorder/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/in-browser-prototype-boilerplate/:path*",
+      "destination": "https://daaain.github.io/in-browser-prototype-boilerplate/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/claude-code-log/:path*",
+      "destination": "https://daaain.github.io/claude-code-log/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/jquery-deferred-intro/jquery-deferred-intro/slides.html",
+      "destination": "https://daaain.github.io/jquery-deferred-intro/jquery-deferred-intro/slides.html",
+      "permanent": true
+    },
+    {
+      "source": "/tokenizer.html",
+      "destination": "/tokenizer/",
+      "permanent": true
+    }
+  ]
 }

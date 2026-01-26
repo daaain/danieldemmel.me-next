@@ -1,14 +1,14 @@
-import { useState, ReactNode } from 'react'
-import { Comments } from 'pliny/comments'
-import { formatDate } from 'pliny/utils/formatDate'
-import { CoreContent } from 'pliny/utils/contentlayer'
-import type { Blog } from 'contentlayer/generated'
 import Link from '@/components/Link'
 import PageTitle from '@/components/PageTitle'
-import SectionContainer from '@/components/SectionContainer'
 import { BlogSEO } from '@/components/SEO'
-import siteMetadata from '@/data/siteMetadata'
 import ScrollTopAndComment from '@/components/ScrollTopAndComment'
+import SectionContainer from '@/components/SectionContainer'
+import siteMetadata from '@/data/siteMetadata'
+import type { Blog } from 'contentlayer/generated'
+import { Comments } from 'pliny/comments'
+import type { CoreContent } from 'pliny/utils/contentlayer'
+import { formatDate } from 'pliny/utils/formatDate'
+import { type ReactNode, useState } from 'react'
 
 interface LayoutProps {
   content: CoreContent<Blog>
@@ -50,7 +50,9 @@ export default function PostLayout({ content, next, prev, children }: LayoutProp
             {siteMetadata.comments && (
               <div className="pt-6 pb-6 text-center text-gray-700 dark:text-gray-300" id="comment">
                 {!loadComments && (
-                  <button onClick={() => setLoadComments(true)}>Load Comments</button>
+                  <button type="button" onClick={() => setLoadComments(true)}>
+                    Load Comments
+                  </button>
                 )}
                 {loadComments && <Comments commentsConfig={siteMetadata.comments} slug={slug} />}
               </div>

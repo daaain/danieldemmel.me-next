@@ -1,12 +1,12 @@
-import { useState } from 'react'
-import { useRouter } from 'next/router'
-import { formatDate } from 'pliny/utils/formatDate'
-import { CoreContent } from 'pliny/utils/contentlayer'
-import type { Blog, Project } from 'contentlayer/generated'
+import Image from '@/components/Image'
 import Link from '@/components/Link'
 import Tag from '@/components/Tag'
-import Image from '@/components/Image'
 import siteMetadata from '@/data/siteMetadata'
+import type { Blog, Project } from 'contentlayer/generated'
+import { useRouter } from 'next/router'
+import type { CoreContent } from 'pliny/utils/contentlayer'
+import { formatDate } from 'pliny/utils/formatDate'
+import { useState } from 'react'
 
 interface PaginationProps {
   totalPages: number
@@ -161,6 +161,7 @@ export default function ListLayout({
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
+              aria-hidden="true"
             >
               <path
                 strokeLinecap="round"

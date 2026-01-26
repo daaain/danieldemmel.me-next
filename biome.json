@@ -1,18 +1,48 @@
 {
-  "files": {
-    "includes": [
-      "!public/transformers.js"
-    ]
+  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "organizeImports": {
+    "enabled": true
   },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true
+    }
+  },
+  "overrides": [
+    {
+      "include": ["components/SEO.tsx"],
+      "linter": {
+        "rules": {
+          "security": {
+            "noDangerouslySetInnerHtml": "off"
+          }
+        }
+      }
+    }
+  ],
   "formatter": {
-    "indentStyle": "space"
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 100
   },
   "javascript": {
     "formatter": {
       "quoteStyle": "single",
-      "lineWidth": 100,
       "semicolons": "asNeeded",
-      "trailingCommas": "es5"
+      "trailingCommas": "es5",
+      "bracketSpacing": true
     }
+  },
+  "files": {
+    "ignore": [
+      "node_modules",
+      ".next",
+      ".contentlayer",
+      "public",
+      "css/docsearch.css",
+      "tsconfig.recipe.json"
+    ]
   }
 }

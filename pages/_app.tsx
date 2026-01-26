@@ -7,13 +7,13 @@ import '@/css/custom.css'
 
 import { ThemeProvider } from 'next-themes'
 import type { AppProps } from 'next/app'
-import Head from 'next/head'
 import { Bricolage_Grotesque } from 'next/font/google'
+import Head from 'next/head'
 
+import LayoutWrapper from '@/components/LayoutWrapper'
 import siteMetadata from '@/data/siteMetadata'
 import { Analytics } from 'pliny/analytics'
 import { SearchProvider } from 'pliny/search'
-import LayoutWrapper from '@/components/LayoutWrapper'
 
 const bricolage = Bricolage_Grotesque({
   subsets: ['latin'],

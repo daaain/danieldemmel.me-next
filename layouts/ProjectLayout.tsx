@@ -1,13 +1,13 @@
-import { useState, type ReactNode } from 'react'
-import { Comments } from 'pliny/comments'
-import type { CoreContent } from 'pliny/utils/contentlayer'
-import type { Project, Authors } from 'contentlayer/generated'
+import Image from '@/components/Image'
 import Link from '@/components/Link'
 import PageTitle from '@/components/PageTitle'
-import SectionContainer from '@/components/SectionContainer'
-import Image from '@/components/Image'
-import siteMetadata from '@/data/siteMetadata'
 import ScrollTopAndComment from '@/components/ScrollTopAndComment'
+import SectionContainer from '@/components/SectionContainer'
+import siteMetadata from '@/data/siteMetadata'
+import type { Authors, Project } from 'contentlayer/generated'
+import { Comments } from 'pliny/comments'
+import type { CoreContent } from 'pliny/utils/contentlayer'
+import { type ReactNode, useState } from 'react'
 
 const editUrl = (path) => `${siteMetadata.siteRepo}/blob/main/data/${path}`
 

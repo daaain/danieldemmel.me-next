@@ -1,6 +1,6 @@
+import headerNavLinks from '@/data/headerNavLinks'
 import { useState } from 'react'
 import Link from './Link'
-import headerNavLinks from '@/data/headerNavLinks'
 
 const MobileNav = () => {
   const [navShow, setNavShow] = useState(false)
@@ -20,6 +20,7 @@ const MobileNav = () => {
   return (
     <div className="sm:hidden">
       <button
+        type="button"
         className="ml-1 mr-1 h-8 w-8 rounded py-1"
         aria-label="Toggle Menu"
         onClick={onToggleNav}
@@ -29,6 +30,7 @@ const MobileNav = () => {
           viewBox="0 0 20 20"
           fill="currentColor"
           className="text-gray-900 dark:text-gray-100"
+          aria-hidden="true"
         >
           <path
             fillRule="evenodd"
@@ -44,6 +46,7 @@ const MobileNav = () => {
       >
         <div className="flex justify-end">
           <button
+            type="button"
             className="mr-5 mt-11 h-8 w-8 rounded"
             aria-label="Toggle Menu"
             onClick={onToggleNav}
@@ -53,6 +56,7 @@ const MobileNav = () => {
               viewBox="0 0 20 20"
               fill="currentColor"
               className="text-gray-900 dark:text-gray-100"
+              aria-hidden="true"
             >
               <path
                 fillRule="evenodd"

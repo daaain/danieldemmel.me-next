@@ -7,9 +7,11 @@
     "dev": "contentlayer build && INIT_CWD=$PWD next dev",
     "build": "INIT_CWD=$PWD next build && cross-env NODE_OPTIONS='--experimental-json-modules' node -r esbuild-register ./scripts/postbuild.mjs",
     "serve": "next start",
+    "format": "biome format --write .",
+    "check": "biome check --write .",
     "content": "contentlayer dev",
     "analyze": "cross-env ANALYZE=true next build",
-    "lint": "next lint --fix --dir pages --dir components --dir lib --dir layouts --dir scripts"
+    "lint": "biome lint --write ."
   },
   "dependencies": {
     "@next/bundle-analyzer": "^13.5.0",
@@ -43,38 +45,22 @@
     "unist-util-visit": "^4.1.0"
   },
   "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
     "@svgr/webpack": "^6.3.1",
     "@types/react": "^18.0.18",
-    "@typescript-eslint/eslint-plugin": "^5.36.2",
-    "@typescript-eslint/parser": "^5.36.2",
     "cross-env": "^7.0.3",
     "dedent": "^0.7.0",
     "esbuild-register": "3.3.3",
-    "eslint": "^8.23.0",
-    "eslint-config-next": "^13.5.0",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-prettier": "^4.2.1",
     "file-loader": "^6.0.0",
     "globby": "11.0.3",
     "husky": "^8.0.0",
     "js-yaml": "4.1.0",
     "lint-staged": "^13.0.0",
-    "prettier": "^2.7.0",
-    "prettier-plugin-tailwindcss": "^0.1.13",
+    "prettier": "^2.8.0",
     "typescript": "^4.8.3"
   },
   "lint-staged": {
-    "*.+(js|jsx|ts|tsx)": [
-      "eslint --fix"
-    ],
-    "*.+(js|jsx|ts|tsx|json|css|md|mdx)": [
-      "prettier --write"
-    ]
+    "*.+(js|jsx|ts|tsx|json|css|md|mdx)": ["biome check --write --no-errors-on-unmatched"]
   },
-  "browserslist": [
-    "> 0.5%",
-    "last 2 versions",
-    "not dead",
-    "not ie 11"
-  ]
+  "browserslist": ["> 0.5%", "last 2 versions", "not dead", "not ie 11"]
 }
