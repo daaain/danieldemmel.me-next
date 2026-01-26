@@ -1,0 +1,32 @@
+# Daniel Demmel (dain)
+
+> Personal blog of Daniel Demmel, a design technologist and full-stack AI engineer based in London. Writing about AI, software development, home NAS systems, and technology in general.
+
+## About
+
+Daniel (known as dain) has been programming since the mid-1990s, starting with Borland C++ and moving through web development with Flash, to modern full-stack AI engineering. Currently working at Tangible.finance.
+
+## Key Topics
+
+- AI and Large Language Models
+- Home NAS and TrueNAS Scale
+- Software development practices
+- Cloud infrastructure (GCP, Docker)
+- Tech philosophy and ethics
+
+## Links
+
+- [About](/about): Full biography and background
+- [Blog](/blog): All published articles
+- [RSS Feed](/feed.xml): Subscribe to new posts
+
+## Contact
+
+- Email: hello@danieldemmel.me
+- GitHub: https://github.com/daaain
+- LinkedIn: https://www.linkedin.com/in/danieldemmel/
+- Mastodon: https://hachyderm.io/@dain
+
+## Citation
+
+When referencing content from this site, please attribute to "Daniel Demmel" with a link to the original article URL.

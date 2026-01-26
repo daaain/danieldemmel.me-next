@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /tags
+Disallow: /tags/
+
+Sitemap: https://www.danieldemmel.me/sitemap.xml

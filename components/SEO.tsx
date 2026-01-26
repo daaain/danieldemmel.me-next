@@ -15,6 +15,7 @@ interface CommonSEOProps {
       }[]
   twImage: string
   canonicalUrl?: string
+  noindex?: boolean
 }
 
 const CommonSEO = ({
@@ -24,12 +25,13 @@ const CommonSEO = ({
   ogImage,
   twImage,
   canonicalUrl,
+  noindex = false,
 }: CommonSEOProps) => {
   const router = useRouter()
   return (
     <Head>
       <title>{title}</title>
-      <meta name="robots" content="follow, index" />
+      <meta name="robots" content={noindex ? 'noindex, follow' : 'follow, index'} />
       <meta name="description" content={description} />
       <meta property="og:url" content={`${siteMetadata.siteUrl}${router.asPath}`} />
       <meta property="og:type" content={ogType} />
@@ -57,9 +59,10 @@ const CommonSEO = ({
 interface PageSEOProps {
   title: string
   description: string
+  noindex?: boolean
 }
 
-export const PageSEO = ({ title, description }: PageSEOProps) => {
+export const PageSEO = ({ title, description, noindex = false }: PageSEOProps) => {
   const ogImageUrl = siteMetadata.siteUrl + siteMetadata.socialBanner
   const twImageUrl = siteMetadata.siteUrl + siteMetadata.socialBanner
   return (
@@ -69,11 +72,12 @@ export const PageSEO = ({ title, description }: PageSEOProps) => {
       ogType="website"
       ogImage={ogImageUrl}
       twImage={twImageUrl}
+      noindex={noindex}
     />
   )
 }
 
-export const TagSEO = ({ title, description }: PageSEOProps) => {
+export const TagSEO = ({ title, description }: Omit<PageSEOProps, 'noindex'>) => {
   const ogImageUrl = siteMetadata.siteUrl + siteMetadata.socialBanner
   const twImageUrl = siteMetadata.siteUrl + siteMetadata.socialBanner
   const router = useRouter()
@@ -85,6 +89,7 @@ export const TagSEO = ({ title, description }: PageSEOProps) => {
         ogType="website"
         ogImage={ogImageUrl}
         twImage={twImageUrl}
+        noindex={true}
       />
       <Head>
         <link
@@ -129,7 +134,7 @@ export const BlogSEO = ({
     }
   })
 
-  let authorList
+  let authorList: { '@type': string; name: string } | { '@type': string; name: string }[]
   if (authorDetails) {
     authorList = authorDetails.map((author) => {
       return {
