@@ -216,6 +216,8 @@ Changes are still tracked by git, so you can review everything before pushing yo
 
 ### VS Code IPC hardening - the lesser-known attack surface
 
+**Notice: I found out that some of these sockets and env vars are re-created runtime by VS Code, so still testing and working on a proper solution**
+
 This is the sneaky one. VS Code's remote development model creates multiple Unix sockets in `/tmp` that enable communication between the container and host. [Research by The Red Guild](https://blog.theredguild.org/leveraging-vscode-internals-to-escape-containers/) demonstrates these can be abused for container escape:
 
 | Socket | Purpose | Attack Vector |
