@@ -1,8 +1,8 @@
 import { PageSEO } from '@/components/SEO'
 import siteMetadata from '@/data/siteMetadata'
 import ListLayout from '@/layouts/ListLayout'
-import { allProjects } from 'contentlayer/generated'
-import type { Project } from 'contentlayer/generated'
+import { allProjects } from 'contentlayer2/generated'
+import type { Project } from 'contentlayer2/generated'
 import type { InferGetStaticPropsType } from 'next'
 import { allCoreContent, sortedBlogPost } from 'pliny/utils/contentlayer'
 

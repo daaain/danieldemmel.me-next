@@ -1,5 +1,5 @@
 import siteMetadata from '@/data/siteMetadata'
-import type { Authors, Blog } from 'contentlayer/generated'
+import type { Authors, Blog } from 'contentlayer2/generated'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import type { CoreContent } from 'pliny/utils/contentlayer'

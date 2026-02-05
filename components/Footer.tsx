@@ -1,6 +1,6 @@
 import SocialIcon from '@/components/social-icons'
 import siteMetadata from '@/data/siteMetadata'
-import { NewsletterForm } from 'pliny/ui/NewsletterForm'
+import NewsletterForm from 'pliny/ui/NewsletterForm'
 import Link from './Link'
 
 const ICON_SIZE = 8

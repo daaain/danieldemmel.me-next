@@ -1,18 +1,12 @@
 import Script from 'next/script'
-import type { ComponentMap, MDXLayout } from 'pliny/mdx-components'
-import { BlogNewsletterForm } from 'pliny/ui/NewsletterForm'
-import { Pre } from 'pliny/ui/Pre'
-import { TOCInline } from 'pliny/ui/TOCInline'
+import BlogNewsletterForm from 'pliny/ui/BlogNewsletterForm'
+import Pre from 'pliny/ui/Pre'
+import TOCInline from 'pliny/ui/TOCInline'
 import React from 'react'
 
 import Image from './Image'
 import CustomLink from './Link'
 import PullQuote from './PullQuote'
-
-export const Wrapper = ({ layout, content, ...rest }: MDXLayout) => {
-  const Layout = require(`../layouts/${layout}`).default
-  return <Layout content={content} {...rest} />
-}
 
 export const EmbedPDF = ({ URL, docId }) => (
   <div style={{ padding: '56.25% 0 0 0', position: 'relative' }}>
@@ -51,12 +45,11 @@ export const EmbedYoutube = ({ code, hash }) => (
   </div>
 )
 
-export const MDXComponents: ComponentMap = {
+export const MDXComponents: Record<string, React.ComponentType<any>> = {
   Image,
   TOCInline,
   a: CustomLink,
   pre: Pre,
-  wrapper: Wrapper,
   BlogNewsletterForm,
   EmbedPDF,
   EmbedVimeo,

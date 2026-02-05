@@ -1,6 +1,6 @@
 import ListLayout from '@/layouts/ListLayout'
-import { allProjects } from 'contentlayer/generated'
-import type { Project } from 'contentlayer/generated'
+import { allProjects } from 'contentlayer2/generated'
+import type { Project } from 'contentlayer2/generated'
 import type { InferGetStaticPropsType } from 'next'
 import { allCoreContent, sortedBlogPost } from 'pliny/utils/contentlayer'
 import { POSTS_PER_PAGE } from '../index'

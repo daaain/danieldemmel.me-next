@@ -2,10 +2,9 @@ import Link from '@/components/Link'
 import { PageSEO } from '@/components/SEO'
 import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
-import { allBlogs } from 'contentlayer/generated'
+import { allBlogs } from 'contentlayer2/generated'
 import type { GetStaticProps, InferGetStaticPropsType } from 'next'
-import { getAllTags } from 'pliny/utils/contentlayer'
-import { kebabCase } from 'pliny/utils/kebabCase'
+import { getAllTags, kebabCase } from '@/lib/utils/tags'
 
 export const getStaticProps: GetStaticProps<{ tags: Record<string, number> }> = async () => {
   const tags = await getAllTags(allBlogs)

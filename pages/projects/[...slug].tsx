@@ -1,12 +1,11 @@
 import { MDXComponents } from '@/components/MDXComponents'
 import PageTitle from '@/components/PageTitle'
-import { allAuthors, allProjects } from 'contentlayer/generated'
-import type { Project } from 'contentlayer/generated'
+import ProjectLayout from '@/layouts/ProjectLayout'
+import { allAuthors, allProjects } from 'contentlayer2/generated'
+import type { Project } from 'contentlayer2/generated'
 import type { InferGetStaticPropsType } from 'next'
-import { MDXLayoutRenderer } from 'pliny/mdx-components'
+import { useMDXComponent } from 'pliny/mdx-components'
 import { coreContent, sortedBlogPost } from 'pliny/utils/contentlayer'
-
-const DEFAULT_LAYOUT = 'ProjectLayout'
 
 export async function getStaticPaths() {
   return {
@@ -46,6 +45,8 @@ export default function ProjectPage({
   prev,
   next,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
+  const MDXContent = useMDXComponent(post.body.code)
+
   return (
     <>
       {'draft' in post && post.draft === true ? (
@@ -58,15 +59,14 @@ export default function ProjectPage({
           </PageTitle>
         </div>
       ) : (
-        <MDXLayoutRenderer
-          layout={post.layout || DEFAULT_LAYOUT}
-          content={post}
-          MDXComponents={MDXComponents}
-          toc={post.toc}
+        <ProjectLayout
+          content={coreContent(post)}
           authorDetails={authorDetails}
           prev={prev}
           next={next}
-        />
+        >
+          <MDXContent components={MDXComponents} />
+        </ProjectLayout>
       )}
     </>
   )

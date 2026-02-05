@@ -1,11 +1,11 @@
 import path from 'node:path'
-import { type ComputedFields, defineDocumentType, makeSource } from 'contentlayer/source-files'
+import { type ComputedFields, defineDocumentType, makeSource } from 'contentlayer2/source-files'
 import {
   extractTocHeadings,
   remarkCodeTitles,
   remarkExtractFrontmatter,
   remarkImgToJsx,
-} from 'pliny/mdx-plugins.js'
+} from 'pliny/mdx-plugins/index.js'
 import readingTime from 'reading-time'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import rehypeCitation from 'rehype-citation'

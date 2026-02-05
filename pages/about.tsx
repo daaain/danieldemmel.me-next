@@ -1,10 +1,8 @@
 import { MDXComponents } from '@/components/MDXComponents'
-import { allAuthors } from 'contentlayer/generated'
-// import { MDXLayoutRenderer } from '@/components/MDXComponents'
+import AuthorLayout from '@/layouts/AuthorLayout'
+import { allAuthors } from 'contentlayer2/generated'
 import type { InferGetStaticPropsType } from 'next'
-import { MDXLayoutRenderer } from 'pliny/mdx-components'
-
-const DEFAULT_LAYOUT = 'AuthorLayout'
+import { useMDXComponent } from 'pliny/mdx-components'
 
 export const getStaticProps = async () => {
   const author = allAuthors.find((p) => p.slug === 'default')
@@ -12,11 +10,11 @@ export const getStaticProps = async () => {
 }
 
 export default function About({ author }: InferGetStaticPropsType<typeof getStaticProps>) {
+  const MDXContent = useMDXComponent(author.body.code)
+
   return (
-    <MDXLayoutRenderer
-      layout={author.layout || DEFAULT_LAYOUT}
-      content={author}
-      MDXComponents={MDXComponents}
-    />
+    <AuthorLayout content={author}>
+      <MDXContent components={MDXComponents} />
+    </AuthorLayout>
   )
 }
