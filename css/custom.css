@@ -9,12 +9,14 @@ a {
   background-position: 0% 100%;
   background-repeat: no-repeat;
   background-size: 0% 2px;
-  transition: background-size 0.25s ease-out;
+  text-decoration-color: currentColor;
+  transition: background-size 0.25s ease-out, text-decoration-color 0.25s ease-out;
 }
 
 a:hover,
 a:focus {
   background-size: 100% 2px;
+  text-decoration-color: transparent;
 }
 
 header {
