@@ -14,12 +14,17 @@ const Image = ({
         placeholder: 'blur',
         blurDataURL: `/_next/image?url=${src}&w=16&q=1`,
       }
-  return shouldOpenWhenClicked ? (
-    <Link href={customLink ? customLink : `${src}`}>
-      <NextImage src={src} {...maybeBlurProps} {...rest} />
+  const image = <NextImage src={src} {...maybeBlurProps} {...rest} />
+
+  if (!shouldOpenWhenClicked) return image
+
+  return (
+    <Link
+      href={customLink ? customLink : `${src}`}
+      style={rest.fill ? { position: 'absolute', inset: 0 } : undefined}
+    >
+      {image}
     </Link>
-  ) : (
-    <NextImage src={src} {...maybeBlurProps} {...rest} />
   )
 }
 
