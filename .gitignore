@@ -49,5 +49,4 @@ yarn-error.log*
 .env
 .obsidian
 
-CLAUDE.md
 tsconfig.tsbuildinfo

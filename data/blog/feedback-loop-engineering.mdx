@@ -1,0 +1,80 @@
+---
+title: Feedback loop engineering
+date: 2026-01-31
+tags: [llm, ai, development, patterns, tools]
+draft: false
+images: ['/images/2026/loop-the-loop-luna-park-coney-island-84d581.jpg']
+summary: Why the most important skill with AI coding agents isn't prompting or curating context – it's designing how they verify their own work
+---
+
+Gergely Orosz recently had [a deep dive podcast with Peter Steinberger about his AI-native development workflow](https://newsletter.pragmaticengineer.com/p/the-creator-of-clawd-i-ship-code) on The Pragmatic Engineer. Peter – who built PSPDFKit into a 70-person company before taking a sabbatical – now routinely runs 5-10 coding agents in parallel, ships code he doesn't personally read, and produces commit volumes that look like an entire team's output.
+
+It's worth listening to if you have 1.5 hours (I found 1.25x speed ideal), but what stuck with me wasn't the silly numbers. It was the infrastructure underneath them.
+
+Peter's workflow doesn't succeed because he writes better prompts or even because he provides better context – though he learnt both to the point that he now uses words in conversations that his agents have been using. It works because he's designed what he calls "closed-loop systems" where agents verify their own work. Compiling, running, debugging, screenshotting binaries. Local CI. Real API keys.
+
+I've been chewing on this pattern for a while now myself, and I think it deserves its own name. Here's my current hierarchy:
+
+<PullQuote>
+Prompt engineering < context engineering < feedback loop engineering
+</PullQuote>
+
+## The three levels
+
+**Prompt engineering** is where most people start – and where most of the discourse lies. How do you phrase your request? What system prompt works best? Should I write "please" or "my job depends on it, make no mistakes"? It might matter, but the models are getting good enough to infer intention from vague prompts. Instead of crafting the perfect spec and trying to cover all possibilities, you can just have a conversation.
+
+**Context engineering** is the next step up. This is about giving the model the right information: a well-crafted `CLAUDE.md` / `AGENTS.md`, relevant documentation, carefully selected files in the context window. I [wrote about some of my practices here](/blog/my-coding-agent-workflows) – things like using Plan mode and including the most relevant files upfront. Context engineering gets you much further than prompt engineering alone because the model stops guessing blind. It can also fill in the gaps much more easily from existing practice rather than assumptions.
+
+But **feedback loop engineering** is what separates working code from getting lucky. It's the practice of building tools and infrastructure so that coding agents can verify their work *in context*. Not to stop when they did a reasonable amount of work and feel like it's "production ready", but to see hard evidence of how the code behaves in an as production-like setup as possible.
+
+## What this looks like in practice
+
+The core idea is straightforward: you want the agent to be able to run its code, see the result, and iterate. Just like a developer would. The faster and tighter that loop, the better the output.
+
+The [foundational layer](/blog/my-coding-agent-workflows) – strict linting, strong types, integration tests, git hooks – I covered previously. These are table stakes. They catch syntax errors and structural problems before the agent even commits. Adding types and validation libraries (like Zod or Pydantic) are the next useful layer that self-documents and enforces data contracts. But they can't tell you whether the code actually *does the right thing* in a running system and if it fails gracefully.
+
+The more interesting layer is giving agents access to production-like observability:
+
+- **Browser debugging via CLI** – I use [browser-debugger-cli](https://github.com/szymdzum/browser-debugger-cli) which wraps Chrome DevTools into a CLI rather than an MCP. The agent can navigate to a page, inspect the DOM, check console errors, verify that a frontend change actually renders correctly, and even execute JavaScript snippets – not just that the component compiles
+- **Database query skills** – knowing the schema and being pointed to a pre-authenticated CLI, the agent can run queries against a development database to verify that a migration ran correctly, that data is being written in the expected shape, or that a query optimisation actually improved things
+- **Log access and crash tracebacks** – when something goes wrong at runtime, the agent needs to see what happened. Tailing application logs, reading crash tracebacks, understanding the actual failure rather than guessing from the code
+- **OpenTelemetry traces** – in a microservices setup, a bug in one service might manifest as unexpected behaviour in another. Being able to pull OTel traces and correlate them across services means the agent can follow a request through the entire system, not just stare at the one file it changed
+- **API keys to development services** – the agent needs to be able to hit real (development) endpoints, not just mock them. I've never seen an API documentation that didn't miss some quirks that only prodding it and running full workflows would reveal.
+
+The pattern goes beyond "does it compile?" to "does it actually work as part of the system?" Each of these tools closes a gap between what the agent wrote and what happens at runtime. And crucially, they're all exposed as CLI skills – pipeable, composable, text-in text-out – which brings us to why that matters.
+
+## Steinberger's workflow through this lens
+
+What makes Peter's approach worth studying isn't the tens of thousands of commits he produced in January – it's the architecture that made them possible.
+
+This is why he can run multiple agents in parallel without everything collapsing into chaos. He's not reviewing every line of code. He's designing the *systems that review the code*.
+
+His phrase "architecture over code review" captures it well. When the feedback loops are solid, detailed code review becomes less critical. The architecture – of the software and of the development process – is what holds everything together.
+
+It's also worth noting what he's *not* doing. He doesn't use infinite prompt loops or armies of personas orchestrating each other. He sometimes even deliberately under-prompts, giving vague instructions to see what the agent comes up with. That works precisely because the feedback loops catch mistakes, making experimentation cheap. If the agent goes off-piste, the tests will flag it before it gets deep into compounding mistakes territory.
+
+But there's an important question: what's the right interface between an agent and a feedback loop? Do we need to shovel another 70K tokens worth of MCP instructions in the context?
+
+## The Unix connection
+
+I agree with Peter that **CLI tools that are pipeable and progressively explorable** are the optimal interface for *current* AI models. Not because CLIs are inherently superior to GUIs – they often aren't, for a lot of humans – but because text-in, text-out interfaces are what these models are most fluent with. In ML terms, they're *in distribution*: the kind of interface the model has seen most during training. And if some models later work better with a different interface, repackaging CLI wrapped APIs won't be too difficult.
+
+So, "progressively explorable" means the agent can start broad and narrow down. `git log --oneline` gives an overview. Pick a commit, `git show` gives details. `git diff` narrows further. At each step, the agent gets feedback and decides where to dig deeper. The tool doesn't force a particular path – it responds to choices. But it's true for the CLI interface itself, running `--help` for each command depth.
+
+"Pipeable" means the output of one tool feeds into another. `rg "TODO" --json | jq ...` lets the agent process results programmatically. Composability isn't just elegant design – it's functional literacy and a great context self-management opportunity for an LLM.
+
+There's something delightfully ironic here. The Unix philosophy – small tools that do one thing well, connected through text streams – dates to the 1970s. It turns out to be near-perfectly suited to AI agents half a century later. Perhaps that's not a coincidence. Both Unix pipes and AI agents operate on text. Both benefit from composable, predictable interfaces. Both struggle with proprietary binary formats and modal GUIs.
+
+For tool builders, the implication is clear: if you want your tool to work well with AI agents, make it work well as a CLI. Structured output. Clear error messages. Composable commands. Fast execution. These aren't new ideas – they're old ideas that have suddenly become much more valuable.
+
+## The best bit
+
+What I like about this approach is that feedback loop engineering isn't just AI-specific overhead. Observability, structured logging, trace correlation, browser testing, database verification, clear interfaces, helpful error messages – these were good engineering practices long before anyone was prompting a language model. The difference is that wrapping them as CLI-accessible skills makes them available to agents too. The feedback loops that help an agent debug a cross-service issue are the same ones that help a developer on their first week understand how the system actually behaves.
+
+So if you're wondering where to invest your time as AI coding tools improve: less time crafting the perfect prompt, more time building tools that let agents – and humans – see what's actually happening. The prompts and coding agent harnesses will change as models evolve. The value of a tight feedback loop won't. And if the AI bubble pops next month, you're left with easy to test codebases that you can pick up again yourself or use local models for smaller tasks. If it doesn't, get your coding agent to self-improve by constantly updating the skills library after each session.
+
+And for god's sake, [don't install OpenClaw connected to all your personal data and services...](https://www.linkedin.com/posts/eracle_aiagents-promptinjection-moltbot-activity-7423126588160012289-Wcjg).
+
+## Credits
+
+Hero image: https://picryl.com/media/loop-the-loop-luna-park-coney-island-84d581

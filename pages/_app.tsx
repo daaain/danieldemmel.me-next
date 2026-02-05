@@ -18,6 +18,7 @@ import { SearchProvider } from 'pliny/search'
 const bricolage = Bricolage_Grotesque({
   subsets: ['latin'],
   display: 'swap',
+  adjustFontFallback: false,
   variable: '--font-heading',
 })
 

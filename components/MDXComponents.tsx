@@ -7,6 +7,7 @@ import React from 'react'
 
 import Image from './Image'
 import CustomLink from './Link'
+import PullQuote from './PullQuote'
 
 export const Wrapper = ({ layout, content, ...rest }: MDXLayout) => {
   const Layout = require(`../layouts/${layout}`).default
@@ -60,4 +61,5 @@ export const MDXComponents: ComponentMap = {
   EmbedPDF,
   EmbedVimeo,
   EmbedYoutube,
+  PullQuote,
 }
