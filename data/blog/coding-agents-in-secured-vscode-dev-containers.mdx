@@ -10,9 +10,9 @@ summary: How to sandbox coding agents while maintaining development flexibility 
 
 Simon Willison describes [the lethal trifecta](https://simonwillison.net/2025/Jun/16/the-lethal-trifecta/) as the combination of:
 
-1. **Access to an LLM** - the agent can generate arbitrary code and commands
-2. **The ability to execute code** - the agent can run what it generates
-3. **Access to untrusted content** - web pages, `npm` packages, user files that could contain prompt injections
+1. **Access to an LLM** – the agent can generate arbitrary code and commands
+2. **The ability to execute code** – the agent can run what it generates
+3. **Access to untrusted content** – web pages, `npm` packages, user files that could contain prompt injections
 
 When all three are present, you've got a recipe for trouble. A malicious `npm` package or a cleverly crafted webpage could inject prompts that convince the agent to execute harmful commands. Even without malicious intent, the agent could make mistakes with destructive consequences.
 
@@ -26,7 +26,7 @@ Claude Code Web is useful for exploration, but it's not empowered and flexible e
 
 I'd like my teammates to be able to benefit from my side quests investing in tooling. For example, I created a browser testing Skill using [browser-debugger-cli](https://github.com/szymdzum/browser-debugger-cli) (that wraps Chrome Devtools access into a CLI instead of MCP for agents) but it only helps if the scripts are zero setup, otherwise Claude Code will flail around in other people's sessions until they invest in setting up and debugging tools.
 
-VS Code dev containers aren't designed for coding agents - the implementation prioritises convenience shortcuts rather than sandboxing - but it's a perfect starting point for reproducible dev environments. Another important piece for me was to wrap the IDE "backend" into a container, to eliminate people getting false positive linter / type errors by forgetting to install new dependencies, etc.
+VS Code dev containers aren't designed for coding agents – the implementation prioritises convenience shortcuts rather than sandboxing – but it's a perfect starting point for reproducible dev environments. Another important piece for me was to wrap the IDE "backend" into a container, to eliminate people getting false positive linter / type errors by forgetting to install new dependencies, etc.
 
 I'd know, I've been harping on about [containerising dev environments](/blog/containerise-everything) for more than a decade! Dev containers have been around for years too, I gave them a go a few times, but never got to a point where they were good enough. Now finally, with a bit of LLM help to keep the momentum and the kinks of the implementation ironed out throughout the years, I managed to set it up in a way that makes dev experince better rather than compromise it!
 
@@ -34,7 +34,7 @@ I'd know, I've been harping on about [containerising dev environments](/blog/con
 
 A minimal secured dev container setup needs three files:
 
-**`.devcontainer/devcontainer.json`** - the main configuration that VS Code reads:
+**`.devcontainer/devcontainer.json`** – the main configuration that VS Code reads:
 
 ```json
 {
@@ -62,7 +62,7 @@ A minimal secured dev container setup needs three files:
   // postStartCommand: clean up sockets created before VS Code attaches
   "postStartCommand": "find /tmp -maxdepth 2 \\( -name 'vscode-ssh-auth-*.sock' -o -name 'vscode-remote-containers-ipc-*.sock' -o -name 'vscode-remote-containers-*.js' \\) -delete 2>/dev/null || true",
   // IPC socket cleanup (vscode-ipc-*.sock, vscode-git-*.sock) is handled by a background
-  // loop in the Docker Compose command — see the "Socket file deletion" section below.
+  // loop in the Docker Compose command – see the "Socket file deletion" section below.
   "customizations": {
     "vscode": {
       "settings": {
@@ -74,7 +74,7 @@ A minimal secured dev container setup needs three files:
 }
 ```
 
-**`.devcontainer/docker-compose.yml`** - defines the dev container and the Docker socket proxy. Note the socket cleanup loop in the `command` — this is where IPC socket deletion happens (explained in the VS Code IPC hardening section below):
+**`.devcontainer/docker-compose.yml`** – defines the dev container and the Docker socket proxy. Note the socket cleanup loop in the `command` – this is where IPC socket deletion happens (explained in the VS Code IPC hardening section below):
 
 ```yaml
 services:
@@ -116,7 +116,7 @@ services:
       - docker-proxy
     # Socket cleanup loop: 10 passes at 30s intervals (~5 minutes) to catch all
     # VS Code IPC sockets, including late-created ones. Runs as a child of the
-    # container's own bash process — not subject to VS Code lifecycle management.
+    # container's own bash process – not subject to VS Code lifecycle management.
     command: >
       bash -c '
       (for i in 1 2 3 4 5 6 7 8 9 10; do sleep 30;
@@ -129,7 +129,7 @@ networks:
     external: true
 ```
 
-**`.devcontainer/Dockerfile`** - crucially, without sudo, and with a shell hardening script (more on why in a moment):
+**`.devcontainer/Dockerfile`** – crucially, without sudo, and with a shell hardening script (more on why in a moment):
 
 ```dockerfile
 FROM node:lts
@@ -156,7 +156,7 @@ RUN groupadd --gid $USER_GID $USERNAME \
 
 USER $USERNAME
 
-# Security hardening script — sourced from .bashrc before the interactive guard
+# Security hardening script – sourced from .bashrc before the interactive guard
 # See the "VS Code IPC hardening" section for why this is needed
 RUN mkdir -p /home/vscode/.config && cat << 'HARDEN' > /home/vscode/.config/security-harden.sh
 unset VSCODE_IPC_HOOK_CLI VSCODE_GIT_IPC_HANDLE GIT_ASKPASS \
@@ -177,19 +177,19 @@ The external network (`dev` in this example) allows your dev container to commun
 
 ## Securing dev containers
 
-Right, so here's where it gets interesting. VS Code dev containers are designed to be convenient, not secure. They actively work against you by injecting various - otherwise helpful - features that happen to be security holes when you're running an autonomous coding agent.
+Right, so here's where it gets interesting. VS Code dev containers are designed to be convenient, not secure. They actively work against you by injecting various – otherwise helpful – features that happen to be security holes when you're running an autonomous coding agent.
 
 ### The threat model
 
 What are we actually protecting against?
 
-- **Malicious npm packages** - supply chain attacks that execute arbitrary code during `npm install` (using the `postInstall` hook) or at runtime
-- **Prompt injection** - malicious content in files, URLs, or API responses that manipulates the agent into executing harmful commands
-- **AI mistakes** - even without malicious intent, the agent could make errors with destructive consequences
+- **Malicious npm packages** – supply chain attacks that execute arbitrary code during `npm install` (using the `postInstall` hook) or at runtime
+- **Prompt injection** – malicious content in files, URLs, or API responses that manipulates the agent into executing harmful commands
+- **AI mistakes** – even without malicious intent, the agent could make errors with destructive consequences
 
 The goal is a sandbox where the agent can work freely while limiting the blast radius of any compromise.
 
-### Docker socket proxy - preventing container escape
+### Docker socket proxy – preventing container escape
 
 The most obvious attack vector is Docker itself. With direct socket access, escaping the container is trivial:
 
@@ -203,15 +203,15 @@ The [Tecnativa docker-socket-proxy](https://github.com/Tecnativa/docker-socket-p
 
 **What the agent can do:**
 
-- `docker ps` - list running containers
-- `docker logs <container>` - view container logs
-- `docker inspect <container>` - inspect container details
+- `docker ps` – list running containers
+- `docker logs <container>` – view container logs
+- `docker inspect <container>` – inspect container details
 
 **What the agent cannot do:**
 
-- `docker run` - create new containers
-- `docker exec` - execute commands in other containers
-- `docker build` - build images
+- `docker run` – create new containers
+- `docker exec` – execute commands in other containers
+- `docker build` – build images
 
 Why not just remove Docker access entirely? Being able to view logs of sibling containers (postgres, emulators, etc.) is genuinely useful for debugging. The proxy preserves this capability while blocking escape vectors.
 
@@ -219,7 +219,7 @@ Why not just remove Docker access entirely? Being able to view logs of sibling c
 
 This one has three parts:
 
-**No sudo** — don't install it. A non-root user with sudo access can escalate to root and bypass container restrictions.
+**No sudo** – don't install it. A non-root user with sudo access can escalate to root and bypass container restrictions.
 
 ```bash
 $ sudo -l
@@ -228,9 +228,9 @@ bash: sudo: command not found
 
 If you see your agent wants to use another tool, add it to the Dockerfile.
 
-**Drop all Linux capabilities** — `cap_drop: [ALL]` in docker-compose.yml removes all kernel capabilities from the container. The container only runs Node.js, git, and bash — none of which need special capabilities at runtime. If something breaks, specific capabilities can be added back with `cap_add`.
+**Drop all Linux capabilities** – `cap_drop: [ALL]` in docker-compose.yml removes all kernel capabilities from the container. The container only runs Node.js, git, and bash – none of which need special capabilities at runtime. If something breaks, specific capabilities can be added back with `cap_add`.
 
-**Prevent new privileges** — `security_opt: no-new-privileges:true` prevents privilege escalation via setuid/setgid binaries. Combined with removing sudo, this ensures no process in the container can gain elevated privileges.
+**Prevent new privileges** – `security_opt: no-new-privileges:true` prevents privilege escalation via setuid/setgid binaries. Combined with removing sudo, this ensures no process in the container can gain elevated privileges.
 
 ```yaml
 claude-code:
@@ -240,34 +240,34 @@ claude-code:
     - no-new-privileges:true
 ```
 
-Together these strengthen the container boundary itself — even if an attacker finds a setuid binary or a way to invoke a privileged operation, the kernel will refuse.
+Together these strengthen the container boundary itself – even if an attacker finds a setuid binary or a way to invoke a privileged operation, the kernel will refuse.
 
-### Git push prevention - no SSH keys
+### Git push prevention – no SSH keys
 
-Malicious code could push itself to a remote repository, establishing persistence or spreading to other systems. The fix is straightforward: don't mount SSH keys into the container. You'll also need to prevent VS Code from injecting them, see in a bit.
+Malicious code could (force-)push itself to a remote repository, establishing persistence or spreading to other systems. The fix is straightforward: don't mount SSH keys into the container. You'll also need to prevent VS Code from injecting them, see in a bit.
 
 One credential that is unavoidable is the one for your agent – unless you're happy to log in every time – so keep it in a gitignored directory on the host:
 
 ```yaml
-# In .devcontainer/docker-compose.yml - no ~/.ssh mount
+# In .devcontainer/docker-compose.yml – no ~/.ssh mount
 volumes:
   - ../.claude-docker/.claude.json:/home/vscode/.claude.json
 ```
 
 **What the agent can do:**
 
-- `git log`, `git status`, `git diff` - full read access
-- `git commit`, `git branch` - local commits and branches
-- `git stash`, `git checkout` - local operations
+- `git log`, `git status`, `git diff` – full read access
+- `git commit`, `git branch` – local commits and branches
+- `git stash`, `git checkout` – local operations
 
 **What the agent cannot do:**
 
-- `git push` - fails with SSH authentication error
-- `git fetch` from private repos - no credentials
+- `git push` – fails with SSH authentication error
+- `git fetch` from private repos – no credentials
 
 Changes are still tracked by git, so you can review everything before pushing yourself. I personally find this an incredibly good compromise, the agent can use all the basic git functions, but unable to do destructive commands.
 
-### VS Code IPC hardening - the lesser-known attack surface
+### VS Code IPC hardening – the lesser-known attack surface
 
 This is the sneaky one. VS Code's remote development model creates multiple Unix sockets in `/tmp` that enable communication between the container and host. [Research by The Red Guild](https://blog.theredguild.org/leveraging-vscode-internals-to-escape-containers/) demonstrates these can be abused for container escape:
 
@@ -321,8 +321,8 @@ So `remoteEnv` alone is insufficient. We need a layered approach.
 The obvious fix seems to be clearing these variables in `.bashrc`. But there's a catch: coding agents like Claude Code invoke bash as a **non-interactive login shell**. You can verify this:
 
 ```bash
-shopt login_shell    # on — it IS a login shell
-echo $-              # hmtBc — no 'i' flag, NOT interactive
+shopt login_shell    # on – it IS a login shell
+echo $-              # hmtBc – no 'i' flag, NOT interactive
 ```
 
 For login shells, bash sources `~/.profile`, which sources `~/.bashrc`. But Debian's default `.bashrc` has an interactive guard near the top:
@@ -335,11 +335,11 @@ case $- in
 esac
 ```
 
-This means **anything after this guard is invisible to the coding agent**. The fix is to source a hardening script *before* the guard — on line 1 of `.bashrc`.
+This means **anything after this guard is invisible to the coding agent**. The fix is to source a hardening script *before* the guard – on line 1 of `.bashrc`.
 
 #### Three-layer defence
 
-**Layer 1 — `remoteEnv`** (first line of defence, partially effective):
+**Layer 1 – `remoteEnv`** (first line of defence, partially effective):
 
 ```json
 {
@@ -359,22 +359,22 @@ This means **anything after this guard is invisible to the coding agent**. The f
 }
 ```
 
-**Layer 2 — Shell hardening script** (primary defence, baked into Dockerfile):
+**Layer 2 – Shell hardening script** (primary defence, baked into Dockerfile):
 
 ```dockerfile
-# Security hardening script — sourced from .bashrc before the interactive guard
+# Security hardening script – sourced from .bashrc before the interactive guard
 RUN mkdir -p /home/vscode/.config && cat << 'HARDEN' > /home/vscode/.config/security-harden.sh
-# VS Code IPC sockets — can execute commands on the host
+# VS Code IPC sockets – can execute commands on the host
 unset VSCODE_IPC_HOOK_CLI
 
-# VS Code Git extension IPC — credential access via host
+# VS Code Git extension IPC – credential access via host
 unset VSCODE_GIT_IPC_HANDLE \
       GIT_ASKPASS \
       VSCODE_GIT_ASKPASS_MAIN \
       VSCODE_GIT_ASKPASS_NODE \
       VSCODE_GIT_ASKPASS_EXTRA_ARGS
 
-# Remote Containers extension IPC — host command execution bridge
+# Remote Containers extension IPC – host command execution bridge
 unset REMOTE_CONTAINERS_IPC \
       REMOTE_CONTAINERS_SOCKETS \
       REMOTE_CONTAINERS_DISPLAY_SOCK
@@ -382,11 +382,11 @@ unset REMOTE_CONTAINERS_IPC \
 # GUI forwarding (low risk but unnecessary)
 unset WAYLAND_DISPLAY
 
-# Browser helper — can trigger actions on host via --openExternal
+# Browser helper – can trigger actions on host via --openExternal
 # Set to empty rather than unset to prevent fallback to defaults
 export BROWSER=
 
-# Agent forwarding — set to empty to prevent fallback to default socket paths
+# Agent forwarding – set to empty to prevent fallback to default socket paths
 export SSH_AUTH_SOCK=
 export GPG_AGENT_INFO=
 HARDEN
@@ -395,7 +395,7 @@ HARDEN
 RUN sed -i '1i source ~/.config/security-harden.sh 2>/dev/null || true' ~/.bashrc
 ```
 
-**Layer 3 — Socket file deletion** (defence in depth):
+**Layer 3 – Socket file deletion** (defence in depth):
 
 Two mechanisms handle different socket creation timings:
 
@@ -404,13 +404,13 @@ Two mechanisms handle different socket creation timings:
 
 ```json
 {
-  // In devcontainer.json — postStartCommand catches early sockets
+  // In devcontainer.json – postStartCommand catches early sockets
   "postStartCommand": "find /tmp -maxdepth 2 \\( -name 'vscode-ssh-auth-*.sock' -o -name 'vscode-remote-containers-ipc-*.sock' -o -name 'vscode-remote-containers-*.js' \\) -delete 2>/dev/null || true"
 }
 ```
 
 ```yaml
-# In docker-compose.yml — background loop catches IPC/git sockets.
+# In docker-compose.yml – background loop catches IPC/git sockets.
 # 10 passes at 30s intervals (~5 minutes) to catch all late-created sockets.
 # Runs as a child of the container's own bash process, NOT a VS Code lifecycle command.
 command: >
@@ -421,11 +421,11 @@ command: >
   sleep infinity'
 ```
 
-Note `-maxdepth 2` to catch sockets in `/tmp/user/1000/` as well. `vscode-ipc-*.sock` and `vscode-git-*.sock` are **not recreated after deletion** — the IDE continues to work without them. However, VS Code creates IPC sockets at multiple times during startup — some 60+ seconds after attach. A single cleanup pass misses these late-created sockets. The 10-pass approach (every 30s for ~5 minutes) ensures all sockets are caught regardless of when VS Code creates them.
+Note `-maxdepth 2` to catch sockets in `/tmp/user/1000/` as well. `vscode-ipc-*.sock` and `vscode-git-*.sock` are **not recreated after deletion** – the IDE continues to work without them. However, VS Code creates IPC sockets at multiple times during startup – some 60+ seconds after attach. A single cleanup pass misses these late-created sockets. The 10-pass approach (every 30s for ~5 minutes) ensures all sockets are caught regardless of when VS Code creates them.
 
-**Why Docker Compose `command` instead of `postAttachCommand`?** This was a hard-won lesson. VS Code's `postAttachCommand` is unreliable for background processes — VS Code appears to use cgroup-based cleanup that kills ALL processes spawned during lifecycle commands, regardless of `nohup`, `setsid`, double-fork, or any other daemonisation technique. The Docker Compose `command` runs as the container's own process tree, which is not subject to VS Code's lifecycle management — making it the right place for long-running background tasks.
+**Why Docker Compose `command` instead of `postAttachCommand`?** This was a hard-won lesson. VS Code's `postAttachCommand` is unreliable for background processes – VS Code appears to use cgroup-based cleanup that kills ALL processes spawned during lifecycle commands, regardless of `nohup`, `setsid`, double-fork, or any other daemonisation technique. The Docker Compose `command` runs as the container's own process tree, which is not subject to VS Code's lifecycle management – making it the right place for long-running background tasks.
 
-**Why three layers?** Each has limitations: `remoteEnv` is overridden by VS Code for its own variables; the shell hardening only applies to bash processes (not direct socket access); socket deletion has a window while the cleanup passes complete (up to ~5 minutes after container start). Together, they ensure that standard tools, shell commands, and opportunistic discovery all fail.
+**Why three layers?** Each has limitations: `remoteEnv` is overridden by VS Code for its own variables; the shell hardening only applies to bash processes (not direct socket access); socket deletion has a window while the cleanup passes complete (30s gaps). Together, they ensure that standard tools, shell commands, and opportunistic discovery all fail.
 
 **What each mitigation does:**
 
@@ -454,7 +454,7 @@ You also want to disable VS Code's credential injection:
 }
 ```
 
-**Remaining risk**: During the window while the 10 cleanup passes complete (up to 30 seconds after container start), a targeted attack could discover and directly connect to `vscode-ipc-*.sock` sockets using VS Code's internal IPC protocol. After each pass, the sockets are permanently removed. To use this vector, a pre-existing script would need to perform the full attack within seconds of container startup, which is unlikely.
+**Remaining risk**: During the window while the cleanup passes complete, a targeted attack could discover and directly connect to `vscode-ipc-*.sock` sockets using VS Code's internal IPC protocol. After each pass, the sockets are permanently removed. To use this vector, a pre-existing script would need to perform the full attack (otherwise the socket will close on it) within seconds of container startup, which is unlikely.
 
 ### Triggering actions in sibling containers
 
@@ -474,7 +474,6 @@ Not everything can be locked down without making development impractical. These 
 | Workspace write access | Source code can be modified | Essential for development; git tracks changes |
 | Claude credentials readable | OAuth token could be stolen | Token is revocable; limited blast radius |
 | Environment variables | Secrets in .env accessible | Development requires env vars, no production keys |
-| Local file read access | Any file in /app readable | Essential for development |
 
 The key insight is that these risks are containable. Network egress could be monitored, workspace changes are tracked by git, and tokens can be revoked.
 
@@ -531,7 +530,7 @@ The `initializeCommand` is a bit complex because it needs to be compatible with 
   "remoteUser": "vscode",
   "shutdownAction": "stopCompose",
   "remoteEnv": {
-    // First layer of defence — VS Code re-injects some of these, so the
+    // First layer of defence – VS Code re-injects some of these, so the
     // security-harden.sh script sourced from .bashrc is the real safeguard.
     "SSH_AUTH_SOCK": "",
     "GPG_AGENT_INFO": "",
@@ -551,7 +550,7 @@ The `initializeCommand` is a bit complex because it needs to be compatible with 
   // postStartCommand: clean up sockets created before VS Code attaches
   "postStartCommand": "find /tmp -maxdepth 2 \\( -name 'vscode-ssh-auth-*.sock' -o -name 'vscode-remote-containers-ipc-*.sock' -o -name 'vscode-remote-containers-*.js' \\) -delete 2>/dev/null || true",
   // IPC socket cleanup (vscode-ipc-*.sock, vscode-git-*.sock) is handled by a background
-  // loop in the Docker Compose command — postAttachCommand is unreliable for background
+  // loop in the Docker Compose command – postAttachCommand is unreliable for background
   // processes due to VS Code's cgroup-based lifecycle cleanup.
   "customizations": {
     "vscode": {
@@ -666,7 +665,7 @@ services:
       - docker-proxy
     # These are running here instead of Dockerfile to ensure freshness and happen in the background while the IDE is already open.
     # The socket cleanup loop (10 passes at 30s intervals) catches VS Code IPC sockets
-    # including late-created ones. Runs as a child of the container's own bash process —
+    # including late-created ones. Runs as a child of the container's own bash process –
     # not subject to VS Code's cgroup-based lifecycle cleanup.
     command: >
       bash -c '. /home/vscode/.bashrc &&
@@ -692,7 +691,7 @@ volumes:
 
 ### `Dockerfile`
 
-This is based of Debian and installs Node manually to be able to track the version in `.nvmrc`. Note the security hardening script baked into the image — this is the primary defence against VS Code's re-injected environment variables.
+This is based of Debian and installs Node manually to be able to track the version in `.nvmrc`. Note the security hardening script baked into the image – this is the primary defence against VS Code's re-injected environment variables.
 
 ```dockerfile
 FROM debian:trixie
@@ -763,17 +762,17 @@ ENV SHELL=/bin/bash
 # This script is sourced from .bashrc BEFORE the interactive guard, so it runs
 # for non-interactive login shells (which is how Claude Code invokes bash).
 RUN mkdir -p /home/vscode/.config && cat << 'HARDEN' > /home/vscode/.config/security-harden.sh
-# VS Code IPC sockets — can execute commands on the host
+# VS Code IPC sockets – can execute commands on the host
 unset VSCODE_IPC_HOOK_CLI
 
-# VS Code Git extension IPC — credential access via host
+# VS Code Git extension IPC – credential access via host
 unset VSCODE_GIT_IPC_HANDLE \
       GIT_ASKPASS \
       VSCODE_GIT_ASKPASS_MAIN \
       VSCODE_GIT_ASKPASS_NODE \
       VSCODE_GIT_ASKPASS_EXTRA_ARGS
 
-# Remote Containers extension IPC — host command execution bridge
+# Remote Containers extension IPC – host command execution bridge
 unset REMOTE_CONTAINERS_IPC \
       REMOTE_CONTAINERS_SOCKETS \
       REMOTE_CONTAINERS_DISPLAY_SOCK
@@ -781,11 +780,11 @@ unset REMOTE_CONTAINERS_IPC \
 # GUI forwarding (low risk but unnecessary)
 unset WAYLAND_DISPLAY
 
-# Browser helper — can trigger actions on host via --openExternal
+# Browser helper – can trigger actions on host via --openExternal
 # Set to empty rather than unset to prevent fallback to defaults
 export BROWSER=
 
-# Agent forwarding — set to empty to prevent fallback to default socket paths
+# Agent forwarding – set to empty to prevent fallback to default socket paths
 export SSH_AUTH_SOCK=
 export GPG_AGENT_INFO=
 HARDEN
