@@ -31,8 +31,9 @@ interface LayoutProps {
 }
 
 export default function PostLayout({ content, authorDetails, next, prev, children }: LayoutProps) {
-  const { filePath, path, slug, date, title, tags, images, readingTime } = content
+  const { filePath, path, slug, date, lastmod, title, tags, images, readingTime } = content
   const basePath = path.split('/')[0]
+  const showUpdated = lastmod && new Date(lastmod).toDateString() !== new Date(date).toDateString()
   const [loadComments, setLoadComments] = useState(true)
 
   return (
@@ -51,6 +52,20 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                       {new Date(date).toLocaleDateString(siteMetadata.locale, postDateTemplate)}
                     </time>
                   </dd>
+                  {showUpdated && (
+                    <>
+                      <dt className="sr-only">Last updated on</dt>
+                      <dd className="text-sm font-medium leading-6 text-gray-500 dark:text-gray-400">
+                        Last updated on{' '}
+                        <time className="dt-updated" dateTime={lastmod}>
+                          {new Date(lastmod).toLocaleDateString(
+                            siteMetadata.locale,
+                            postDateTemplate
+                          )}
+                        </time>
+                      </dd>
+                    </>
+                  )}
                 </div>
               </dl>
               <div className="p-name">
