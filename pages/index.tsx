@@ -222,8 +222,10 @@ export default function Home({ posts, projects }: InferGetStaticPropsType<typeof
 
         <div className="grid gap-8 md:grid-cols-12 md:gap-6">
           {posts.slice(0, MAX_POSTS).map((post, index) => {
-            const { path, date, title, summary, images, readingTime } = post
+            const { path, date, lastmod, title, summary, images, readingTime } = post
             const isLead = index === 0
+            const showUpdated =
+              lastmod && new Date(lastmod).toDateString() !== new Date(date).toDateString()
 
             if (isLead) {
               return (
@@ -250,10 +252,22 @@ export default function Home({ posts, projects }: InferGetStaticPropsType<typeof
                       </Link>
                     )}
                     <div className={images?.[0] ? 'md:col-span-6' : 'md:col-span-12'}>
-                      <div className="mb-2 flex items-center gap-3 text-sm text-gray-500 dark:text-gray-400">
-                        <time dateTime={date}>{formatDate(date, siteMetadata.locale)}</time>
-                        <span>·</span>
-                        <span>{readingTime.text}</span>
+                      <div className="mb-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-gray-500 dark:text-gray-400">
+                        <time className="dt-published whitespace-nowrap" dateTime={date}>
+                          {formatDate(date, siteMetadata.locale)}
+                        </time>
+                        {showUpdated && (
+                          <span className="flex items-center gap-3 whitespace-nowrap">
+                            <span>·</span>
+                            <time className="dt-updated" dateTime={lastmod}>
+                              updated {formatDate(lastmod, siteMetadata.locale)}
+                            </time>
+                          </span>
+                        )}
+                        <span className="flex items-center gap-3 whitespace-nowrap">
+                          <span>·</span>
+                          <span>{readingTime.text}</span>
+                        </span>
                       </div>
                       <h3 className="font-display text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-100 md:text-3xl">
                         <Link href={`/${path}`}>{title}</Link>
@@ -288,10 +302,22 @@ export default function Home({ posts, projects }: InferGetStaticPropsType<typeof
                     </div>
                   </Link>
                 )}
-                <div className="mb-2 flex items-center gap-3 text-sm text-gray-500 dark:text-gray-400">
-                  <time dateTime={date}>{formatDate(date, siteMetadata.locale)}</time>
-                  <span>·</span>
-                  <span>{readingTime.text}</span>
+                <div className="mb-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-gray-500 dark:text-gray-400">
+                  <time className="dt-published whitespace-nowrap" dateTime={date}>
+                    {formatDate(date, siteMetadata.locale)}
+                  </time>
+                  {showUpdated && (
+                    <span className="flex items-center gap-3 whitespace-nowrap">
+                      <span>·</span>
+                      <time className="dt-updated" dateTime={lastmod}>
+                        updated {formatDate(lastmod, siteMetadata.locale)}
+                      </time>
+                    </span>
+                  )}
+                  <span className="flex items-center gap-3 whitespace-nowrap">
+                    <span>·</span>
+                    <span>{readingTime.text}</span>
+                  </span>
                 </div>
                 <h3 className="font-display text-lg font-bold tracking-tight text-gray-900 dark:text-gray-100">
                   <Link href={`/${path}`}>{title}</Link>

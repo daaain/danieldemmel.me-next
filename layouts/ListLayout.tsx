@@ -59,7 +59,9 @@ export function PostList({ filteredBlogPosts, displayPosts, hideTags }) {
     <ul className="divide-y divide-gray-200 dark:divide-gray-700">
       {!filteredBlogPosts.length && 'No entries found.'}
       {displayPosts.map((post) => {
-        const { path, date, title, summary, tags, images, readingTime } = post
+        const { path, date, lastmod, title, summary, tags, images, readingTime } = post
+        const showUpdated =
+          lastmod && new Date(lastmod).toDateString() !== new Date(date).toDateString()
         return (
           <li key={path} className="py-4">
             <article className="space-y-2 xl:grid xl:grid-cols-4 xl:items-center xl:space-y-0">
@@ -88,16 +90,28 @@ export function PostList({ filteredBlogPosts, displayPosts, hideTags }) {
                       {title}
                     </Link>
                   </h3>
-                  <dl className="flex flex-wrap gap-6">
+                  <dl className="flex flex-wrap items-center gap-x-6 gap-y-1">
                     <div>
                       <dt className="sr-only">Published on</dt>
-                      <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
-                        <time dateTime={date}>{formatDate(date, siteMetadata.locale)}</time>
+                      <dd className="whitespace-nowrap text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
+                        <time className="dt-published" dateTime={date}>
+                          {formatDate(date, siteMetadata.locale)}
+                        </time>
                       </dd>
                     </div>
+                    {showUpdated && (
+                      <div>
+                        <dt className="sr-only">Last updated on</dt>
+                        <dd className="whitespace-nowrap text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
+                          <time className="dt-updated" dateTime={lastmod}>
+                            Updated {formatDate(lastmod, siteMetadata.locale)}
+                          </time>
+                        </dd>
+                      </div>
+                    )}
                     <div>
                       <dt className="sr-only">Reading time</dt>
-                      <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
+                      <dd className="whitespace-nowrap text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
                         {readingTime.text}
                       </dd>
                     </div>

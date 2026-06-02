@@ -20,7 +20,8 @@ interface LayoutProps {
 export default function PostLayout({ content, next, prev, children }: LayoutProps) {
   const [loadComments, setLoadComments] = useState(false)
 
-  const { path, slug, date, title } = content
+  const { path, slug, date, lastmod, title } = content
+  const showUpdated = lastmod && new Date(lastmod).toDateString() !== new Date(date).toDateString()
 
   return (
     <SectionContainer>
@@ -34,8 +35,21 @@ export default function PostLayout({ content, next, prev, children }: LayoutProp
                 <div>
                   <dt className="sr-only">Published on</dt>
                   <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
-                    <time dateTime={date}>{formatDate(date, siteMetadata.locale)}</time>
+                    <time className="dt-published" dateTime={date}>
+                      {formatDate(date, siteMetadata.locale)}
+                    </time>
                   </dd>
+                  {showUpdated && (
+                    <>
+                      <dt className="sr-only">Last updated on</dt>
+                      <dd className="text-sm font-medium leading-6 text-gray-500 dark:text-gray-400">
+                        Last updated on{' '}
+                        <time className="dt-updated" dateTime={lastmod}>
+                          {formatDate(lastmod, siteMetadata.locale)}
+                        </time>
+                      </dd>
+                    </>
+                  )}
                 </div>
               </dl>
               <div>
