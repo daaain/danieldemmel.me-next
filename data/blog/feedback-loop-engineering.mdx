@@ -7,19 +7,15 @@ images: ['/images/2026/loop-the-loop-luna-park-coney-island-84d581.jpg']
 summary: Why the most important skill with AI coding agents isn't prompting or curating context – it's designing how they verify their own work
 ---
 
-Gergely Orosz recently had [a deep dive podcast with Peter Steinberger about his AI-native development workflow](https://newsletter.pragmaticengineer.com/p/the-creator-of-clawd-i-ship-code) on The Pragmatic Engineer. Peter – who built PSPDFKit into a 70-person company before taking a sabbatical – now routinely runs 5-10 coding agents in parallel, ships code he doesn't personally read, and produces commit volumes that look like an entire team's output.
+A while back I listened to [a Pragmatic Engineer podcast with Peter Steinberger](https://newsletter.pragmaticengineer.com/p/the-creator-of-clawd-i-ship-code) about his AI-native development workflow – the one where he runs 5-10 coding agents in parallel and ships code he doesn't personally read. The headline numbers are easy to fixate on, but what stuck with me was the infrastructure underneath them. His workflow doesn't succeed because he writes better prompts, or even because he feeds the agents better context. It works because he's built what he calls "closed-loop systems" where the agents verify their own work – compiling, running, debugging, screenshotting, hitting real API keys.
 
-It's worth listening to if you have 1.5 hours (I found 1.25x speed ideal), but what stuck with me wasn't the silly numbers. It was the infrastructure underneath them.
-
-Peter's workflow doesn't succeed because he writes better prompts or even because he provides better context – though he learnt both to the point that he now uses words in conversations that his agents have been using. It works because he's designed what he calls "closed-loop systems" where agents verify their own work. Compiling, running, debugging, screenshotting binaries. Local CI. Real API keys.
-
-I've been chewing on this pattern for a while now myself, and I think it deserves its own name. Here's my current hierarchy:
+I've been chewing on that pattern ever since, and I think it deserves its own name. Here's my current hierarchy:
 
 <PullQuote>
-Prompt engineering < context engineering < feedback loop engineering
+Prompt engineering < context engineering < feedback loop engineering < harness engineering
 </PullQuote>
 
-## The three levels
+## The four levels
 
 **Prompt engineering** is where most people start – and where most of the discourse lies. How do you phrase your request? What system prompt works best? Should I write "please" or "my job depends on it, make no mistakes"? It might matter, but the models are getting good enough to infer intention from vague prompts. Instead of crafting the perfect spec and trying to cover all possibilities, you can just have a conversation.
 
@@ -27,13 +23,17 @@ Prompt engineering < context engineering < feedback loop engineering
 
 But **feedback loop engineering** is what separates working code from getting lucky. It's the practice of building tools and infrastructure so that coding agents can verify their work *in context*. Not to stop when they did a reasonable amount of work and feel like it's "production ready", but to see hard evidence of how the code behaves in an as production-like setup as possible.
 
+**Harness engineering** is the frame around all of it. Birgitta Böckeler [defines the harness as everything in an agent except the model itself](https://martinfowler.com/articles/harness-engineering.html) – "Agent = Model + Harness" – and splits it into *guides* that steer the agent before it acts (feedforward: your `CLAUDE.md`, types, linting) and *sensors* that let it observe the consequences after (feedback: the loops I'll get to below). By that definition my "feedback loop engineering" is really the sensor half of harness engineering, done on purpose.
+
+So why give it its own rung rather than fold it in? Because the three answer different questions. Context engineering is about what goes *in*. Harness engineering is about governing the whole apparatus – which tools the agent can call, what it's allowed to touch, when it should stop. And the feedback loop is the connective tissue between them: the bit that decides whether the agent ever finds out it was wrong. It's also, I'd argue, where most developers get the best return on their time today – which is why it's the one this post keeps circling back to, even though it's a piece of something larger.
+
 ## What this looks like in practice
 
 The core idea is straightforward: you want the agent to be able to run its code, see the result, and iterate. Just like a developer would. The faster and tighter that loop, the better the output.
 
 The [foundational layer](/blog/my-coding-agent-workflows) – strict linting, strong types, integration tests, git hooks – I covered previously. These are table stakes. They catch syntax errors and structural problems before the agent even commits. Adding types and validation libraries (like Zod or Pydantic) are the next useful layer that self-documents and enforces data contracts. But they can't tell you whether the code actually *does the right thing* in a running system and if it fails gracefully.
 
-The more interesting layer is giving agents access to production-like observability:
+If that foundational layer is mostly feedforward – guides that keep the agent on the rails before it acts – the more interesting layer is the feedback that tells it whether the code actually worked: production-like observability.
 
 - **Browser debugging via CLI** – I use [browser-debugger-cli](https://github.com/szymdzum/browser-debugger-cli) which wraps Chrome DevTools into a CLI rather than an MCP. The agent can navigate to a page, inspect the DOM, check console errors, verify that a frontend change actually renders correctly, and even execute JavaScript snippets – not just that the component compiles
 - **Database query skills** – knowing the schema and being pointed to a pre-authenticated CLI, the agent can run queries against a development database to verify that a migration ran correctly, that data is being written in the expected shape, or that a query optimisation actually improved things
@@ -43,21 +43,13 @@ The more interesting layer is giving agents access to production-like observabil
 
 The pattern goes beyond "does it compile?" to "does it actually work as part of the system?" Each of these tools closes a gap between what the agent wrote and what happens at runtime. And crucially, they're all exposed as CLI skills – pipeable, composable, text-in text-out – which brings us to why that matters.
 
-## Steinberger's workflow through this lens
+Once the loops are solid, something shifts in how you work. You can run several agents in parallel without everything collapsing into chaos, because you're no longer reviewing every line – you're leaning on the systems that review the code for you. "Architecture over code review", as Peter puts it. It also makes experimentation cheap: you can deliberately under-prompt, give vague instructions to see what the agent comes up with, and trust the loops to flag a wrong turn before it compounds into something expensive.
 
-What makes Peter's approach worth studying isn't the tens of thousands of commits he produced in January – it's the architecture that made them possible.
-
-This is why he can run multiple agents in parallel without everything collapsing into chaos. He's not reviewing every line of code. He's designing the *systems that review the code*.
-
-His phrase "architecture over code review" captures it well. When the feedback loops are solid, detailed code review becomes less critical. The architecture – of the software and of the development process – is what holds everything together.
-
-It's also worth noting what he's *not* doing. He doesn't use infinite prompt loops or armies of personas orchestrating each other. He sometimes even deliberately under-prompts, giving vague instructions to see what the agent comes up with. That works precisely because the feedback loops catch mistakes, making experimentation cheap. If the agent goes off-piste, the tests will flag it before it gets deep into compounding mistakes territory.
-
-But there's an important question: what's the right interface between an agent and a feedback loop? Do we need to shovel another 70K tokens worth of MCP instructions in the context?
+Which raises the obvious question: what's the right interface between an agent and a feedback loop? Do we need to shovel another 70K tokens of MCP instructions into the context?
 
 ## The Unix connection
 
-I agree with Peter that **CLI tools that are pipeable and progressively explorable** are the optimal interface for *current* AI models. Not because CLIs are inherently superior to GUIs – they often aren't, for a lot of humans – but because text-in, text-out interfaces are what these models are most fluent with. In ML terms, they're *in distribution*: the kind of interface the model has seen most during training. And if some models later work better with a different interface, repackaging CLI wrapped APIs won't be too difficult.
+I think **CLI tools that are pipeable and progressively explorable** are the optimal interface for *current* AI models, and Peter makes the same case. Not because CLIs are inherently superior to GUIs – they often aren't, for a lot of humans – but because text-in, text-out interfaces are what these models are most fluent with. In ML terms, they're *in distribution*: the kind of interface the model has seen most during training. And if some models later work better with a different interface, repackaging CLI wrapped APIs won't be too difficult.
 
 So, "progressively explorable" means the agent can start broad and narrow down. `git log --oneline` gives an overview. Pick a commit, `git show` gives details. `git diff` narrows further. At each step, the agent gets feedback and decides where to dig deeper. The tool doesn't force a particular path – it responds to choices. But it's true for the CLI interface itself, running `--help` for each command depth.
 
@@ -67,14 +59,27 @@ There's something delightfully ironic here. The Unix philosophy – small tools 
 
 For tool builders, the implication is clear: if you want your tool to work well with AI agents, make it work well as a CLI. Structured output. Clear error messages. Composable commands. Fast execution. These aren't new ideas – they're old ideas that have suddenly become much more valuable.
 
+## The inner and outer loop
+
+Almost everything so far is about the **inner loop**: the agent runs its code, reads the result, and feeds that straight back into its own context, all within a single session. Tighten that loop and the output gets better. But there's a slower, wider loop sitting on top of it, and it's where the compounding really happens.
+
+The **outer loop** is what turns one session's hard-won lesson into something every future session starts with. An agent burns half an hour discovering that a particular API silently truncates payloads over a certain size, or that a migration needs a specific flag on this database version. In the inner loop that knowledge lives and dies inside the context window. In the outer loop it gets reflected on at the end of the session, distilled, and written back into the shared knowledge the next agent loads up front – a new skill, a note in `CLAUDE.md`, an entry in a team knowledge base.
+
+Mozilla AI's [`cq`](https://github.com/mozilla-ai/cq) is the cleanest take on this I've seen. It's an open standard for shared agent learning: agents store discoveries as structured "knowledge units" – undocumented API quirks, workarounds, fixes – and *query the store before retrying a failure*, so they stop rediscovering the same dead ends independently. A `/cq:reflect` command mines a finished session for the lessons worth keeping, ranks them by how generalisable they are, checks for duplicates, and proposes new units for you to approve. The store can live locally in SQLite or sync across a whole team. Their own framing names it exactly: separate the inner loop of solving the problem from the outer loop of consolidating what you learned.
+
+The neat part is how the two loops join up. Today's distilled lesson becomes tomorrow's *guide* – feedforward, in harness terms – so the outer loop quietly improves the inner one over time. It's the same circle a good team already runs: someone debugs a gnarly issue, writes it up, and the next person doesn't have to start from scratch. We're just teaching the agents to do their own write-ups.
+
 ## The best bit
 
 What I like about this approach is that feedback loop engineering isn't just AI-specific overhead. Observability, structured logging, trace correlation, browser testing, database verification, clear interfaces, helpful error messages – these were good engineering practices long before anyone was prompting a language model. The difference is that wrapping them as CLI-accessible skills makes them available to agents too. The feedback loops that help an agent debug a cross-service issue are the same ones that help a developer on their first week understand how the system actually behaves.
 
-So if you're wondering where to invest your time as AI coding tools improve: less time crafting the perfect prompt, more time building tools that let agents – and humans – see what's actually happening. The prompts and coding agent harnesses will change as models evolve. The value of a tight feedback loop won't. And if the AI bubble pops next month, you're left with easy to test codebases that you can pick up again yourself or use local models for smaller tasks. If it doesn't, get your coding agent to self-improve by constantly updating the skills library after each session.
+So if you're wondering where to invest your time as AI coding tools improve: less time crafting the perfect prompt, more time building tools that let agents – and humans – see what's actually happening. The prompts and coding agent harnesses will change as models evolve. The value of a tight feedback loop won't. And if the AI bubble pops next month, you're left with easy to test codebases that you can pick up again yourself or use local models for smaller tasks. If it doesn't, the inner and outer loops keep compounding, and your agents get a little less forgetful with every session.
 
 And for Pete's sake, [don't install OpenClaw connected to all your personal data and services...](https://www.linkedin.com/posts/eracle_aiagents-promptinjection-moltbot-activity-7423126588160012289-Wcjg)
 
 ## Credits
 
-Hero image: https://picryl.com/media/loop-the-loop-luna-park-coney-island-84d581
+- The "harness engineering" framing, and the guides/sensors (feedforward/feedback) split, come from Birgitta Böckeler's [Harness Engineering for Coding Agents](https://martinfowler.com/articles/harness-engineering.html) on martinfowler.com.
+- The inner/outer loop example is [Mozilla AI's `cq`](https://github.com/mozilla-ai/cq).
+- The "closed-loop systems" and "architecture over code review" phrasing is Peter Steinberger's, from [his Pragmatic Engineer podcast with Gergely Orosz](https://newsletter.pragmaticengineer.com/p/the-creator-of-clawd-i-ship-code).
+- Hero image: https://picryl.com/media/loop-the-loop-luna-park-coney-island-84d581
