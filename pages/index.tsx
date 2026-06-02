@@ -222,8 +222,10 @@ export default function Home({ posts, projects }: InferGetStaticPropsType<typeof
 
         <div className="grid gap-8 md:grid-cols-12 md:gap-6">
           {posts.slice(0, MAX_POSTS).map((post, index) => {
-            const { path, date, title, summary, images, readingTime } = post
+            const { path, date, lastmod, title, summary, images, readingTime } = post
             const isLead = index === 0
+            const showUpdated =
+              lastmod && new Date(lastmod).toDateString() !== new Date(date).toDateString()
 
             if (isLead) {
               return (
@@ -251,7 +253,17 @@ export default function Home({ posts, projects }: InferGetStaticPropsType<typeof
                     )}
                     <div className={images?.[0] ? 'md:col-span-6' : 'md:col-span-12'}>
                       <div className="mb-2 flex items-center gap-3 text-sm text-gray-500 dark:text-gray-400">
-                        <time dateTime={date}>{formatDate(date, siteMetadata.locale)}</time>
+                        <time className="dt-published" dateTime={date}>
+                          {formatDate(date, siteMetadata.locale)}
+                        </time>
+                        {showUpdated && (
+                          <>
+                            <span>·</span>
+                            <time className="dt-updated" dateTime={lastmod}>
+                              updated {formatDate(lastmod, siteMetadata.locale)}
+                            </time>
+                          </>
+                        )}
                         <span>·</span>
                         <span>{readingTime.text}</span>
                       </div>
@@ -289,7 +301,17 @@ export default function Home({ posts, projects }: InferGetStaticPropsType<typeof
                   </Link>
                 )}
                 <div className="mb-2 flex items-center gap-3 text-sm text-gray-500 dark:text-gray-400">
-                  <time dateTime={date}>{formatDate(date, siteMetadata.locale)}</time>
+                  <time className="dt-published" dateTime={date}>
+                    {formatDate(date, siteMetadata.locale)}
+                  </time>
+                  {showUpdated && (
+                    <>
+                      <span>·</span>
+                      <time className="dt-updated" dateTime={lastmod}>
+                        updated {formatDate(lastmod, siteMetadata.locale)}
+                      </time>
+                    </>
+                  )}
                   <span>·</span>
                   <span>{readingTime.text}</span>
                 </div>
