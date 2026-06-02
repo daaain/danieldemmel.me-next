@@ -90,10 +90,10 @@ export function PostList({ filteredBlogPosts, displayPosts, hideTags }) {
                       {title}
                     </Link>
                   </h3>
-                  <dl className="flex flex-wrap gap-6">
+                  <dl className="flex flex-wrap items-center gap-x-6 gap-y-1">
                     <div>
                       <dt className="sr-only">Published on</dt>
-                      <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
+                      <dd className="whitespace-nowrap text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
                         <time className="dt-published" dateTime={date}>
                           {formatDate(date, siteMetadata.locale)}
                         </time>
@@ -102,7 +102,7 @@ export function PostList({ filteredBlogPosts, displayPosts, hideTags }) {
                     {showUpdated && (
                       <div>
                         <dt className="sr-only">Last updated on</dt>
-                        <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
+                        <dd className="whitespace-nowrap text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
                           <time className="dt-updated" dateTime={lastmod}>
                             Updated {formatDate(lastmod, siteMetadata.locale)}
                           </time>
@@ -111,7 +111,7 @@ export function PostList({ filteredBlogPosts, displayPosts, hideTags }) {
                     )}
                     <div>
                       <dt className="sr-only">Reading time</dt>
-                      <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
+                      <dd className="whitespace-nowrap text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
                         {readingTime.text}
                       </dd>
                     </div>
