@@ -7,6 +7,13 @@ const CustomLink = ({
 }: DetailedHTMLProps<AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>) => {
   const isInternalLink = href?.startsWith('/')
   const isAnchorLink = href?.startsWith('#')
+  // Next pages never have a trailing slash on this site, so one means a static
+  // folder in public/ (like the tokenizer), which next/link can't route to
+  const isStaticFolder = href !== '/' && href?.endsWith('/')
+
+  if (isInternalLink && isStaticFolder) {
+    return <a href={href} {...rest} />
+  }
 
   if (isInternalLink) {
     // @ts-ignore
