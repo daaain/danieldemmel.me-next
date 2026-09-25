@@ -73,7 +73,7 @@ But actually, the input to LLMs is not text, but tokens. Internally, these token
 
 The token vocabulary is often uploaded to Hugging Face as a separate JSON lookup table called `tokenizer.json`. Together with `tokenizer_config.json` it's possible to re-implement the tokeniser outside of the model. In this screenshot on the left, you have the text, and on the right, you have the corresponding token number. Some models are bilingual or multilingual, and they have tokens for both English and other languages, or non-Latin character sets such as Chinese, Cyrillic, and emojis. Depending on your use case, this kind of model may be more suitable, but most models are still mainly English.
 
-I was curious about these differences, so built a tool in which you can type any text, see how it would get tokenised, and compare several models side-by-side: [Online LLM Tokenizer](/tokenizer.html)
+I was curious about these differences, so built a tool in which you can type any text, see how it would get tokenised, and compare several models side-by-side: [Online LLM Tokenizer](/tokenizer/)
 
 Just for completeness, even tokens themselves aren't directly fed into the models, first they get mapped to an input embedding vector and then these are given as inputs to the model. So for example “pumpkin“ becomes `[12048, 7510]` tokens and those become `[[-1.43, 0.65, -0.99, 1.85, ...], [1.3, -0.85, 0.99, 0.58, ...]]` input embeddings. And if you want to know what happens with these inside a transformer model and how you get some text back, [read this article](https://www.lesswrong.com/posts/pHPmMGEMYefk9jLeh/llm-basics-embedding-spaces-transformer-token-vectors-are).
 

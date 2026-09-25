@@ -61,6 +61,12 @@ module.exports = () => {
   const plugins = [withContentlayer, withBundleAnalyzer]
   return plugins.reduce((acc, next) => next(acc), {
     reactStrictMode: true,
+    // Next's automatic trailing slash stripping can't be scoped per route, so it's
+    // disabled here and reimplemented in redirects() for everything except the
+    // tokenizer, which needs /tokenizer/ so its relative asset paths resolve
+    // (the /tokenizer -> /tokenizer/ redirect lives in middleware.ts, because
+    // redirect sources always match an optional trailing slash)
+    skipTrailingSlashRedirect: true,
     pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
     eslint: {
       dirs: ['pages', 'components', 'lib', 'layouts', 'scripts'],
@@ -83,6 +89,11 @@ module.exports = () => {
     },
     async redirects() {
       return [
+        {
+          source: '/:path((?!tokenizer/$).+)/',
+          destination: '/:path',
+          permanent: true,
+        },
         {
           source: '/authors/daniel-demmel',
           destination: '/about',
@@ -195,32 +206,8 @@ module.exports = () => {
     async rewrites() {
       return [
         {
-          source: '/tokenizer',
-          destination: '/tokenizer/index.html',
-        },
-        {
           source: '/tokenizer/',
           destination: '/tokenizer/index.html',
-        },
-        {
-          source: '/tokenizer.css',
-          destination: '/tokenizer/tokenizer.css',
-        },
-        {
-          source: '/tokenizer.js',
-          destination: '/tokenizer/tokenizer.js',
-        },
-        {
-          source: '/transformers.js',
-          destination: '/tokenizer/transformers.js',
-        },
-        {
-          source: '/favicons/token.svg',
-          destination: '/tokenizer/favicons/token.svg',
-        },
-        {
-          source: '/fonts/:path*',
-          destination: '/tokenizer/fonts/:path*',
         },
       ]
     },
