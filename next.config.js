@@ -218,6 +218,10 @@ module.exports = () => {
           source: '/favicons/token.svg',
           destination: '/tokenizer/favicons/token.svg',
         },
+        {
+          source: '/fonts/:path*',
+          destination: '/tokenizer/fonts/:path*',
+        },
       ]
     },
   })
