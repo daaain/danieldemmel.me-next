@@ -1,0 +1,31 @@
+# Next.js dev server, driven by foldyard (`fy up`, `fy logs app`, `fy open`).
+# FY_PROXY is set by foldyard from the current mode; the CA is staged under .devbox-ca/ at box-up.
+services:
+  app:
+    image: node:24-trixie-slim
+    working_dir: /app
+    command: sh -c "yarn install --frozen-lockfile && yarn dev -H 0.0.0.0 -p 3000"
+    ports:
+      - "${APP_PORT:-3210}:3000"
+    environment:
+      HTTPS_PROXY: http://${FY_PROXY:-}
+      HTTP_PROXY: http://${FY_PROXY:-}
+      NO_PROXY: localhost,127.0.0.1
+      NODE_EXTRA_CA_CERTS: /etc/dev-proxy-ca.pem
+      NEXT_TELEMETRY_DISABLED: "1"
+      # Edits made on the host don't reliably raise inotify events through the VM mount
+      WATCHPACK_POLLING: "true"
+      CHOKIDAR_USEPOLLING: "true"
+    volumes:
+      - .:/app
+      - ./.devbox-ca/mitmproxy-ca-cert.pem:/etc/dev-proxy-ca.pem:ro
+      - node_modules:/app/node_modules
+      - next:/app/.next
+      - contentlayer:/app/.contentlayer
+      - yarn_cache:/usr/local/share/.cache/yarn
+
+volumes:
+  node_modules:
+  next:
+  contentlayer:
+  yarn_cache:
