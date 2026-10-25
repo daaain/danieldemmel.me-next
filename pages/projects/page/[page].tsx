@@ -1,3 +1,5 @@
+import { PageSEO } from '@/components/SEO'
+import siteMetadata from '@/data/siteMetadata'
 import ListLayout from '@/layouts/ListLayout'
 import { allProjects } from 'contentlayer2/generated'
 import type { Project } from 'contentlayer2/generated'
@@ -49,7 +51,7 @@ export default function ProjectPage({
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <>
-      {/* <PageSEO title={siteMetadata.title} description={siteMetadata.description} /> */}
+      <PageSEO title={`Projects - ${siteMetadata.author}`} description={siteMetadata.description} />
       <ListLayout
         posts={posts}
         initialDisplayPosts={initialDisplayPosts}

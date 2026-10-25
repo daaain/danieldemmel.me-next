@@ -34,7 +34,7 @@ export default function ProjectsPage({
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <>
-      <PageSEO title={`Blog - ${siteMetadata.author}`} description={siteMetadata.description} />
+      <PageSEO title={`Projects - ${siteMetadata.author}`} description={siteMetadata.description} />
       <ListLayout
         posts={projects}
         initialDisplayPosts={initialDisplayProjects}

@@ -1,6 +1,7 @@
 import Image from '@/components/Image'
 import Link from '@/components/Link'
 import PageTitle from '@/components/PageTitle'
+import { BlogSEO } from '@/components/SEO'
 import ScrollTopAndComment from '@/components/ScrollTopAndComment'
 import SectionContainer from '@/components/SectionContainer'
 import siteMetadata from '@/data/siteMetadata'
@@ -27,12 +28,12 @@ interface LayoutProps {
 }
 
 export default function PostLayout({ content, authorDetails, children }: LayoutProps) {
-  const { filePath, slug, date, title, projectLink, images, readingTime } = content
+  const { filePath, path, slug, date, title, projectLink, images, readingTime } = content
   const [loadComments, setLoadComments] = useState(true)
 
   return (
     <SectionContainer>
-      {/* <BlogSEO url={`${siteMetadata.siteUrl}/${path}`} authorDetails={authorDetails} {...content} /> */}
+      <BlogSEO url={`${siteMetadata.siteUrl}/${path}`} authorDetails={authorDetails} {...content} />
       <ScrollTopAndComment />
       <article className="h-entry">
         <div className="xl:divide-y xl:divide-gray-200 xl:dark:divide-gray-700">

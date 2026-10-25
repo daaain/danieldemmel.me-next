@@ -45,12 +45,28 @@ export const EmbedYoutube = ({ code, hash }) => (
   </div>
 )
 
+export const EmbedPage = ({ URL, title, height = '32rem' }) => (
+  <iframe
+    src={URL}
+    title={title}
+    loading="lazy"
+    style={{
+      display: 'block',
+      width: '100%',
+      height,
+      border: 0,
+      borderRadius: '0.5rem',
+    }}
+  />
+)
+
 export const MDXComponents: Record<string, React.ComponentType<any>> = {
   Image,
   TOCInline,
   a: CustomLink,
   pre: Pre,
   BlogNewsletterForm,
+  EmbedPage,
   EmbedPDF,
   EmbedVimeo,
   EmbedYoutube,

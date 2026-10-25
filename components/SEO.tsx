@@ -1,5 +1,5 @@
 import siteMetadata from '@/data/siteMetadata'
-import type { Authors, Blog } from 'contentlayer2/generated'
+import type { Authors, Blog, Project } from 'contentlayer2/generated'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import type { CoreContent } from 'pliny/utils/contentlayer'
@@ -103,7 +103,7 @@ export const TagSEO = ({ title, description }: Omit<PageSEOProps, 'noindex'>) =>
   )
 }
 
-interface BlogSeoProps extends CoreContent<Blog> {
+type BlogSeoProps = CoreContent<Blog | Project> & {
   authorDetails?: CoreContent<Authors>[]
   url: string
 }
