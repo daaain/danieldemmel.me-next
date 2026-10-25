@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="520" viewBox="0 0 960 520" role="img" aria-label="Writing speed — MacBook Pro M3 Max">
+<style>
+text{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif}
+.title{font-size:23px;font-weight:700;fill:#0b0b0b}
+.sub{font-size:14px;fill:#52514e}
+.axlab{font-size:13px;font-weight:600;fill:#52514e}
+.tick{font-size:12px;fill:#898781}
+.slab{font-size:13px;font-weight:700}
+</style>
+<rect width="960" height="520" fill="#fcfcfb"/>
+<text class="title" x="78" y="36">Writing speed — MacBook Pro M3 Max</text>
+<text class="sub" x="78" y="58">Tokens produced per second once the answer has started. Higher is better.</text>
+<line x1="78" y1="452.0" x2="792" y2="452.0" stroke="#e1e0d9" stroke-width="1"/>
+<text class="tick" x="68" y="456.0" text-anchor="end">0</text>
+<line x1="78" y1="358.5" x2="792" y2="358.5" stroke="#e1e0d9" stroke-width="1"/>
+<text class="tick" x="68" y="362.5" text-anchor="end">5</text>
+<line x1="78" y1="265.0" x2="792" y2="265.0" stroke="#e1e0d9" stroke-width="1"/>
+<text class="tick" x="68" y="269.0" text-anchor="end">10</text>
+<line x1="78" y1="171.5" x2="792" y2="171.5" stroke="#e1e0d9" stroke-width="1"/>
+<text class="tick" x="68" y="175.5" text-anchor="end">15</text>
+<line x1="78" y1="78.0" x2="792" y2="78.0" stroke="#e1e0d9" stroke-width="1"/>
+<text class="tick" x="68" y="82.0" text-anchor="end">20</text>
+<line x1="78.0" y1="452" x2="78.0" y2="457" stroke="#c3c2b7" stroke-width="1"/>
+<text class="tick" x="78.0" y="472" text-anchor="middle">0K</text>
+<line x1="167.2" y1="452" x2="167.2" y2="457" stroke="#c3c2b7" stroke-width="1"/>
+<text class="tick" x="167.2" y="472" text-anchor="middle">8K</text>
+<line x1="256.5" y1="452" x2="256.5" y2="457" stroke="#c3c2b7" stroke-width="1"/>
+<text class="tick" x="256.5" y="472" text-anchor="middle">16K</text>
+<line x1="345.8" y1="452" x2="345.8" y2="457" stroke="#c3c2b7" stroke-width="1"/>
+<text class="tick" x="345.8" y="472" text-anchor="middle">24K</text>
+<line x1="435.0" y1="452" x2="435.0" y2="457" stroke="#c3c2b7" stroke-width="1"/>
+<text class="tick" x="435.0" y="472" text-anchor="middle">32K</text>
+<line x1="524.2" y1="452" x2="524.2" y2="457" stroke="#c3c2b7" stroke-width="1"/>
+<text class="tick" x="524.2" y="472" text-anchor="middle">40K</text>
+<line x1="613.5" y1="452" x2="613.5" y2="457" stroke="#c3c2b7" stroke-width="1"/>
+<text class="tick" x="613.5" y="472" text-anchor="middle">48K</text>
+<line x1="702.8" y1="452" x2="702.8" y2="457" stroke="#c3c2b7" stroke-width="1"/>
+<text class="tick" x="702.8" y="472" text-anchor="middle">56K</text>
+<line x1="792.0" y1="452" x2="792.0" y2="457" stroke="#c3c2b7" stroke-width="1"/>
+<text class="tick" x="792.0" y="472" text-anchor="middle">64K</text>
+<line x1="78" y1="452" x2="792" y2="452" stroke="#c3c2b7" stroke-width="1.5"/>
+<text class="axlab" x="435" y="502" text-anchor="middle">Context length (tokens already in the conversation)</text>
+<text class="axlab" transform="translate(20,265) rotate(-90)" text-anchor="middle">Tokens per second</text>
+<path d="M100.3,132.4 L122.6,121.0 L144.9,120.3 L167.2,121.9 L189.6,125.3 L211.9,130.0 L234.2,137.7 L256.5,142.1 L278.8,147.8 L301.1,152.6 L323.4,155.2 L345.8,160.5 L368.1,160.8 L390.4,162.0 L412.7,161.6 L435.0,163.6 L457.3,163.6 L479.6,163.1 L501.9,163.6 L524.2,179.4 L546.6,162.9 L568.9,164.6 L591.2,162.1 L613.5,165.5 L635.8,162.1 L658.1,161.6 L680.4,161.0 L702.8,160.7 L725.1,165.9 L747.4,166.8 L769.7,163.3 L792.0,166.6" fill="none" stroke="#2a78d6" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="100.3" cy="132.4" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="122.6" cy="121.0" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="144.9" cy="120.3" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="167.2" cy="121.9" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="189.6" cy="125.3" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="211.9" cy="130.0" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="234.2" cy="137.7" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="256.5" cy="142.1" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="278.8" cy="147.8" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="301.1" cy="152.6" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="323.4" cy="155.2" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="345.8" cy="160.5" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="368.1" cy="160.8" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="390.4" cy="162.0" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="412.7" cy="161.6" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="435.0" cy="163.6" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="457.3" cy="163.6" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="479.6" cy="163.1" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="501.9" cy="163.6" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="524.2" cy="179.4" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="546.6" cy="162.9" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="568.9" cy="164.6" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="591.2" cy="162.1" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="613.5" cy="165.5" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="635.8" cy="162.1" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="658.1" cy="161.6" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="680.4" cy="161.0" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="702.8" cy="160.7" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="725.1" cy="165.9" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="747.4" cy="166.8" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="769.7" cy="163.3" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="792.0" cy="166.6" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<path d="M100.3,236.8 L122.6,162.1 L144.9,244.1 L167.2,254.7 L189.6,228.3 L211.9,271.2 L234.2,279.2 L256.5,263.9 L278.8,276.0 L301.1,309.9 L323.4,285.8 L345.8,271.2 L368.1,299.2 L390.4,272.3 L412.7,279.2 L435.0,288.2 L457.3,295.1 L479.6,292.5 L501.9,196.4 L524.2,290.6 L546.6,283.9 L568.9,262.8 L591.2,230.0 L613.5,302.8 L635.8,298.5 L658.1,297.2 L680.4,311.0 L702.8,303.0 L725.1,245.7 L747.4,308.9 L769.7,260.5 L792.0,189.3" fill="none" stroke="#eb6834" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="100.3" cy="236.8" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="122.6" cy="162.1" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="144.9" cy="244.1" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="167.2" cy="254.7" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="189.6" cy="228.3" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="211.9" cy="271.2" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="234.2" cy="279.2" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="256.5" cy="263.9" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="278.8" cy="276.0" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="301.1" cy="309.9" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="323.4" cy="285.8" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="345.8" cy="271.2" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="368.1" cy="299.2" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="390.4" cy="272.3" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="412.7" cy="279.2" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="435.0" cy="288.2" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="457.3" cy="295.1" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="479.6" cy="292.5" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="501.9" cy="196.4" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="524.2" cy="290.6" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="546.6" cy="283.9" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="568.9" cy="262.8" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="591.2" cy="230.0" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="613.5" cy="302.8" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="635.8" cy="298.5" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="658.1" cy="297.2" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="680.4" cy="311.0" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="702.8" cy="303.0" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="725.1" cy="245.7" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="747.4" cy="308.9" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="769.7" cy="260.5" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="792.0" cy="189.3" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<text class="slab" x="804.0" y="170.6" fill="#2a78d6">GLM 5.3 Flash</text>
+<text class="tick" x="804.0" y="186.6">15.3</text>
+<text class="slab" x="804.0" y="204.6" fill="#eb6834">GLM 5.3 Flash + MTP</text>
+<text class="tick" x="804.0" y="220.6">14.1</text>
+</svg>

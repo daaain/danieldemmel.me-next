@@ -179,16 +179,16 @@ showThinkingSummaries = true
 # OpenAI Codex CLI (`fy codex`). Declaring [codex] installs it on box-up + mounts ~/.codex.
 # Native installer (a static binary — no node needed). Keyless like Claude: the proxy
 # injects on your computer. Leave `keyless` out and you get a plain in-box `codex login` instead.
-# [codex]
+[codex]
 # keyless = "api-key"    # Authorization: Bearer ← OPENAI_API_KEY (captured to host.env)
-# # keyless = "chatgpt"  # ChatGPT subscription: a token service refreshes ~/.codex/auth.json
+keyless = "chatgpt"  # ChatGPT subscription: a token service refreshes ~/.codex/auth.json
 # system_prompt = """…"""   # same key + same job as [claude]'s above (paste that one);
 #                          # Codex takes it as a developer instruction, not a system prompt
 #
 # Codex's config.toml keys, one `-c` per leaf (nested tables flatten to dotted paths):
-# [codex.config]
-# model_reasoning_summary = "auto"
-# tui = { raw_output_mode = false }
+[codex.config]
+model_reasoning_summary = "auto"
+tui = { raw_output_mode = false }
 
 # ── The rest — uncomment as you grow (step 3) ────────────────────────────────────────────
 # Ports published on your computer, keyed by the env var your compose file reads.

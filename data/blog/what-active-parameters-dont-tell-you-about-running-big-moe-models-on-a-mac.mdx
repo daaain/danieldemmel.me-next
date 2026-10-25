@@ -1,0 +1,191 @@
+---
+title: What active parameters don't tell you about running big MoE models on a Mac
+date: 2026-10-04
+tags: [llm, ai, local models, apple silicon, performance]
+images: ['/images/2026/ds4-m3-max-decode.svg']
+summary: Benchmarking DeepSeek V4 Flash and GLM 5.3 Flash on a MacBook Pro – why parameter counts only predict the start, why the built-in draft model slows things down, and what it costs to keep your RAM back
+---
+
+For the past few months I've been running two really impressive open models – DeepSeek V4 Flash and GLM 5.3 Flash – on my MacBook Pro, using [antirez's ds4](https://github.com/antirez/ds4), a small inference engine written specifically for this family of models. Both are mixture-of-experts models with around 300 billion parameters, and both squeeze onto a 128 GB M3 Max once quantised to roughly two bits per weight. That they run at all on a laptop still feels slightly absurd to me.
+
+I wanted to know which one to use day to day, so I started benchmarking them. That turned into a much longer exercise than planned, and the answer to "which is faster?" ended up being the least interesting thing I found. Three things surprised me:
+
+1. The number everyone quotes to predict speed – active parameters – only tells you how fast a model *starts*. How it behaves as the conversation grows comes down to architecture.
+2. GLM's built-in draft model, which is supposed to make writing faster, makes it nearly 40% *slower* on this machine.
+3. Streaming weights from the SSD, so the model doesn't eat your whole machine, works far better than I expected – once a bug was out of the way.
+
+But first, a little vocabulary, because two different speeds matter and they behave very differently.
+
+## Reading and writing
+
+When you send a message to a language model, it does two things:
+
+- **Reading** (prefill) – it processes everything in the conversation so far before it can reply. You wait for this once per message, and it happens in big parallel batches.
+- **Writing** (decode) – it produces the reply one token at a time. This is the speed you watch, and it's mostly limited by how fast the machine can shovel weights from memory to the GPU.
+
+Everything below is in **tokens per second**; a token is roughly ¾ of a word. All numbers are from a 40-core M3 Max with 128 GB, after the machine had warmed up – which turns out to matter a lot, more on that later. If you want to know exactly how they were measured, there's an appendix at the end.
+
+## Active parameters predict the start, not the journey
+
+In a mixture-of-experts model only a small slice of the weights – a few "experts" out of hundreds – is used for each token. That slice is the model's **active parameter count**, and it's the usual shorthand for how fast a model will run: fewer active parameters, less to read from memory per token, faster writing.
+
+Counting from the model files, DeepSeek V4 Flash uses about **13B** active parameters per token (6 of its 256 experts, plus the shared weights) and GLM 5.3 Flash about **17B** (8 of 288). That's a ratio of roughly 1.26. At the start of a conversation, the measured speed ratio is close to that:
+
+| Conversation so far | DeepSeek writes | GLM writes | DeepSeek reads | GLM reads |
+| --- | ---: | ---: | ---: | ---: |
+| 2,000 tokens | 22.2/s | 17.1/s | 254/s | 178/s |
+| 16,000 | 20.6/s | 16.6/s | 223/s | 153/s |
+| 32,000 | 18.0/s | 15.4/s | 188/s | 142/s |
+| 65,000 | 17.1/s | 15.3/s | 162/s | 139/s |
+
+At 2,000 tokens DeepSeek writes 1.30 times faster. Rule of thumb ~~confirmed~~ roughly confirmed, job done?
+
+![Line chart of writing speed against conversation length: DeepSeek starts at 22 tokens per second and falls steadily to 17 by 64K, while GLM starts at 17 and stays nearly flat around 15](/images/2026/ds4-m3-max-decode.svg)
+
+Not quite. Look at the shape of the two lines rather than where they start. DeepSeek loses about a quarter of its writing speed between 2,000 and 65,000 tokens. GLM loses about a ninth. Reading speed shows the same pattern, even more strongly:
+
+![Line chart of reading speed against conversation length: DeepSeek falls from 254 to 162 tokens per second, GLM from 178 to 139](/images/2026/ds4-m3-max-prefill.svg)
+
+In an earlier (slightly older) set of runs out to 128,000 tokens, the lines actually met: writing speed reached parity somewhere between 82,000 and 98,000 tokens, and by 131,000 GLM was the faster *reader*. I haven't re-run those on the current build yet, so take the exact crossover point with a pinch of salt – but the direction is very clear.
+
+![Line chart of reading speed from 48K to 128K tokens: DeepSeek falls from about 157 to 115 tokens per second while GLM stays roughly flat around 120 to 133, crossing above DeepSeek at the end](/images/2026/ds4-m3-max-128k-prefill.svg)
+
+### Why: rereading your notes versus keeping a summary
+
+The cost of a token isn't just the expert weights. Every token also has to *attend* to the conversation so far, and that part grows with the conversation. Both models use a form of sparse attention, which first scans what's been said to decide what's worth looking at closely – and that scan gets longer as the conversation does.
+
+The difference is where they do it. DeepSeek does that scan on all 43 of its layers. GLM does it on only about a dozen, and uses a much cheaper **linear attention** mechanism on the rest – a recurrent design that carries a fixed-size running state forward instead of looking back over everything.
+
+I find it helps to think of two people taking notes in a long meeting. One rereads their whole notebook before writing each new line; the other keeps a running summary on a single page and only occasionally flicks back through the notebook for detail. At the start of the meeting there's no difference – the notebook is short. Two hours in, the first person is noticeably slower, and the summary-keeper has barely changed pace.
+
+So active parameters tell you about the expert weights, which dominate early on. Attention design tells you about everything after that. **If you mostly have short chats, the rule of thumb works. If you work in long agentic sessions or paste in big documents, it can point you at the wrong model.**
+
+There's a catch, of course. GLM's design trades speed for memory: it holds about 86% more memory per conversation than DeepSeek, so at 65,000 tokens it's already holding more than DeepSeek does at 115,000. On a machine where the model itself already takes 90 of the 128 GB, that's not nothing.
+
+## The draft model that slows things down
+
+GLM 5.3 ships with a small extra block for **multi-token prediction (MTP)** – a kind of built-in speculative decoding. The idea is lovely: a cheap draft head guesses the next token, then the main model checks that guess while producing the token it was working on anyway. A right guess gets you two tokens for roughly the price of one; a wrong one costs you the guess.
+
+On my laptop, with the benchmark's prose, it makes GLM **38% slower** across the full range – 9.8 tokens per second instead of 15.9.
+
+![Line chart of GLM writing speed with and without MTP: the plain line is smooth between about 15 and 18 tokens per second, the MTP line is much lower and jagged, between about 7.5 and 15.5, never reaching the plain line](/images/2026/ds4-m3-max-mtp-decode.svg)
+
+The engine's timing counters make it easy to see why:
+
+| | How often | Cost | Per token |
+| --- | ---: | ---: | ---: |
+| Guess right | 46% | 93 ms for 2 tokens | 46 ms |
+| Guess wrong | 54% | 147 ms for 1 token | 147 ms |
+| No MTP at all | | ~65 ms for 1 token | ~65 ms |
+
+A right guess saves about 19 ms. A wrong one costs about 82 ms. **One miss cancels out four hits**, so the guesses would need to be right somewhere between 77% and 91% of the time – depending on where plain decoding sits – just to break even. They manage 46%.
+
+What I find interesting is *why* a hit only saves 19 ms. Speculative decoding was designed around data centre GPUs, which are so starved of memory bandwidth during decoding that their compute mostly sits idle. Checking two tokens instead of one costs barely more than checking one, because the expensive part – reading the weights – happens once either way. Free lunch.
+
+The M3 Max isn't in that situation. Checking a guess here costs about 43% more than a plain step (93 ms against 65). My hunch – and it is a hunch, I haven't profiled it – is that two things stack up. A laptop GPU has far less spare compute to absorb the extra work. And in a mixture-of-experts model the second token usually routes to *different* experts than the first, so verifying it means reading a second set of expert weights rather than reusing the first. Either way, there's no free lunch to be had on this machine, and a draft model with a 46% hit rate can't pay for itself.
+
+It's also wildly inconsistent. Past 48,000 tokens, plain GLM stays within about 2% from one measurement to the next; with MTP it swings by **86%**, between 7.5 and 14.1 tokens per second – and even at its best it never once beats plain decoding. (An older set of runs did have one point where it won, 18.0 against 16.4, but it hasn't happened again since.) The benchmark prompt is *I Promessi Sposi*, 19th-century Italian prose – fluent, varied, about as unguessable as text gets. Boilerplate code or structured output might well clear the bar. So the honest advice is: measure it on your own workload. On mine, it stays off.
+
+## Keeping your RAM back
+
+The last question was the practical one. Both models fit on this machine, but only just – GLM with a long conversation had 99.3 GB pinned, leaving very little for, say, the browser and two VMs I'd actually like to keep running.
+
+ds4 can **stream** expert weights from the SSD instead: keep a cache of the most useful experts in memory, and read the rest from disk on demand. I capped the weights at about 70 GB, leaving nearly 60 GB for everything else, and ran the same benchmark.
+
+**DeepSeek handled it gracefully.** Averaged over 16,000 to 32,000 tokens it reads about a third slower and writes about 12% slower than fully resident. The writing penalty shrinks as the conversation grows – 38% at 2,000 tokens, just 5% at 32,000 – because attention, not expert reads, dominates by then. The cost you actually notice is the pause before the first word of each reply: about 1.3 seconds, against 42 ms resident.
+
+**GLM, on the other hand, quietly ignored the budget.** Asked for a 62 GB expert cache, it shrank it to 9 GB and mapped the whole 90 GB of experts anyway – a 106 GB plan, more than running it fully resident. Forcing it to respect the budget made it fall back to a path that reads whole layers from disk for every token and never fills its cache: 0.58 tokens per second on my machine, and **0.03** when I simulated a 64 GB Mac by locking memory away first. That's 32 tokens in about 18 minutes.
+
+Digging in, the cause turned out to be small and specific. GLM 5.3's experts use the same compression format as DeepSeek's, but GLM picks 8 experts per token where DeepSeek picks 6 – and the one Metal kernel that could run this format through the cache was hard-wired to sum exactly six. So GLM was never allowed onto the cache path at all. A fix needed a handful of new GPU kernels and some prefill scheduling to go with them; [I filed it as a pull request](https://github.com/antirez/ds4/pull/1174) but Salvatore doesn't seem to reply to or merge many.
+
+With the fix, GLM keeps to a 73 GB plan, and the picture looks like this:
+
+![Line chart of reading speed with resident and streamed lines for both models: resident lines run to 64K, streamed lines to 32K and sit below them](/images/2026/ds4-m3-max-streaming-prefill.svg)
+
+![Line chart of writing speed with resident and streamed lines for both models: DeepSeek streamed converges towards resident, while GLM streamed stays about a fifth below GLM resident from 16K onwards](/images/2026/ds4-m3-max-streaming-decode.svg)
+
+Averaged over 16,000 to 32,000 tokens:
+
+| | GLM resident | GLM streamed | DeepSeek resident | DeepSeek streamed |
+| --- | ---: | ---: | ---: | ---: |
+| First token | 55 ms | **172 ms** | 42 ms | **1,311 ms** |
+| Writing | 15.8/s | 12.8/s | 19.1/s | 16.9/s |
+| Reading | 146/s | 108/s | 203/s | 137/s |
+
+Two things stand out. GLM's writing penalty doesn't fade the way DeepSeek's does – it settles at around a fifth and stays there. Its streamed curve is also bumpier from one measurement to the next; the averages above barely moved across three full runs, but individual points moved by up to 30%. But its first token arrives in under a fifth of a second, where DeepSeek makes you wait over a second every time. I suspect that's down to the fix warming the cache during reading, so writing starts from experts that are already in memory – but the two builds come from different trees, so that's a lead for now, not a conclusion. And on the simulated 64 GB Mac, GLM went from 0.03 tokens per second to about 7. That's the difference between unusable and possible to chat with.
+
+## The noisiest variable was my laptop
+
+If there's one lesson I'd pass on to anyone benchmarking models locally, it's this: **the machine matters more than the models.** Every wrong number I produced along the way came from the laptop, not from DeepSeek or GLM:
+
+- Another app holding ~40 GB made speed fall steadily with conversation length, from 28 to 10 tokens per second
+- A busy VM in the background halved everything, uniformly
+- Heat costs about 45% – the machine writes at ~30 tokens per second from cold, and settles at ~16 after ten minutes of sustained load
+- Identical back-to-back runs under sustained SSD reads drifted by up to 30% at individual points
+
+Each of those looked exactly like "this model is slower" until it was chased down, and several are bigger than the actual difference between the models. So the sweeps above are nearly all the second of two back-to-back passes, with everything else closed – and I'm still more suspicious of a surprising result than of a boring one.
+
+## So which one?
+
+For short conversations, DeepSeek – at the start it writes 30% faster and reads over 40% faster, and its writing holds up better when streamed. For very long sessions the gap closes, and if you want to keep a big chunk of your RAM back, fixed-GLM's quick first token is genuinely nice. Neither verdict says anything about the *quality* of the answers, which I haven't measured here and which matters far more than a 20% speed difference.
+
+What I keep coming back to, though, is how much of this is shaped by the hardware. The design choices in these models – sparse attention, linear attention, speculative decoding – were all made with data centre GPUs in mind. Running them on a laptop exposes trade-offs that are invisible at that scale: a draft model that's nearly free on an H100 isn't free here, and memory that's plentiful in a server rack is the thing you're actually rationing. It's a small but real argument for testing open models on the kind of hardware people actually own – and a nice reminder that a 300-billion-parameter model can run on a laptop, plugged into a wall socket, without a data centre in sight.
+
+If you have any comments or questions, or numbers from your own machine, I'd love to hear them!
+
+## Appendix: how this was measured
+
+### Hardware
+
+MacBook Pro with an M3 Max (16-core CPU, 40-core GPU) and 128 GB of unified memory, running macOS 27.0.1 on mains power. ds4 uses the Metal backend.
+
+### Software
+
+ds4, built with Apple clang:
+
+- **Resident, MTP and DeepSeek streaming runs:** commit `058e5a4` (2026-09-15, measured 2026-10-02) – upstream `6289c51` plus 23 commits from [my fork](https://github.com/daaain/ds4)
+- **GLM streaming with the fix:** commit `4bd088c` (2026-10-03, measured 2026-10-04) – five commits on top of upstream `0aaea5a`
+- **GLM streaming without the fix:** `058e5a4` and upstream `0aaea5a`
+- **The 128,000-token runs:** commit `6289c51` under macOS 26.6.1. These are older than everything else and weren't re-run, which is why I only use them for the direction of the trend
+
+### Models
+
+Both from https://huggingface.co/antirez using ds4's downloader.
+
+| | DeepSeek V4 Flash | GLM 5.3 Flash |
+| --- | --- | --- |
+| File | `DeepSeek-V4-Flash-IQ2XXS-w2Q2K-AProjQ8-SExpQ8-OutQ8-chat-v2-imatrix-0731.gguf` | `GLM-5.3-Flash-Q2.gguf` |
+| Size | 80.8 GiB | 89.9 GiB |
+| Layers | 43 | 45, plus one MTP layer |
+| Experts | 256, 6 used per token | 288, 8 used per token |
+| Expert weights | IQ2_XXS gate/up, Q2_K down | IQ2_XXS gate/up, Q2_K down |
+| Active parameters | ~13.3B | ~16.7B |
+
+I computed active parameters from the tensor shapes in each file: all non-expert weights except the token embedding and the MTP layer, plus the routed expert weights scaled by experts used over experts available.
+
+### The benchmark
+
+Every number comes from `ds4-bench`, which grows a conversation in 2,048-token steps using the text of *I Promessi Sposi* as the prompt. At each step it measures reading speed for that chunk, then generates 128 tokens and measures writing speed:
+
+```sh
+export DS4_BENCH_SNAPSHOT_MAX_BYTES=4294967296
+./ds4-bench -m GLM-5.3-Flash-Q2.gguf \
+  --prompt-file promessi_sposi.txt \
+  --ctx-start 2048 --ctx-max 65536 --step-incr 2048 --gen-tokens 128 \
+  --csv glm.csv
+```
+
+- **Two passes, quote the second.** Each sweep ran twice back to back with everything else closed, and only the second pass is reported. The first brings the machine to its sustained thermal state and settles caches. The exceptions are the 128,000-token runs – one long pass each, with the early steps ignored – and the short probes behind the upstream GLM fallback and the simulated 64 GB Mac figures, which are single runs.
+- **Writing speed** in both the tables and the charts is the steady rate once the reply has started. The wait for the first token is reported separately, as it's a different cost – under SSD streaming it's over a second for DeepSeek, and folding it in would swamp the comparison.
+- **Streaming** used `--ssd-streaming --ssd-streaming-cache-experts 62GB`, which keeps roughly 70 GiB of weights in memory once the ~8 GiB of non-expert weights are included. The streamed sweeps stop at 32,000 tokens.
+- **The simulated 64 GB Mac** used `--simulate-used-memory 64GB`, which locks 64 GB of memory before the model loads so that the operating system can't cache the model file in it, with a 28 GB expert cache. It's a simulation: the GPU and SSD are still the 128 GB machine's.
+- **MTP** was turned on with `--mtp` at its default settings. The hit rate and per-cycle timings come from `--mtp-timing` over 347 cycles, logged on 2026-09-15 with `6289c51`; the speeds they predict matched the later runs to within 4%.
+- **Memory** was sampled from `vm_stat` every 15 seconds during the long and streamed runs. Memory and cache sizes are really in GiB (2³⁰ bytes), which I've written as GB in the text for readability.
+- **Correctness of the streaming fix:** with greedy sampling, streamed GLM produced byte-identical output to resident GLM over 96 tokens on two prompts.
+
+## Credits
+
+- [ds4](https://github.com/antirez/ds4) by Salvatore Sanfilippo (antirez), which made all of this possible
+- DeepSeek V4 Flash by DeepSeek, GLM 5.3 Flash by Z.ai
+- Much of the benchmarking legwork – queuing runs, sampling memory, chasing down the wrong numbers – was done with Claude Code
+- Charts are my own, generated from the benchmark data
