@@ -550,7 +550,7 @@ docker ps  # Should list containers
 git log --oneline -5  # Should show history
 ```
 
-## Agents need tight feedback loops, or you get slop
+## Why the sandbox has to hold the whole dev environment
 
 All this effort is about more than keeping the agent away from my keys. An LLM can't verify code "in its head", so the only way to avoid playing the slop slot machine is to give it tools to check its own work **in context** – type checkers, linters, integration tests against emulators, a browser. Those have to live inside the sandbox with it, which is why I went for a dev container that holds the whole dev environment rather than a sandbox around the agent alone. I wrote more about this in [Feedback loop engineering](/blog/feedback-loop-engineering).
 
