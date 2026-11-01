@@ -68,13 +68,16 @@ A minimal secured dev container setup needs three files:
   },
   // postStartCommand: clean up sockets created before VS Code attaches
   "postStartCommand": "find /tmp -maxdepth 2 \\( -name 'vscode-ssh-auth-*.sock' -o -name 'vscode-remote-containers-ipc-*.sock' -o -name 'vscode-remote-containers-*.js' \\) -delete 2>/dev/null || true",
-  // IPC socket cleanup (vscode-ipc-*.sock, vscode-git-*.sock) is handled by a background
-  // loop in the Docker Compose command – see the "Socket file deletion" section below.
+  // Ongoing socket cleanup (vscode-ipc-*.sock, vscode-git-*.sock, vscode-ssh-auth-*.sock) is
+  // handled by a background loop in the Docker Compose command – see the "Socket file deletion"
+  // section below.
   "customizations": {
     "vscode": {
       "settings": {
         "dev.containers.dockerCredentialHelper": false,
-        "dev.containers.copyGitConfig": false
+        "dev.containers.copyGitConfig": false,
+        "git.terminalAuthentication": false,
+        "git.useIntegratedAskPass": false
       }
     }
   }
@@ -121,13 +124,14 @@ services:
       - dev
     depends_on:
       - docker-proxy
-    # Socket cleanup loop: 10 passes at 30s intervals (~5 minutes) to catch all
-    # VS Code IPC sockets, including late-created ones. Runs as a child of the
-    # container's own bash process – not subject to VS Code lifecycle management.
+    # Socket cleanup loop: deletes VS Code's bridge sockets every second, for as long as
+    # the container runs – VS Code creates new ones for every terminal it opens. Runs as a
+    # child of the container's own bash process – not subject to VS Code lifecycle management.
     command: >
       bash -c '
-      (for i in 1 2 3 4 5 6 7 8 9 10; do sleep 30;
-        find /tmp -maxdepth 2 \( -name "vscode-ipc-*.sock" -o -name "vscode-git-*.sock" \) -delete 2>/dev/null;
+      (while :; do
+        find /tmp -maxdepth 2 \( -name "vscode-ipc-*.sock" -o -name "vscode-git-*.sock" -o -name "vscode-ssh-auth-*.sock" \) -delete 2>/dev/null;
+        sleep 1;
       done) &
       sleep infinity'
 
@@ -269,8 +273,10 @@ volumes:
 
 **What the agent cannot do:**
 
-- `git push` – fails with SSH authentication error
+- `git push` – fails with an authentication error, *as long as* VS Code's git credential bridge is switched off too (see the settings in the IPC hardening section below)
 - `git fetch` from private repos – no credentials
+
+2026-11-01 update: I originally only thought about SSH remotes here. With an HTTPS remote, VS Code's git extension sets `GIT_ASKPASS` in every terminal it opens, pointing at a helper that asks the **host** – your VS Code GitHub session or keychain – for credentials. So without the settings below, `git push` can quietly succeed using your own credentials. I found this out while building [Foldyard](/projects/foldyard), which caught exactly that happening.
 
 Changes are still tracked by git, so you can review everything before pushing yourself. I personally find this an incredibly good compromise, the agent can use all the basic git functions, but unable to do destructive commands.
 
@@ -417,22 +423,26 @@ Two mechanisms handle different socket creation timings:
 ```
 
 ```yaml
-# In docker-compose.yml – background loop catches IPC/git sockets.
-# 10 passes at 30s intervals (~5 minutes) to catch all late-created sockets.
+# In docker-compose.yml – background loop catches IPC, git and SSH agent sockets.
+# Runs every second for as long as the container is up, because VS Code creates
+# new sockets for every terminal it opens.
 # Runs as a child of the container's own bash process, NOT a VS Code lifecycle command.
 command: >
   bash -c '
-  (for i in 1 2 3 4 5 6 7 8 9 10; do sleep 30;
-    find /tmp -maxdepth 2 \( -name "vscode-ipc-*.sock" -o -name "vscode-git-*.sock" \) -delete 2>/dev/null;
+  (while :; do
+    find /tmp -maxdepth 2 \( -name "vscode-ipc-*.sock" -o -name "vscode-git-*.sock" -o -name "vscode-ssh-auth-*.sock" \) -delete 2>/dev/null;
+    sleep 1;
   done) &
   sleep infinity'
 ```
 
-Note `-maxdepth 2` to catch sockets in `/tmp/user/1000/` as well. `vscode-ipc-*.sock` and `vscode-git-*.sock` are **not recreated after deletion** – the IDE continues to work without them. However, VS Code creates IPC sockets at multiple times during startup – some 60+ seconds after attach. A single cleanup pass misses these late-created sockets. The 10-pass approach (every 30s for ~5 minutes) ensures all sockets are caught regardless of when VS Code creates them.
+Note `-maxdepth 2` to catch sockets in `/tmp/user/1000/` as well. Deleting the sockets doesn't break the IDE itself, it just keeps working without them.
+
+2026-11-01 update: I originally ran this loop for 10 passes, 30 seconds apart, believing VS Code only created these sockets during startup and never recreated them. That's wrong: as Giles and p-buddy found in the comments below, VS Code creates a new IPC socket for **every integrated terminal** you open, and it forwards the SSH agent into every terminal too. So any terminal opened after the first five minutes kept its sockets. The loop now runs every second for as long as the container is up, and covers `vscode-ssh-auth-*.sock` as well.
 
 **Why Docker Compose `command` instead of `postAttachCommand`?** This was a hard-won lesson. VS Code's `postAttachCommand` is unreliable for background processes – VS Code appears to use cgroup-based cleanup that kills ALL processes spawned during lifecycle commands, regardless of `nohup`, `setsid`, double-fork, or any other daemonisation technique. The Docker Compose `command` runs as the container's own process tree, which is not subject to VS Code's lifecycle management – making it the right place for long-running background tasks.
 
-**Why three layers?** Each has limitations: `remoteEnv` is overridden by VS Code for its own variables; the shell hardening only applies to bash processes (not direct socket access); socket deletion has a window while the cleanup passes complete (30s gaps). Together, they ensure that standard tools, shell commands, and opportunistic discovery all fail.
+**Why three layers?** Each has limitations: `remoteEnv` is overridden by VS Code for its own variables; the shell hardening only applies to bash processes (not direct socket access); socket deletion has a window of up to a second after each new socket appears. Together, they make standard tools and shell commands fail – but they don't stop a determined process from finding the sockets. As p-buddy's pen-testing agent showed in the comments, a long-running process (like Claude Code itself) can still carry `VSCODE_IPC_HOOK_CLI` in `/proc/<pid>/environ`, and the socket names are listed in the world-readable `/proc/net/unix`.
 
 **What each mitigation does:**
 
@@ -454,14 +464,36 @@ You also want to disable VS Code's credential injection:
     "vscode": {
       "settings": {
         "dev.containers.dockerCredentialHelper": false,
-        "dev.containers.copyGitConfig": false
+        "dev.containers.copyGitConfig": false,
+        "git.terminalAuthentication": false,
+        "git.useIntegratedAskPass": false
       }
     }
   }
 }
 ```
 
-**Remaining risk**: During the window while the cleanup passes complete, a targeted attack could discover and directly connect to `vscode-ipc-*.sock` sockets using VS Code's internal IPC protocol. After each pass, the sockets are permanently removed. To use this vector, a pre-existing script would need to perform the full attack (otherwise the socket will close on it) within seconds of container startup, which is unlikely.
+2026-11-01 update: the two `git.*` settings are new, and they're better than any amount of cleanup because they stop the git credential bridge (`GIT_ASKPASS` and its socket) from being installed in the first place. One caveat: workspace settings beat these, and `.vscode/settings.json` is in the repo, which the agent can edit. So it's worth checking that file hasn't turned them back on.
+
+The SSH agent can be dealt with at the source too. The attach forwards whatever `SSH_AUTH_SOCK` the VS Code process was launched with – and if it's *unset*, it goes looking for your real agent. So launch VS Code with an agent that holds no keys:
+
+```bash
+# Start an ssh-agent with no keys on a fixed path (if one isn't already running there)
+EMPTY_AGENT="$HOME/.ssh/empty-agent.sock"
+SSH_AUTH_SOCK="$EMPTY_AGENT" ssh-add -l >/dev/null 2>&1
+if [ $? -eq 2 ]; then  # 2 = no agent listening; 1 would mean a running agent with no keys
+  rm -f "$EMPTY_AGENT"
+  ssh-agent -a "$EMPTY_AGENT" >/dev/null
+fi
+
+# Quit VS Code first – otherwise `code` just hands over to the running instance,
+# which keeps the environment it was started with
+SSH_AUTH_SOCK="$EMPTY_AGENT" code .
+```
+
+The trade-off is that terminals running on the host from that VS Code window can't use your SSH keys either. On macOS, launching VS Code from the Dock or Spotlight gives it your real agent again.
+
+**Remaining risk**: every time a terminal opens, there's a window of up to a second where a targeted attack could discover and directly connect to the new sockets using VS Code's internal IPC protocol. That's a race the attacker can retry with every terminal, rather than a one-off at container startup as I originally thought – which is a big part of why I no longer see this setup as a security boundary (see the note at the top).
 
 ### Triggering actions in sibling containers
 
@@ -477,7 +509,7 @@ Not everything can be locked down without making development impractical. These 
 
 | Risk | Impact | Why Accepted |
 |------|--------|--------------|
-| Network egress | Data exfiltration possible | Development requires internet access |
+| Network egress | Data exfiltration possible, and devices on your local network are reachable too | Development requires internet access |
 | Workspace write access | Source code can be modified | Essential for development; git tracks changes |
 | Claude credentials readable | OAuth token could be stolen | Token is revocable; limited blast radius |
 | Environment variables | Secrets in .env accessible | Development requires env vars, no production keys |
@@ -495,8 +527,8 @@ docker run alpine echo "test"  # Should fail with 403
 # Sudo unavailable
 sudo whoami  # Should fail
 
-# Git push blocked
-git push  # Should fail with SSH error
+# Git push blocked – --dry-run sends nothing, but still needs credentials
+git push --dry-run  # Should fail with an authentication error
 
 # All capabilities dropped
 grep 'CapEff' /proc/self/status  # Should show 0000000000000000
@@ -508,6 +540,10 @@ grep 'NoNewPrivs' /proc/self/status  # Should show 1
 echo $VSCODE_IPC_HOOK_CLI  # Should be empty
 echo $BROWSER              # Should be empty
 echo $GIT_ASKPASS          # Should be empty
+echo $SSH_AUTH_SOCK        # Should be empty
+
+# VS Code bridge sockets deleted (one may linger for up to a second after opening a terminal)
+ls /tmp/vscode-{ipc,git,ssh-auth}-*.sock /tmp/user/*/vscode-{ipc,git,ssh-auth}-*.sock 2>/dev/null  # Should print nothing
 
 # Read operations work
 docker ps  # Should list containers
@@ -516,9 +552,7 @@ git log --oneline -5  # Should show history
 
 ## Agents need tight feedback loops, or you get slop
 
-Since LLMs are statistical next token prediction machines (as much as that's hard to believe reading some of the more impressive outputs), they can not think through the code as such - they have no way of verifying anything purely "in their head" like humans. So the only way to not just play the slop slot machine is to give them tools to verify their output **in context**. Once you do, the arc of their coding session will bend towards making something working rather than compounding errors by having to work blind.
-
-People pushing the boundaries of agentic code generation have been working on increasingly ambitious orchestration platforms, but code generation volume isn't really the bottleneck even with just one or few agents. I think the most valuable pieces for coding agent tooling is an ecosystem of skills tested and adapted for your particular project, with which any new piece of code can reliably be verified. I'm working on web projects mostly, so for me these are strict type checkers and linters, integration tests with high fidelity emulators for backend pieces, and browser access for frontend and end-to-end testing. At work I think maybe as much as half of my time during the last half a year has been invested in "gold plating" our repositories with these tools. What's brilliant is that these are just as useful for humans as they are for LLMs - while I can theoretically think through how code behaves in my head, it's a difficult and slow process, so all these guardrails can help me spend less time on syntax and micro-decisions and direct my thinking and attention to the architectural and system level tradeoffs I need to decide on.
+All this effort is about more than keeping the agent away from my keys. An LLM can't verify code "in its head", so the only way to avoid playing the slop slot machine is to give it tools to check its own work **in context** – type checkers, linters, integration tests against emulators, a browser. Those have to live inside the sandbox with it, which is why I went for a dev container that holds the whole dev environment rather than a sandbox around the agent alone. I wrote more about this in [Feedback loop engineering](/blog/feedback-loop-engineering).
 
 ## Working code
 
@@ -556,14 +590,16 @@ The `initializeCommand` is a bit complex because it needs to be compatible with 
   "initializeCommand": "bash -c 'mkdir -p .devcontainer && echo \"WORKTREE_NAME=$(basename \"$PWD\")\" > .devcontainer/.env && echo \"GIT_MAIN_REPO_PATH=$(realpath \"$(git rev-parse --git-common-dir 2>/dev/null)/..\" 2>/dev/null || echo \"$PWD\")\" >> .devcontainer/.env && echo \"LOCAL_WORKSPACE_FOLDER=$PWD\" >> .devcontainer/.env && echo \"HOST_HOME=$HOME\" >> .devcontainer/.env && echo \"HOST_UID=$(id -u)\" >> .devcontainer/.env && echo \"HOST_GID=$(id -g)\" >> .devcontainer/.env && mkdir -p .claude-docker && touch .claude-docker/.bash_history && [ -f .claude-docker/.claude.json ] || echo '{}' > .claude-docker/.claude.json'",
   // postStartCommand: clean up sockets created before VS Code attaches
   "postStartCommand": "find /tmp -maxdepth 2 \\( -name 'vscode-ssh-auth-*.sock' -o -name 'vscode-remote-containers-ipc-*.sock' -o -name 'vscode-remote-containers-*.js' \\) -delete 2>/dev/null || true",
-  // IPC socket cleanup (vscode-ipc-*.sock, vscode-git-*.sock) is handled by a background
-  // loop in the Docker Compose command – postAttachCommand is unreliable for background
-  // processes due to VS Code's cgroup-based lifecycle cleanup.
+  // Ongoing socket cleanup (vscode-ipc-*.sock, vscode-git-*.sock, vscode-ssh-auth-*.sock) is
+  // handled by a background loop in the Docker Compose command – postAttachCommand is
+  // unreliable for background processes due to VS Code's cgroup-based lifecycle cleanup.
   "customizations": {
     "vscode": {
       "settings": {
         "dev.containers.dockerCredentialHelper": false,
         "dev.containers.copyGitConfig": false,
+        "git.terminalAuthentication": false,
+        "git.useIntegratedAskPass": false,
         "terminal.integrated.defaultProfile.linux": "bash",
         "terminal.integrated.automationProfile.linux": {
           "path": "/bin/bash"
@@ -671,18 +707,20 @@ services:
     depends_on:
       - docker-proxy
     # These are running here instead of Dockerfile to ensure freshness and happen in the background while the IDE is already open.
-    # The socket cleanup loop (10 passes at 30s intervals) catches VS Code IPC sockets
-    # including late-created ones. Runs as a child of the container's own bash process –
-    # not subject to VS Code's cgroup-based lifecycle cleanup.
+    # The socket cleanup loop starts first and runs every second for as long as the container
+    # is up – VS Code creates new IPC, git and SSH agent sockets for every terminal it opens.
+    # Runs as a child of the container's own bash process – not subject to VS Code's
+    # cgroup-based lifecycle cleanup.
     command: >
-      bash -c '. /home/vscode/.bashrc &&
+      bash -c '(while :; do
+        find /tmp -maxdepth 2 \( -name "vscode-ipc-*.sock" -o -name "vscode-git-*.sock" -o -name "vscode-ssh-auth-*.sock" \) -delete 2>/dev/null;
+        sleep 1;
+      done) &
+      . /home/vscode/.bashrc &&
       curl -fsSL https://claude.ai/install.sh | bash &&
       pnpm config set store-dir /home/vscode/.local/share/pnpm/store &&
       pnpm install &&
       just platform-frontend playwright-ensure-browsers;
-      (for i in 1 2 3 4 5 6 7 8 9 10; do sleep 30;
-        find /tmp -maxdepth 2 \( -name "vscode-ipc-*.sock" -o -name "vscode-git-*.sock" \) -delete 2>/dev/null;
-      done) &
       sleep infinity'
 
 networks:
