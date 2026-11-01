@@ -1,3 +1,4 @@
+import HeroImage from '@/components/HeroImage'
 import Image from '@/components/Image'
 import Link from '@/components/Link'
 import PageTitle from '@/components/PageTitle'
@@ -28,7 +29,8 @@ interface LayoutProps {
 }
 
 export default function PostLayout({ content, authorDetails, children }: LayoutProps) {
-  const { filePath, path, slug, date, title, projectLink, images, readingTime } = content
+  const { filePath, path, slug, date, title, projectLink, images, heroImageSize, readingTime } =
+    content
   const [loadComments, setLoadComments] = useState(true)
 
   return (
@@ -53,31 +55,7 @@ export default function PostLayout({ content, authorDetails, children }: LayoutP
                 <PageTitle>{title}</PageTitle>
               </div>
               {images?.[0] && (
-                // TODO: can this be done without wrapping div?
-                // https://jakearchibald.com/2022/img-aspect-ratio/#so-which-method-should-we-use
-                <div
-                  style={{
-                    position: 'relative',
-                    margin: '2rem 0',
-                    padding: '50% 0 0 0',
-                  }}
-                >
-                  <Image
-                    fill
-                    priority
-                    customLink={projectLink}
-                    src={images[0]}
-                    alt="Hero image"
-                    style={{
-                      objectFit: 'cover',
-                      position: 'absolute',
-                      top: 0,
-                      left: 0,
-                      width: '100%',
-                      height: '100%',
-                    }}
-                  />
-                </div>
+                <HeroImage src={images[0]} size={heroImageSize} customLink={projectLink} />
               )}
             </div>
           </header>

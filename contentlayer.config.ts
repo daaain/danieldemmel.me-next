@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs'
 import path from 'node:path'
 import { type ComputedFields, defineDocumentType, makeSource } from 'contentlayer2/source-files'
 import {
@@ -6,6 +7,7 @@ import {
   remarkExtractFrontmatter,
   remarkImgToJsx,
 } from 'pliny/mdx-plugins/index.js'
+import probeImageSize from 'probe-image-size'
 import readingTime from 'reading-time'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import rehypeCitation from 'rehype-citation'
@@ -19,6 +21,25 @@ import remarkGfm from 'remark-gfm'
 import remarkMath from 'remark-math'
 
 const root = process.cwd()
+
+/**
+ * Intrinsic size of a local hero image (frontmatter `images[0]`, served from /public), so
+ * layouts can render it at its native aspect ratio without layout shift. Null for remote or
+ * unreadable images, which fall back to a fixed-ratio crop.
+ *
+ * Contentlayer hands list fields to computed fields as an iterable (an Effect Chunk), not an
+ * array, so `images[0]` would be undefined – hence `Array.from`.
+ */
+const heroImageSize = (images?: Iterable<string>): { width: number; height: number } | null => {
+  const [src] = images ? Array.from(images) : []
+  if (!src?.startsWith('/')) return null
+  try {
+    const probed = probeImageSize.sync(readFileSync(path.join(root, 'public', src)))
+    return probed ? { width: probed.width, height: probed.height } : null
+  } catch {
+    return null
+  }
+}
 
 const computedFields: ComputedFields = {
   readingTime: { type: 'json', resolve: (doc) => readingTime(doc.body.raw) },
@@ -35,6 +56,7 @@ const computedFields: ComputedFields = {
     resolve: (doc) => doc._raw.sourceFilePath,
   },
   toc: { type: 'string', resolve: (doc) => extractTocHeadings(doc.body.raw) },
+  heroImageSize: { type: 'json', resolve: (doc) => heroImageSize(doc.images) },
 }
 
 export const Blog = defineDocumentType(() => ({

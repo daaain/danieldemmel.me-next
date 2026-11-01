@@ -1,10 +1,16 @@
 ---
 title: Coding agents in secured VS Code dev containers
 date: 2026-01-24
-lastmod: 2026-02-07
+lastmod: 2026-11-01
 tags: [ai, development, llm, tools, security, docker]
 images: ['/images/2026/devcontainer.webp']
 summary: How to sandbox coding agents while maintaining development flexibility - the ideal balance between security and convenience
+---
+
+**2026-11-01 update:** I don't really recommend this setup as a security boundary any more. The comments below (thank you all!) and a few more months of poking at it convinced me that a single container layer doesn't cut it any more. Docker Desktop's default VM mounts the whole of `/Users` and runs a rootful engine, so a container escape lands somewhere with your SSH keys in reach. And VS Code keeps creating fresh IPC sockets into the container – one per terminal – which turns hardening into a race you can only ever mostly win.
+
+So I ended up building [Foldyard](/projects/foldyard) instead: a throwaway VM per project that mounts only the repo, runs the whole dev stack on rootless Podman, and keeps credentials on your computer behind a proxy. That said, if a dev container is what you can set up today, it's still a lot better than running an agent straight on your laptop – the rest of this post is a reasonable way to do it, just don't mistake it for a proper wall.
+
 ---
 
 ## Why do we need sandboxed agents
