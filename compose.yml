@@ -1,5 +1,6 @@
 # Next.js dev server, driven by foldyard (`fy up`, `fy logs app`, `fy open`).
-# FY_PROXY is set by foldyard from the current mode; the CA is staged under .devbox-ca/ at box-up.
+# Proxy + CA settings (HTTP(S)_PROXY, NO_PROXY, NODE_EXTRA_CA_CERTS, the CA mount) come from foldyard
+# in every container while the VM firewall is on — do not restate them here (`fy docs networking`).
 services:
   app:
     image: node:24-trixie-slim
@@ -8,17 +9,12 @@ services:
     ports:
       - "${APP_PORT:-3210}:3000"
     environment:
-      HTTPS_PROXY: http://${FY_PROXY:-}
-      HTTP_PROXY: http://${FY_PROXY:-}
-      NO_PROXY: localhost,127.0.0.1
-      NODE_EXTRA_CA_CERTS: /etc/dev-proxy-ca.pem
       NEXT_TELEMETRY_DISABLED: "1"
       # Edits made on the host don't reliably raise inotify events through the VM mount
       WATCHPACK_POLLING: "true"
       CHOKIDAR_USEPOLLING: "true"
     volumes:
       - .:/app
-      - ./.devbox-ca/mitmproxy-ca-cert.pem:/etc/dev-proxy-ca.pem:ro
       - node_modules:/app/node_modules
       - next:/app/.next
       - contentlayer:/app/.contentlayer

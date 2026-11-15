@@ -106,6 +106,7 @@ recommend = [
   { host = "registry.npmjs.org", why = "npm registry — yarn/npx fallbacks" },
   { host = "fonts.googleapis.com", why = "next/font/google — Inter + Bricolage Grotesque in dev" },
   { host = "fonts.gstatic.com", why = "next/font/google font files" },
+  { host = "cdn.playwright.dev", why = "playwright browser bundles — headless Chromium for checking pages (e.g. the Ruffle archives)" },
 ]
 # passthrough = ["@all"]   # hosts tunnelled UN-decrypted (the toolchain); rest is decrypted
 
@@ -218,9 +219,63 @@ image = { dockerfile = "box.Dockerfile", tag = "danieldemmel-me-next-box:latest"
 shadow_volumes = ["node_modules", ".next", ".contentlayer"]   # checkout-relative
 warmup = [{ dir = ".", run = "yarn install --frozen-lockfile" }]
 env = { NEXT_TELEMETRY_DISABLED = "1", YARN_CACHE_FOLDER = "~/.cache/yarn" }   # yarn 1 as root would otherwise cache under /usr/local/share
-caches = [{ volume = "danieldemmel-me-next-yarn-cache", path = ".cache/yarn" }]   # path is under HOME
+caches = [
+  { volume = "danieldemmel-me-next-yarn-cache", path = ".cache/yarn" },   # path is under HOME
+  # Playwright's browser bundle is a few hundred MB — without this every fresh box re-downloads it
+  { volume = "danieldemmel-me-next-playwright", path = ".cache/ms-playwright" },
+]
+# System packages, baked once into a cached `<tag>-packages` layer on top of box.Dockerfile.
+# The list is what `playwright install-deps chromium` would install on Debian 13 (its `tools`
+# and `chromium` lists in playwright-core's nativeDeps, for the version pinned in the
+# playwright-chromium tool below) — re-check it when bumping that pin.
+packages = [
+  # playwright install-deps chromium — tools
+  "xvfb",
+  "fonts-noto-color-emoji",
+  "fonts-unifont",
+  "libfontconfig1",
+  "libfreetype6",
+  "xfonts-scalable",
+  "fonts-liberation",
+  "fonts-ipafont-gothic",
+  "fonts-wqy-zenhei",
+  "fonts-tlwg-loma-otf",
+  "fonts-freefont-ttf",
+  # playwright install-deps chromium — chromium
+  "libasound2t64",
+  "libatk-bridge2.0-0t64",
+  "libatk1.0-0t64",
+  "libatspi2.0-0t64",
+  "libcairo2",
+  "libcups2t64",
+  "libdbus-1-3",
+  "libdrm2",
+  "libgbm1",
+  "libglib2.0-0t64",
+  "libnspr4",
+  "libnss3",
+  "libpango-1.0-0",
+  "libx11-6",
+  "libxcb1",
+  "libxcomposite1",
+  "libxdamage1",
+  "libxext6",
+  "libxfixes3",
+  "libxkbcommon0",
+  "libxrandr2",
+]
 #
 # Consumer tools installed once per fresh box, as MONITORED steps (reported ✓/✗):
+#
+# Playwright + headless Chromium for the box only — deliberately NOT a project devDependency.
+# Pinned: the browser build is tied to the library version. `check = "false"` = always run;
+# both halves are idempotent and cheap once the npm and ms-playwright caches are warm.
+# Use it via `npx playwright …`, or from a script with NODE_PATH="$(npm root -g)".
+[[box.tools]]
+name = "playwright-chromium"
+check = "false"
+install = "npm install -g playwright@1.64.1 && playwright install chromium"
+#
 # [[box.tools]]
 # name = "pulumi"
 # install = "curl -fsSL https://get.pulumi.com | sh -s -- --install-root /opt/fy-tools --no-edit-path"
@@ -230,6 +285,6 @@ caches = [{ volume = "danieldemmel-me-next-yarn-cache", path = ".cache/yarn" }] 
 # what YOUR COMPUTER installs, so it is read from the adopted copy); settings are applied to
 # the box's server.
 [vscode]
-extensions = ["anthropic.claude-code"]
+extensions = ["anthropic.claude-code", "tamasfe.even-better-toml"]
 [vscode.settings]
 "remote.autoForwardPorts" = false
