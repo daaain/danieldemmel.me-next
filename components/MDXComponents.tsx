@@ -4,6 +4,7 @@ import Pre from 'pliny/ui/Pre'
 import TOCInline from 'pliny/ui/TOCInline'
 import React from 'react'
 
+import Chart from './Chart'
 import Image from './Image'
 import CustomLink from './Link'
 import PullQuote from './PullQuote'
@@ -62,6 +63,7 @@ export const EmbedPage = ({ URL, title, height = '32rem' }) => (
 
 export const MDXComponents: Record<string, React.ComponentType<any>> = {
   Image,
+  Chart,
   TOCInline,
   a: CustomLink,
   pre: Pre,

@@ -1,48 +1,949 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="960" height="520" viewBox="0 0 960 520" role="img" aria-label="Line chart with a shaded band of the difference in attacks caught between kernel evidence plus notes and commands only, for audit budgets from 0 to 25%. The line starts about 20 attacks above zero below 1%, then hovers a few attacks below zero; the 95% band includes zero throughout.">
-<title>Line chart with a shaded band of the difference in attacks caught between kernel evidence plus notes and commands only, for audit budgets from 0 to 25%. The line starts about 20 attacks above zero below 1%, then hovers a few attacks below zero; the 95% band includes zero throughout.</title>
-<style>
-text{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif}
-.title{font-size:23px;font-weight:700;fill:#0b0b0b}
-.sub{font-size:14px;fill:#52514e}
-.axlab{font-size:13px;font-weight:600;fill:#52514e}
-.tick{font-size:12px;fill:#898781}
-.slab{font-size:13px;font-weight:600;fill:#0b0b0b}
-.note{font-size:12px;fill:#52514e}
-.val{font-size:13px;font-weight:600;fill:#0b0b0b}
-</style>
-<rect width="960" height="520" fill="#fcfcfb"/>
-<text class="title" x="78" y="38">Extra attacks caught with kernel evidence + notes</text>
-<text class="sub" x="78" y="62">Difference from commands only, out of 233 successful attacks, with a 95% band from 1,000 resamples.</text>
-<line x1="78" y1="440.0" x2="860" y2="440.0" stroke="#e1e0d9" stroke-width="1"/>
-<text class="tick" x="68" y="444.0" text-anchor="end">-40</text>
-<line x1="78" y1="371.2" x2="860" y2="371.2" stroke="#e1e0d9" stroke-width="1"/>
-<text class="tick" x="68" y="375.2" text-anchor="end">-20</text>
-<line x1="78" y1="302.4" x2="860" y2="302.4" stroke="#e1e0d9" stroke-width="1"/>
-<text class="tick" x="68" y="306.4" text-anchor="end">0</text>
-<line x1="78" y1="233.6" x2="860" y2="233.6" stroke="#e1e0d9" stroke-width="1"/>
-<text class="tick" x="68" y="237.6" text-anchor="end">+20</text>
-<line x1="78" y1="164.8" x2="860" y2="164.8" stroke="#e1e0d9" stroke-width="1"/>
-<text class="tick" x="68" y="168.8" text-anchor="end">+40</text>
-<line x1="78" y1="96.0" x2="860" y2="96.0" stroke="#e1e0d9" stroke-width="1"/>
-<text class="tick" x="68" y="100.0" text-anchor="end">+60</text>
-<line x1="78.0" y1="440" x2="78.0" y2="445" stroke="#c3c2b7" stroke-width="1"/>
-<text class="tick" x="78.0" y="460" text-anchor="middle">0%</text>
-<line x1="234.4" y1="440" x2="234.4" y2="445" stroke="#c3c2b7" stroke-width="1"/>
-<text class="tick" x="234.4" y="460" text-anchor="middle">5%</text>
-<line x1="390.8" y1="440" x2="390.8" y2="445" stroke="#c3c2b7" stroke-width="1"/>
-<text class="tick" x="390.8" y="460" text-anchor="middle">10%</text>
-<line x1="547.2" y1="440" x2="547.2" y2="445" stroke="#c3c2b7" stroke-width="1"/>
-<text class="tick" x="547.2" y="460" text-anchor="middle">15%</text>
-<line x1="703.6" y1="440" x2="703.6" y2="445" stroke="#c3c2b7" stroke-width="1"/>
-<text class="tick" x="703.6" y="460" text-anchor="middle">20%</text>
-<line x1="860.0" y1="440" x2="860.0" y2="445" stroke="#c3c2b7" stroke-width="1"/>
-<text class="tick" x="860.0" y="460" text-anchor="middle">25%</text>
-<line x1="78" y1="440" x2="860" y2="440" stroke="#c3c2b7" stroke-width="1"/>
-<path d="M78.0,161.4 L93.6,96.6 L109.3,123.4 L124.9,168.4 L140.6,203.0 L156.2,242.6 L171.8,265.7 L187.5,280.0 L203.1,275.2 L218.8,272.2 L234.4,269.7 L250.0,274.1 L265.7,276.4 L281.3,278.9 L297.0,283.3 L312.6,286.3 L328.2,288.1 L343.9,288.4 L359.5,289.4 L375.2,290.8 L390.8,292.2 L406.4,293.1 L422.1,294.1 L437.7,295.0 L453.4,295.5 L469.0,295.6 L484.6,296.1 L500.3,296.8 L515.9,296.9 L531.6,296.5 L547.2,296.7 L562.8,296.9 L578.5,296.8 L594.1,296.6 L609.8,295.8 L625.4,295.2 L641.0,294.3 L656.7,293.5 L672.3,291.8 L688.0,290.5 L703.6,289.3 L719.2,288.1 L734.9,286.4 L750.5,284.9 L766.2,283.4 L781.8,282.5 L797.4,282.4 L813.1,282.4 L828.7,281.6 L844.4,281.9 L860.0,282.1 L860.0,334.7 L844.4,335.0 L828.7,335.4 L813.1,336.8 L797.4,338.2 L781.8,339.4 L766.2,340.8 L750.5,342.5 L734.9,344.8 L719.2,346.7 L703.6,349.2 L688.0,351.9 L672.3,353.9 L656.7,356.4 L641.0,356.8 L625.4,359.3 L609.8,360.6 L594.1,361.3 L578.5,362.6 L562.8,363.5 L547.2,363.2 L531.6,361.9 L515.9,361.5 L500.3,360.8 L484.6,359.4 L469.0,358.8 L453.4,358.2 L437.7,358.0 L422.1,358.6 L406.4,356.4 L390.8,355.8 L375.2,356.2 L359.5,357.3 L343.9,357.1 L328.2,359.7 L312.6,362.5 L297.0,365.5 L281.3,368.7 L265.7,369.5 L250.0,370.4 L234.4,371.4 L218.8,373.9 L203.1,375.0 L187.5,379.9 L171.8,389.8 L156.2,414.5 L140.6,438.5 L124.9,429.0 L109.3,415.6 L93.6,426.6 L78.0,350.6 Z" fill="#1baf7a" fill-opacity="0.18" stroke="none"/>
-<line x1="78" y1="302.4" x2="860" y2="302.4" stroke="#52514e" stroke-width="1.5"/>
-<path d="M78.0,302.4 L93.6,225.5 L109.3,280.9 L124.9,316.6 L140.6,312.6 L156.2,333.4 L171.8,330.4 L187.5,327.5 L203.1,324.5 L218.8,321.5 L234.4,318.5 L250.0,315.5 L265.7,317.4 L281.3,324.1 L297.0,327.2 L312.6,324.9 L328.2,322.6 L343.9,320.3 L359.5,320.1 L375.2,321.3 L390.8,322.5 L406.4,323.7 L422.1,324.9 L437.7,326.1 L453.4,326.7 L469.0,327.1 L484.6,327.5 L500.3,327.9 L515.9,328.3 L531.6,328.7 L547.2,328.9 L562.8,329.0 L578.5,329.1 L594.1,329.2 L609.8,328.2 L625.4,326.4 L641.0,324.6 L656.7,322.8 L672.3,321.0 L688.0,319.2 L703.6,317.4 L719.2,315.6 L734.9,313.8 L750.5,311.9 L766.2,310.1 L781.8,308.4 L797.4,308.5 L813.1,308.5 L828.7,308.5 L844.4,308.6 L860.0,308.6" fill="none" stroke="#1baf7a" stroke-width="2" stroke-linejoin="round"/>
-<text class="note" x="856" y="294.4" text-anchor="end">no difference</text>
-<text class="note" x="103.6" y="88.6">95% band</text>
-<text class="axlab" x="469" y="490" text-anchor="middle">Audit budget: share of honest runs a human reviews</text>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" class="ck ck-light ck-full" viewBox="0 0 960 520" width="960" height="520" role="img" aria-labelledby="ck-t ck-d"><title id="ck-t">Extra attacks caught with kernel evidence + notes</title><desc id="ck-d">Line chart with a shaded band of the difference in attacks caught between kernel evidence plus notes and commands only, for audit budgets from 0 to 25%. The line starts about 20 attacks above zero below 1%, then hovers a few attacks below zero; the 95% band includes zero throughout</desc><style>.ck{--ck-page:#f4f4f2;--ck-surface:#fcfcfb;--ck-ink:#0b0b0b;--ck-ink2:#52514e;--ck-muted:#898781;--ck-grid:#e9e8e2;--ck-grid-v:#f0efea;--ck-axis:#c3c2b7;--ck-zero:#52514e;--ck-shade:#f2f1ec;--ck-track:#efeee9;--ck-area:.2;--ck-border:rgba(11,11,11,.09);--ck-chip:rgba(11,11,11,.13);--ck-hover:rgba(11,11,11,.05);--ck-tip-bg:#ffffff;--ck-tip-border:rgba(11,11,11,.10);--ck-shadow:rgba(11,11,11,.16);--ck-cross:#a8a79f;--ck-s1:#2a78d6;--ck-s2:#eb6834;--ck-s3:#1baf7a;--ck-s4:#eda100;--ck-s5:#e87ba4;--ck-s6:#008300;--ck-s7:#6250d6;--ck-s8:#e34948;font-family:Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;-webkit-font-smoothing:antialiased}
+@media (prefers-color-scheme:dark){.ck.ck-auto{--ck-page:#121212;--ck-surface:#1e1e1d;--ck-ink:#f0efec;--ck-ink2:#c3c2b7;--ck-muted:#8f8e88;--ck-grid:#2e2e2c;--ck-grid-v:#262625;--ck-axis:#43433f;--ck-zero:#c3c2b7;--ck-shade:#252524;--ck-track:#2a2a28;--ck-area:.12;--ck-border:rgba(255,255,255,.09);--ck-chip:rgba(255,255,255,.15);--ck-hover:rgba(255,255,255,.06);--ck-tip-bg:#2a2a29;--ck-tip-border:rgba(255,255,255,.10);--ck-shadow:rgba(0,0,0,.55);--ck-cross:#5d5c57;--ck-s1:#3987e5;--ck-s2:#d95926;--ck-s3:#199e70;--ck-s4:#c98500;--ck-s5:#d55181;--ck-s6:#0ca30c;--ck-s7:#9085e9;--ck-s8:#e66767}}
+html:not(.dark) .ck.ck-auto{--ck-page:#f4f4f2;--ck-surface:#fcfcfb;--ck-ink:#0b0b0b;--ck-ink2:#52514e;--ck-muted:#898781;--ck-grid:#e9e8e2;--ck-grid-v:#f0efea;--ck-axis:#c3c2b7;--ck-zero:#52514e;--ck-shade:#f2f1ec;--ck-track:#efeee9;--ck-area:.2;--ck-border:rgba(11,11,11,.09);--ck-chip:rgba(11,11,11,.13);--ck-hover:rgba(11,11,11,.05);--ck-tip-bg:#ffffff;--ck-tip-border:rgba(11,11,11,.10);--ck-shadow:rgba(11,11,11,.16);--ck-cross:#a8a79f;--ck-s1:#2a78d6;--ck-s2:#eb6834;--ck-s3:#1baf7a;--ck-s4:#eda100;--ck-s5:#e87ba4;--ck-s6:#008300;--ck-s7:#6250d6;--ck-s8:#e34948}
+html.dark .ck.ck-auto,.ck.ck-dark{--ck-page:#121212;--ck-surface:#1e1e1d;--ck-ink:#f0efec;--ck-ink2:#c3c2b7;--ck-muted:#8f8e88;--ck-grid:#2e2e2c;--ck-grid-v:#262625;--ck-axis:#43433f;--ck-zero:#c3c2b7;--ck-shade:#252524;--ck-track:#2a2a28;--ck-area:.12;--ck-border:rgba(255,255,255,.09);--ck-chip:rgba(255,255,255,.15);--ck-hover:rgba(255,255,255,.06);--ck-tip-bg:#2a2a29;--ck-tip-border:rgba(255,255,255,.10);--ck-shadow:rgba(0,0,0,.55);--ck-cross:#5d5c57;--ck-s1:#3987e5;--ck-s2:#d95926;--ck-s3:#199e70;--ck-s4:#c98500;--ck-s5:#d55181;--ck-s6:#0ca30c;--ck-s7:#9085e9;--ck-s8:#e66767}
+.ck text{font-family:inherit}
+.ck-page{fill:var(--ck-page)}
+.ck-card{fill:var(--ck-surface);stroke:var(--ck-border)}
+.ck-title{font-weight:650;fill:var(--ck-ink);letter-spacing:-.005em}
+.ck-sub{fill:var(--ck-ink2)}
+.ck-chip rect{fill:transparent;stroke:var(--ck-chip)}
+.ck-chip text{fill:var(--ck-ink)}
+.ck-chip{transition:opacity .15s}
+.ck-interactive .ck-chip{cursor:pointer;outline:none}
+.ck-interactive .ck-chip:hover rect{fill:var(--ck-hover)}
+.ck-chip:focus-visible rect{stroke:var(--ck-ink2);stroke-width:1.5}
+.ck-chip[aria-pressed="false"]{opacity:.45}
+.ck-chip[aria-pressed="false"] text{text-decoration:line-through}
+.ck-key{stroke:var(--s);stroke-width:2.5;stroke-linecap:round}
+.ck-tick{fill:var(--ck-muted);font-variant-numeric:tabular-nums}
+.ck-axtitle{fill:var(--ck-ink2);font-weight:500}
+.ck-grid{stroke:var(--ck-grid);shape-rendering:crispEdges}
+.ck-grid-v{stroke:var(--ck-grid-v);shape-rendering:crispEdges}
+.ck-axis{stroke:var(--ck-axis);shape-rendering:crispEdges}
+.ck-zero{stroke:var(--ck-zero);stroke-width:1.25;shape-rendering:crispEdges}
+.ck-shade{fill:var(--ck-shade)}
+.ck-note{fill:var(--ck-ink2)}
+.ck-series,.ck-end{transition:opacity .18s}
+.ck-line{fill:none;stroke:var(--s);stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+.ck-mk{fill:var(--s);stroke:var(--ck-surface);stroke-width:2}
+.ck-band{fill:var(--s);opacity:.16}
+.ck-stop0{stop-opacity:var(--ck-area)}
+.ck-fband{fill:var(--s);opacity:0;transition:opacity .2s;pointer-events:none}
+.ck.is-focusing .ck-series.is-dim,.ck.is-focusing .ck-end.is-dim{opacity:.3}
+.ck.is-focusing .ck-series.is-focus .ck-line{stroke-width:2.5}
+.ck.is-focusing .ck-fband.is-focus{opacity:.14}
+.ck-endname{font-weight:600;fill:var(--ck-ink)}
+.ck-endval{font-weight:400;fill:var(--ck-muted);font-variant-numeric:tabular-nums}
+.ck-link{stroke:var(--ck-grid);stroke-dasharray:2 3}
+.ck-hover{opacity:0;transition:opacity .12s;pointer-events:none}
+.ck.is-hovering .ck-hover{opacity:1}
+.ck-cross{stroke:var(--ck-cross);shape-rendering:crispEdges}
+.ck-hdot{fill:var(--s);stroke:var(--ck-surface);stroke-width:2.5}
+.ck-hit{fill:transparent;outline:none}
+.ck-interactive .ck-hit{cursor:crosshair}
+.ck-hit:focus-visible{stroke:var(--ck-ink2);stroke-dasharray:3 3}
+.ck-tip{pointer-events:none;opacity:0;transition:opacity .12s}
+.ck-tip.on{opacity:1}
+.ck-tipbox{fill:var(--ck-tip-bg);stroke:var(--ck-tip-border)}
+.ck feDropShadow{flood-color:var(--ck-shadow)}
+.ck-tiph{font-weight:600;fill:var(--ck-ink);font-variant-numeric:tabular-nums}
+.ck-tipv{font-weight:650;fill:var(--ck-ink);font-variant-numeric:tabular-nums}
+.ck-tipn{fill:var(--ck-ink2)}
+.ck-tipx{fill:var(--ck-muted);font-variant-numeric:tabular-nums}
+.ck-tipf{fill:var(--ck-ink2);font-variant-numeric:tabular-nums}
+.ck-tipsep{stroke:var(--ck-tip-border)}
+.ck-tiprow{transition:opacity .15s}
+.ck-tiprow.is-dim{opacity:.45}
+.ck-bar{fill:var(--ck-s1);transition:filter .15s}
+.ck-track{fill:var(--ck-track)}
+.ck-cat{fill:var(--ck-ink)}
+.ck-val{font-weight:650;fill:var(--ck-ink);font-variant-numeric:tabular-nums}
+.ck-row{transition:opacity .15s}
+.ck.is-hovering .ck-row:not(.is-on){opacity:.45}
+.ck-row.is-on .ck-bar{filter:brightness(1.08)}
+.ck-rowhit{fill:transparent;outline:none}
+.ck-rowhit:focus-visible{stroke:var(--ck-ink2);stroke-dasharray:3 3}
+.ck-reveal{transform-box:fill-box;transform-origin:left center;transition:transform 1.4s cubic-bezier(.25,.7,.25,1)}
+.ck.ck-pre .ck-reveal{transform:scaleX(0);transition:none}
+@media (prefers-reduced-motion:reduce){.ck *{transition:none!important}.ck.ck-pre .ck-reveal{transform:none}}</style><defs><filter id="ck-shadow" x="-20%" y="-20%" width="140%" height="160%"><feDropShadow dx="0" dy="4" stdDeviation="8"/></filter><clipPath id="ck-clip"><rect class="ck-reveal" x="45" y="84.3" width="781" height="379.7"/></clipPath><linearGradient id="ck-g3" x1="0" x2="0" y1="0" y2="1"><stop class="ck-stop0" offset="0" stop-color="var(--ck-s3)" stop-opacity=".2"/><stop offset="1" stop-color="var(--ck-s3)" stop-opacity="0"/></linearGradient></defs><rect class="ck-card" x="0.5" y="0.5" width="959" height="519" rx="12"/><text class="ck-title" x="20" y="34" font-size="17">Extra attacks caught with kernel evidence + notes</text><text class="ck-sub" x="20" y="55.3" font-size="14">Difference from commands only, out of 233 successful attacks, with a 95% band from 1,000 resamples.</text><line class="ck-grid-v" x1="204.8" x2="204.8" y1="92.3" y2="456"/><line class="ck-grid-v" x1="358.6" x2="358.6" y1="92.3" y2="456"/><line class="ck-grid-v" x1="512.4" x2="512.4" y1="92.3" y2="456"/><line class="ck-grid-v" x1="666.2" x2="666.2" y1="92.3" y2="456"/><line class="ck-grid-v" x1="820" x2="820" y1="92.3" y2="456"/><text class="ck-tick" x="41" y="460" text-anchor="end" font-size="11.5">−40</text><line class="ck-grid" x1="51" x2="820" y1="383.3" y2="383.3"/><text class="ck-tick" x="41" y="387.3" text-anchor="end" font-size="11.5">−20</text><text class="ck-tick" x="41" y="314.5" text-anchor="end" font-size="11.5">0</text><line class="ck-grid" x1="51" x2="820" y1="237.8" y2="237.8"/><text class="ck-tick" x="41" y="241.8" text-anchor="end" font-size="11.5">+20</text><line class="ck-grid" x1="51" x2="820" y1="165" y2="165"/><text class="ck-tick" x="41" y="169" text-anchor="end" font-size="11.5">+40</text><line class="ck-grid" x1="51" x2="820" y1="92.3" y2="92.3"/><text class="ck-tick" x="41" y="96.3" text-anchor="end" font-size="11.5">+60</text><line class="ck-axis" x1="51" x2="51" y1="456" y2="461"/><text class="ck-tick" x="51" y="475" text-anchor="middle" font-size="11.5">0%</text><line class="ck-axis" x1="204.8" x2="204.8" y1="456" y2="461"/><text class="ck-tick" x="204.8" y="475" text-anchor="middle" font-size="11.5">5%</text><line class="ck-axis" x1="358.6" x2="358.6" y1="456" y2="461"/><text class="ck-tick" x="358.6" y="475" text-anchor="middle" font-size="11.5">10%</text><line class="ck-axis" x1="512.4" x2="512.4" y1="456" y2="461"/><text class="ck-tick" x="512.4" y="475" text-anchor="middle" font-size="11.5">15%</text><line class="ck-axis" x1="666.2" x2="666.2" y1="456" y2="461"/><text class="ck-tick" x="666.2" y="475" text-anchor="middle" font-size="11.5">20%</text><line class="ck-axis" x1="820" x2="820" y1="456" y2="461"/><text class="ck-tick" x="820" y="475" text-anchor="middle" font-size="11.5">25%</text><line class="ck-axis" x1="51" x2="820" y1="456" y2="456"/><text class="ck-axtitle" x="20" y="80.3" font-size="12">Extra attacks caught</text><text class="ck-axtitle" x="435.5" y="495" text-anchor="middle" font-size="12">Audit budget: share of honest runs a human reviews</text><line class="ck-zero" x1="51" x2="820" y1="310.5" y2="310.5"/><text class="ck-note" x="816" y="303.5" text-anchor="end" font-size="11.5">no difference</text><g clip-path="url(#ck-clip)"><path class="ck-band" data-i="0" style="--s:var(--ck-s3)" d="M51,361.4 L66.4,441.9 L81.8,430.2 L97.1,444.4 L112.5,454.5 L127.9,429 L143.3,402.9 L158.7,392.5 L174,387.3 L189.4,386.1 L204.8,383.5 L220.2,382.4 L235.6,381.4 L250.9,380.6 L266.3,377.3 L281.7,374 L297.1,371 L312.5,368.4 L327.8,368.6 L343.2,367.4 L358.6,367 L374,367.6 L389.4,370 L404.7,369.3 L420.1,369.5 L435.5,370.1 L450.9,370.7 L466.3,372.3 L481.6,373 L497,373.5 L512.4,374.8 L527.8,375.1 L543.2,374.2 L558.5,372.8 L573.9,372.1 L589.3,370.7 L604.7,368.1 L620.1,367.6 L635.4,365 L650.8,362.8 L666.2,360.1 L681.6,357.4 L697,355.4 L712.3,352.9 L727.7,351.1 L743.1,349.7 L758.5,348.3 L773.9,346.9 L789.2,345.4 L804.6,345 L820,344.7 L820,289.1 L804.6,288.8 L789.2,288.6 L773.9,289.3 L758.5,289.4 L743.1,289.5 L727.7,290.5 L712.3,292 L697,293.6 L681.6,295.4 L666.2,296.7 L650.8,297.9 L635.4,299.4 L620.1,301.1 L604.7,301.9 L589.3,303 L573.9,303.5 L558.5,304.4 L543.2,304.6 L527.8,304.7 L512.4,304.5 L497,304.3 L481.6,304.7 L466.3,304.6 L450.9,303.8 L435.5,303.4 L420.1,303.2 L404.7,302.7 L389.4,301.7 L374,300.7 L358.6,299.7 L343.2,298.3 L327.8,296.7 L312.5,295.7 L297.1,295.4 L281.7,293.5 L266.3,290.3 L250.9,285.7 L235.6,283 L220.2,280.6 L204.8,275.9 L189.4,278.6 L174,281.8 L158.7,286.8 L143.3,271.7 L127.9,247.3 L112.5,205.4 L97.1,168.8 L81.8,121.3 L66.4,92.9 L51,161.4 Z"/><g class="ck-series" data-i="0" style="--s:var(--ck-s3)"><path class="ck-line" d="M51,310.5 L66.4,229.2 L81.8,287.8 L97.1,325.5 L112.5,321.3 L127.9,343.3 L143.3,340.2 L158.7,337 L174,333.9 L189.4,330.7 L204.8,327.5 L220.2,324.4 L235.6,326.4 L250.9,333.5 L266.3,336.7 L281.7,334.3 L297.1,331.9 L312.5,329.5 L327.8,329.2 L343.2,330.5 L358.6,331.7 L374,333 L389.4,334.3 L404.7,335.5 L420.1,336.3 L435.5,336.7 L450.9,337.1 L466.3,337.5 L481.6,337.9 L497,338.4 L512.4,338.6 L527.8,338.7 L543.2,338.7 L558.5,338.9 L573.9,337.8 L589.3,335.9 L604.7,334 L620.1,332.1 L635.4,330.2 L650.8,328.3 L666.2,326.3 L681.6,324.4 L697,322.5 L712.3,320.6 L727.7,318.7 L743.1,316.9 L758.5,316.9 L773.9,317 L789.2,317 L804.6,317.1 L820,317.1"/><circle class="ck-mk" cx="51" cy="310.5" r="3.5"/><circle class="ck-mk" cx="66.4" cy="229.2" r="3.5"/><circle class="ck-mk" cx="81.8" cy="287.8" r="3.5"/><circle class="ck-mk" cx="97.1" cy="325.5" r="3.5"/><circle class="ck-mk" cx="112.5" cy="321.3" r="3.5"/><circle class="ck-mk" cx="127.9" cy="343.3" r="3.5"/><circle class="ck-mk" cx="143.3" cy="340.2" r="3.5"/><circle class="ck-mk" cx="158.7" cy="337" r="3.5"/><circle class="ck-mk" cx="174" cy="333.9" r="3.5"/><circle class="ck-mk" cx="189.4" cy="330.7" r="3.5"/><circle class="ck-mk" cx="204.8" cy="327.5" r="3.5"/><circle class="ck-mk" cx="220.2" cy="324.4" r="3.5"/><circle class="ck-mk" cx="235.6" cy="326.4" r="3.5"/><circle class="ck-mk" cx="250.9" cy="333.5" r="3.5"/><circle class="ck-mk" cx="266.3" cy="336.7" r="3.5"/><circle class="ck-mk" cx="281.7" cy="334.3" r="3.5"/><circle class="ck-mk" cx="297.1" cy="331.9" r="3.5"/><circle class="ck-mk" cx="312.5" cy="329.5" r="3.5"/><circle class="ck-mk" cx="327.8" cy="329.2" r="3.5"/><circle class="ck-mk" cx="343.2" cy="330.5" r="3.5"/><circle class="ck-mk" cx="358.6" cy="331.7" r="3.5"/><circle class="ck-mk" cx="374" cy="333" r="3.5"/><circle class="ck-mk" cx="389.4" cy="334.3" r="3.5"/><circle class="ck-mk" cx="404.7" cy="335.5" r="3.5"/><circle class="ck-mk" cx="420.1" cy="336.3" r="3.5"/><circle class="ck-mk" cx="435.5" cy="336.7" r="3.5"/><circle class="ck-mk" cx="450.9" cy="337.1" r="3.5"/><circle class="ck-mk" cx="466.3" cy="337.5" r="3.5"/><circle class="ck-mk" cx="481.6" cy="337.9" r="3.5"/><circle class="ck-mk" cx="497" cy="338.4" r="3.5"/><circle class="ck-mk" cx="512.4" cy="338.6" r="3.5"/><circle class="ck-mk" cx="527.8" cy="338.7" r="3.5"/><circle class="ck-mk" cx="543.2" cy="338.7" r="3.5"/><circle class="ck-mk" cx="558.5" cy="338.9" r="3.5"/><circle class="ck-mk" cx="573.9" cy="337.8" r="3.5"/><circle class="ck-mk" cx="589.3" cy="335.9" r="3.5"/><circle class="ck-mk" cx="604.7" cy="334" r="3.5"/><circle class="ck-mk" cx="620.1" cy="332.1" r="3.5"/><circle class="ck-mk" cx="635.4" cy="330.2" r="3.5"/><circle class="ck-mk" cx="650.8" cy="328.3" r="3.5"/><circle class="ck-mk" cx="666.2" cy="326.3" r="3.5"/><circle class="ck-mk" cx="681.6" cy="324.4" r="3.5"/><circle class="ck-mk" cx="697" cy="322.5" r="3.5"/><circle class="ck-mk" cx="712.3" cy="320.6" r="3.5"/><circle class="ck-mk" cx="727.7" cy="318.7" r="3.5"/><circle class="ck-mk" cx="743.1" cy="316.9" r="3.5"/><circle class="ck-mk" cx="758.5" cy="316.9" r="3.5"/><circle class="ck-mk" cx="773.9" cy="317" r="3.5"/><circle class="ck-mk" cx="789.2" cy="317" r="3.5"/><circle class="ck-mk" cx="804.6" cy="317.1" r="3.5"/><circle class="ck-mk" cx="820" cy="317.1" r="3.5"/></g></g><g class="ck-end" data-i="0" style="--s:var(--ck-s3)"><line class="ck-key" x1="834" x2="848" y1="317.1" y2="317.1"/><text class="ck-endname" x="854" y="321.6" font-size="12.5">Difference <tspan class="ck-endval" font-size="12">−2</tspan></text></g><script><![CDATA[
+(function(){
+const VERSION = 1
+
+const FONT = "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif"
+
+const THEMES = {
+light: {
+page: '#f4f4f2', surface: '#fcfcfb', ink: '#0b0b0b', ink2: '#52514e', muted: '#898781',
+grid: '#e9e8e2', 'grid-v': '#f0efea', axis: '#c3c2b7', zero: '#52514e', shade: '#f2f1ec',
+track: '#efeee9', area: '.2', border: 'rgba(11,11,11,.09)', chip: 'rgba(11,11,11,.13)', hover: 'rgba(11,11,11,.05)',
+'tip-bg': '#ffffff', 'tip-border': 'rgba(11,11,11,.10)', shadow: 'rgba(11,11,11,.16)', cross: '#a8a79f',
+s1: '#2a78d6', s2: '#eb6834', s3: '#1baf7a', s4: '#eda100', s5: '#e87ba4', s6: '#008300', s7: '#6250d6', s8: '#e34948',
+},
+dark: {
+page: '#121212', surface: '#1e1e1d', ink: '#f0efec', ink2: '#c3c2b7', muted: '#8f8e88',
+grid: '#2e2e2c', 'grid-v': '#262625', axis: '#43433f', zero: '#c3c2b7', shade: '#252524',
+track: '#2a2a28', area: '.12', border: 'rgba(255,255,255,.09)', chip: 'rgba(255,255,255,.15)', hover: 'rgba(255,255,255,.06)',
+'tip-bg': '#2a2a29', 'tip-border': 'rgba(255,255,255,.10)', shadow: 'rgba(0,0,0,.55)', cross: '#5d5c57',
+s1: '#3987e5', s2: '#d95926', s3: '#199e70', s4: '#c98500', s5: '#d55181', s6: '#0ca30c', s7: '#9085e9', s8: '#e66767',
+},
+}
+
+const vars = (t) => Object.entries(t).map(([k, v]) => `--ck-${k}:${v}`).join(';')
+
+const CSS = `
+.ck{${vars(THEMES.light)};font-family:${FONT};-webkit-font-smoothing:antialiased}
+@media (prefers-color-scheme:dark){.ck.ck-auto{${vars(THEMES.dark)}}}
+html:not(.dark) .ck.ck-auto{${vars(THEMES.light)}}
+html.dark .ck.ck-auto,.ck.ck-dark{${vars(THEMES.dark)}}
+.ck text{font-family:inherit}
+.ck-page{fill:var(--ck-page)}
+.ck-card{fill:var(--ck-surface);stroke:var(--ck-border)}
+.ck-title{font-weight:650;fill:var(--ck-ink);letter-spacing:-.005em}
+.ck-sub{fill:var(--ck-ink2)}
+.ck-chip rect{fill:transparent;stroke:var(--ck-chip)}
+.ck-chip text{fill:var(--ck-ink)}
+.ck-chip{transition:opacity .15s}
+.ck-interactive .ck-chip{cursor:pointer;outline:none}
+.ck-interactive .ck-chip:hover rect{fill:var(--ck-hover)}
+.ck-chip:focus-visible rect{stroke:var(--ck-ink2);stroke-width:1.5}
+.ck-chip[aria-pressed="false"]{opacity:.45}
+.ck-chip[aria-pressed="false"] text{text-decoration:line-through}
+.ck-key{stroke:var(--s);stroke-width:2.5;stroke-linecap:round}
+.ck-tick{fill:var(--ck-muted);font-variant-numeric:tabular-nums}
+.ck-axtitle{fill:var(--ck-ink2);font-weight:500}
+.ck-grid{stroke:var(--ck-grid);shape-rendering:crispEdges}
+.ck-grid-v{stroke:var(--ck-grid-v);shape-rendering:crispEdges}
+.ck-axis{stroke:var(--ck-axis);shape-rendering:crispEdges}
+.ck-zero{stroke:var(--ck-zero);stroke-width:1.25;shape-rendering:crispEdges}
+.ck-shade{fill:var(--ck-shade)}
+.ck-note{fill:var(--ck-ink2)}
+.ck-series,.ck-end{transition:opacity .18s}
+.ck-line{fill:none;stroke:var(--s);stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+.ck-mk{fill:var(--s);stroke:var(--ck-surface);stroke-width:2}
+.ck-band{fill:var(--s);opacity:.16}
+.ck-stop0{stop-opacity:var(--ck-area)}
+.ck-fband{fill:var(--s);opacity:0;transition:opacity .2s;pointer-events:none}
+.ck.is-focusing .ck-series.is-dim,.ck.is-focusing .ck-end.is-dim{opacity:.3}
+.ck.is-focusing .ck-series.is-focus .ck-line{stroke-width:2.5}
+.ck.is-focusing .ck-fband.is-focus{opacity:.14}
+.ck-endname{font-weight:600;fill:var(--ck-ink)}
+.ck-endval{font-weight:400;fill:var(--ck-muted);font-variant-numeric:tabular-nums}
+.ck-link{stroke:var(--ck-grid);stroke-dasharray:2 3}
+.ck-hover{opacity:0;transition:opacity .12s;pointer-events:none}
+.ck.is-hovering .ck-hover{opacity:1}
+.ck-cross{stroke:var(--ck-cross);shape-rendering:crispEdges}
+.ck-hdot{fill:var(--s);stroke:var(--ck-surface);stroke-width:2.5}
+.ck-hit{fill:transparent;outline:none}
+.ck-interactive .ck-hit{cursor:crosshair}
+.ck-hit:focus-visible{stroke:var(--ck-ink2);stroke-dasharray:3 3}
+.ck-tip{pointer-events:none;opacity:0;transition:opacity .12s}
+.ck-tip.on{opacity:1}
+.ck-tipbox{fill:var(--ck-tip-bg);stroke:var(--ck-tip-border)}
+.ck feDropShadow{flood-color:var(--ck-shadow)}
+.ck-tiph{font-weight:600;fill:var(--ck-ink);font-variant-numeric:tabular-nums}
+.ck-tipv{font-weight:650;fill:var(--ck-ink);font-variant-numeric:tabular-nums}
+.ck-tipn{fill:var(--ck-ink2)}
+.ck-tipx{fill:var(--ck-muted);font-variant-numeric:tabular-nums}
+.ck-tipf{fill:var(--ck-ink2);font-variant-numeric:tabular-nums}
+.ck-tipsep{stroke:var(--ck-tip-border)}
+.ck-tiprow{transition:opacity .15s}
+.ck-tiprow.is-dim{opacity:.45}
+.ck-bar{fill:var(--ck-s1);transition:filter .15s}
+.ck-track{fill:var(--ck-track)}
+.ck-cat{fill:var(--ck-ink)}
+.ck-val{font-weight:650;fill:var(--ck-ink);font-variant-numeric:tabular-nums}
+.ck-row{transition:opacity .15s}
+.ck.is-hovering .ck-row:not(.is-on){opacity:.45}
+.ck-row.is-on .ck-bar{filter:brightness(1.08)}
+.ck-rowhit{fill:transparent;outline:none}
+.ck-rowhit:focus-visible{stroke:var(--ck-ink2);stroke-dasharray:3 3}
+.ck-reveal{transform-box:fill-box;transform-origin:left center;transition:transform 1.4s cubic-bezier(.25,.7,.25,1)}
+.ck.ck-pre .ck-reveal{transform:scaleX(0);transition:none}
+@media (prefers-reduced-motion:reduce){.ck *{transition:none!important}.ck.ck-pre .ck-reveal{transform:none}}
+`.trim()
+
+
+const esc = (s) =>
+String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c])
+
+const NARROW = "ijl.,:;'|!` "
+const SEMI = 'frtI()[]{}-/\\"*'
+const WIDE = 'mwMW@%'
+function textWidth(s, size, weight = 400) {
+let w = 0
+for (const ch of String(s)) {
+if (NARROW.includes(ch)) w += 0.27
+else if (SEMI.includes(ch)) w += 0.37
+else if (WIDE.includes(ch)) w += 0.86
+else if (ch >= 'A' && ch <= 'Z') w += 0.67
+else if (ch >= '0' && ch <= '9') w += 0.59
+else w += 0.54
+}
+return w * size * 1.06 * (weight >= 600 ? 1.05 : 1)
+}
+
+function wrapText(text, size, maxWidth, weight = 400) {
+const words = String(text).split(/\s+/).filter(Boolean)
+const lines = []
+let line = ''
+for (const word of words) {
+const next = line ? `${line} ${word}` : word
+if (line && textWidth(next, size, weight) > maxWidth) {
+lines.push(line)
+line = word
+} else line = next
+}
+if (line) lines.push(line)
+return lines
+}
+
+
+const group = (n) => {
+const s = String(Math.abs(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+return n < 0 ? `−${s}` : s
+}
+const trimZeros = (s) => s.replace(/\.0+$/, '').replace(/(\.\d*?)0+$/, '$1')
+
+const FORMATS = {
+int: (v) => group(Math.round(v)),
+fixed: (v, d = 0) => {
+const s = Number(v).toFixed(d)
+return s.startsWith('-') ? `−${s.slice(1)}` : s
+},
+pct: (v, d = 0) => `${(v * 100).toFixed(d)}%`,
+kilo: (v) => (v === 0 ? '0' : `${trimZeros((v / 1024).toFixed(1))}K`),
+signed: (v, d = 0) => {
+const a = Math.abs(v).toFixed(d)
+if (Number(a) === 0) return '0'
+return (v > 0 ? '+' : '−') + a
+},
+raw: (v) => (Number.isInteger(v) ? group(v) : trimZeros(Number(v).toFixed(2))),
+}
+
+const operand = (tok, vars) => {
+if (/^-?\d+(\.\d+)?$/.test(tok)) return Number(tok)
+return vars[tok]
+}
+
+function fmt(template, vars = {}) {
+return String(template).replace(/\{([^}|]+)(?:\|(\w+)(?::(\d+))?)?\}/g, (_, expr, f, d) => {
+const m = expr.trim().match(/^([\w.-]+)\s*(?:([*/])\s*([\w.-]+))?$/)
+if (!m) return ''
+let v = operand(m[1], vars)
+if (v === undefined || v === null) return ''
+if (m[2]) {
+const w = operand(m[3], vars)
+if (typeof w !== 'number' || typeof v !== 'number') return ''
+v = m[2] === '*' ? v * w : v / w
+}
+if (typeof v === 'string') return v
+const fn = FORMATS[f || 'raw'] || FORMATS.raw
+return fn(v, d === undefined ? undefined : Number(d))
+})
+}
+
+const tickFmt = (axis, v) => {
+const f = axis?.format || 'raw'
+if (f.includes('{')) return fmt(f, { v, x: v, y: v })
+return (FORMATS[f] || FORMATS.raw)(v, axis?.digits)
+}
+
+
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v))
+const r1 = (v) => Math.round(v * 10) / 10
+
+function dodge(ys, gap, lo = Number.NEGATIVE_INFINITY, hi = Number.POSITIVE_INFINITY) {
+if (!ys.length) return []
+const order = ys.map((_, i) => i).sort((a, b) => ys[a] - ys[b])
+const placed = order.map((i) => ys[i])
+for (let k = 1; k < placed.length; k++) placed[k] = Math.max(placed[k], placed[k - 1] + gap)
+const shift = (placed.reduce((a, b) => a + b, 0) - order.reduce((a, i) => a + ys[i], 0)) / placed.length
+const out = []
+order.forEach((i, k) => {
+out[i] = placed[k] - shift
+})
+const min = Math.min(...out)
+const max = Math.max(...out)
+const nudge = min < lo ? lo - min : max > hi ? hi - max : 0
+return out.map((y) => y + nudge)
+}
+
+const linePath = (pts) => pts.map((p, i) => `${i ? 'L' : 'M'}${r1(p[0])},${r1(p[1])}`).join(' ')
+
+
+function sizes(layout, W) {
+const thumb = layout === 'thumb'
+const narrow = W < 560
+return {
+thumb,
+narrow,
+pad: thumb ? 20 : narrow ? 14 : 20,
+title: thumb ? 22 : narrow ? 16 : 17,
+sub: narrow ? 13 : 14,
+chip: thumb ? 13.5 : 12.5,
+chipH: thumb ? 28 : 24,
+tick: thumb ? 12.5 : 11.5,
+ax: 12,
+end: 12.5,
+cat: thumb ? 14 : 13,
+}
+}
+
+function header(spec, S, x0, W, y0, interactive, hidden, legend) {
+const inner = W - 2 * x0
+let y = y0
+let out = ''
+const tl = wrapText(spec.title || '', S.title, inner, 650)
+tl.forEach((line, i) => {
+y += i === 0 ? S.title : S.title * 1.3
+out += `<text class="ck-title" x="${x0}" y="${r1(y)}" font-size="${S.title}">${esc(line)}</text>`
+})
+if (spec.subtitle && !S.thumb) {
+const sl = wrapText(spec.subtitle, S.sub, inner)
+y += 4
+sl.forEach((line) => {
+y += S.sub * 1.45
+out += `<text class="ck-sub" x="${x0}" y="${r1(y - 3)}" font-size="${S.sub}">${esc(line)}</text>`
+})
+}
+if (legend.length > 1) {
+y += S.thumb ? 14 : 12
+let cx = x0
+let row = y
+for (const s of legend) {
+const tw = textWidth(s.name, S.chip)
+const w = Math.ceil(tw + 42)
+if (cx > x0 && cx + w > x0 + inner) {
+cx = x0
+row += S.chipH + 6
+}
+const pressed = !hidden.has(s.i)
+const ky = row + S.chipH / 2
+const attrs = interactive ? ` tabindex="0" role="button" aria-pressed="${pressed}"` : ` aria-pressed="${pressed}"`
+out +=
+`<g class="ck-chip" data-i="${s.i}" style="--s:var(--ck-s${s.slot})"${attrs}>` +
+`<rect x="${cx + 0.5}" y="${row + 0.5}" width="${w - 1}" height="${S.chipH - 1}" rx="${S.chipH / 2}"/>` +
+`<line class="ck-key" x1="${cx + 10}" x2="${cx + 24}" y1="${ky}" y2="${ky}"${s.dashed ? ' stroke-dasharray="4 3"' : ''}/>` +
+`<text x="${cx + 31}" y="${r1(ky + S.chip * 0.36)}" font-size="${S.chip}">${esc(s.name)}</text></g>`
+cx += w + 6
+}
+y = row + S.chipH
+}
+return { out, y }
+}
+
+function frame(spec, o, legend, naturalPlotH) {
+const layout = o.layout || 'full'
+const W = Math.max(280, Math.round(o.width || 960))
+const S = sizes(layout, W)
+const hidden = new Set(o.hidden || [])
+const interactive = !!o.interactive
+const outer = layout === 'screen' ? (W < 560 ? 8 : 16) : 0
+const x0 = outer + S.pad
+const cardW = W - 2 * outer
+const h = header(spec, S, x0, W, outer + S.pad - 3, interactive, hidden, legend)
+const plotY = h.y + (S.thumb ? 14 : 12)
+let H
+if (layout === 'full') H = Math.round(plotY + naturalPlotH(W) + S.pad + outer)
+else H = Math.max(Math.round(o.height || 600), Math.round(plotY + 140 + S.pad + outer))
+const plot = { x: x0, y: plotY, w: cardW - 2 * S.pad, h: H - outer - S.pad - plotY }
+return { layout, W, H, S, hidden, interactive, outer, cardW, head: h.out, plot }
+}
+
+function shell(f, spec, o, body, defs = '') {
+const id = o.idPrefix || 'ck'
+const theme = o.theme || 'auto'
+const cls = `ck ck-${theme} ck-${f.layout}${f.interactive ? ' ck-interactive' : ''}${o.animate ? ' ck-pre' : ''}`
+const role = f.interactive
+? `role="group" aria-label="${esc(spec.title || '')}"`
+: `role="img" aria-labelledby="${id}-t ${id}-d"`
+const label = f.interactive
+? ''
+: `<title id="${id}-t">${esc(spec.title || '')}</title><desc id="${id}-d">${esc(spec.alt || spec.subtitle || '')}</desc>`
+const page = f.outer ? `<rect class="ck-page" width="${f.W}" height="${f.H}"/>` : ''
+return (
+`<svg xmlns="http://www.w3.org/2000/svg" class="${cls}" viewBox="0 0 ${f.W} ${f.H}" width="${f.W}" height="${f.H}" ${role}>` +
+label +
+`<style>${CSS}</style>` +
+`<defs><filter id="${id}-shadow" x="-20%" y="-20%" width="140%" height="160%"><feDropShadow dx="0" dy="4" stdDeviation="8"/></filter>${defs}</defs>` +
+page +
+`<rect class="ck-card" x="${f.outer + 0.5}" y="${f.outer + 0.5}" width="${f.cardW - 1}" height="${f.H - 2 * f.outer - 1}" rx="12"/>` +
+f.head +
+body +
+(f.interactive ? `<g class="ck-tip"><rect class="ck-tipbox" rx="10" filter="url(#${id}-shadow)"/><g class="ck-tipc"/></g>` : '') +
+`</svg>`
+)
+}
+
+
+function lineGeometry(spec, o) {
+const series = (spec.series || []).map((s, i) => ({ ...s, i }))
+const f = frame(spec, o, series, (W) => clamp(Math.round(W * 0.5), W < 560 ? 300 : 240, 430))
+const { S, plot } = f
+const vis = series.filter((s) => !f.hidden.has(s.i))
+const endTpl = spec.labels?.end
+let endW = 0
+if (!S.thumb && !S.narrow && endTpl && vis.length) {
+const need =
+Math.max(
+...vis.map((s) => {
+const p = s.points[s.points.length - 1]
+return textWidth(s.short || s.name, S.end, 600) + textWidth(` ${fmt(endTpl, ptVars(spec, p))}`, 12)
+}),
+) + 30
+if (need <= plot.w * 0.38) endW = Math.ceil(need)
+}
+const yTicks = spec.y?.ticks || []
+const tickW = Math.max(18, ...yTicks.map((t) => textWidth(tickFmt(spec.y, t), S.tick)))
+const m = {
+l: Math.ceil(tickW + 10),
+r: endW ? endW + 6 : 8,
+t: S.thumb ? 8 : 22,
+b: S.thumb ? 24 : 44,
+}
+const iw = Math.max(40, plot.w - m.l - m.r)
+const ih = Math.max(40, plot.h - m.t - m.b)
+const [x0, x1] = spec.x.domain
+const [y0, y1] = spec.y.domain
+const L = plot.x + m.l
+const T = plot.y + m.t
+const sx = (v) => L + ((v - x0) / (x1 - x0)) * iw
+const sy = (v) => T + ih - ((v - y0) / (y1 - y0)) * ih
+const xs = [...new Set(vis.flatMap((s) => s.points.map((p) => p[0])))].sort((a, b) => a - b)
+return { ...f, series, vis, m, iw, ih, L, T, sx, sy, xs, endW }
+}
+
+const ptVars = (spec, p) => ({ ...(spec.vars || {}), x: p[0], y: p[1], lo: p[2], hi: p[3] })
+
+function renderLine(spec, o) {
+const g = lineGeometry(spec, o)
+const { S, L, T, iw, ih, sx, sy, vis } = g
+const id = o.idPrefix || 'ck'
+const B = T + ih
+let b = ''
+let defs = `<clipPath id="${id}-clip"><rect class="ck-reveal" x="${L - 6}" y="${T - 8}" width="${iw + 12}" height="${ih + 16}"/></clipPath>`
+for (const slot of new Set(g.series.map((s) => s.slot)))
+defs += `<linearGradient id="${id}-g${slot}" x1="0" x2="0" y1="0" y2="1"><stop class="ck-stop0" offset="0" stop-color="var(--ck-s${slot})" stop-opacity=".2"/><stop offset="1" stop-color="var(--ck-s${slot})" stop-opacity="0"/></linearGradient>`
+
+const xTicks = iw < 420 && spec.x.ticksCompact ? spec.x.ticksCompact : spec.x.ticks || []
+if (spec.shade) {
+const a = sx(spec.shade.from)
+const w = sx(spec.shade.to) - a
+b += `<rect class="ck-shade" x="${r1(a)}" y="${T}" width="${r1(w)}" height="${ih}"/>`
+if (!S.thumb)
+(spec.shade.label || []).forEach((line, k) => {
+b += `<text class="ck-note" x="${r1(a + 8)}" y="${T + 16 + k * 15}" font-size="11.5">${esc(line)}</text>`
+})
+}
+for (const t of xTicks)
+if (t !== spec.x.domain[0]) b += `<line class="ck-grid-v" x1="${r1(sx(t))}" x2="${r1(sx(t))}" y1="${T}" y2="${B}"/>`
+for (const t of spec.y.ticks || []) {
+const y = sy(t)
+if (t !== spec.y.domain[0] && !(spec.zero && t === 0)) b += `<line class="ck-grid" x1="${L}" x2="${L + iw}" y1="${r1(y)}" y2="${r1(y)}"/>`
+b += `<text class="ck-tick" x="${L - 10}" y="${r1(y + 4)}" text-anchor="end" font-size="${S.tick}">${esc(tickFmt(spec.y, t))}</text>`
+}
+for (const t of xTicks) {
+b += `<line class="ck-axis" x1="${r1(sx(t))}" x2="${r1(sx(t))}" y1="${B}" y2="${B + 5}"/>`
+b += `<text class="ck-tick" x="${r1(sx(t))}" y="${B + 19}" text-anchor="middle" font-size="${S.tick}">${esc(tickFmt(spec.x, t))}</text>`
+}
+b += `<line class="ck-axis" x1="${L}" x2="${L + iw}" y1="${B}" y2="${B}"/>`
+if (!S.thumb) {
+if (spec.y.title) b += `<text class="ck-axtitle" x="${g.plot.x}" y="${T - 12}" font-size="${S.ax}">${esc(spec.y.title)}</text>`
+const xt = S.narrow && spec.x.short ? spec.x.short : spec.x.title
+if (xt) b += `<text class="ck-axtitle" x="${r1(L + iw / 2)}" y="${B + 39}" text-anchor="middle" font-size="${S.ax}">${esc(xt)}</text>`
+}
+if (spec.zero) {
+b += `<line class="ck-zero" x1="${L}" x2="${L + iw}" y1="${r1(sy(0))}" y2="${r1(sy(0))}"/>`
+if (spec.zero.label && !S.thumb)
+b += `<text class="ck-note" x="${L + iw - 4}" y="${r1(sy(0) - 7)}" text-anchor="end" font-size="11.5">${esc(spec.zero.label)}</text>`
+}
+
+b += `<g clip-path="url(#${id}-clip)">`
+for (const s of vis) {
+if (!s.band) continue
+const up = s.points.map((p) => [sx(p[0]), sy(p[2])])
+const dn = s.points.map((p) => [sx(p[0]), sy(p[3])]).reverse()
+const d = `${linePath(up)} ${linePath(dn).replace(/^M/, 'L')} Z`
+const cls = s.band === 'always' ? 'ck-band' : 'ck-fband'
+if (s.band === 'always' || g.interactive) b += `<path class="${cls}" data-i="${s.i}" style="--s:var(--ck-s${s.slot})" d="${d}"/>`
+}
+const area = spec.area !== false
+const spacing = iw / Math.max(1, Math.max(...vis.map((s) => s.points.length)) - 1)
+for (const s of vis) {
+const pts = s.points.map((p) => [sx(p[0]), sy(p[1])])
+const path = linePath(pts)
+b += `<g class="ck-series" data-i="${s.i}" style="--s:var(--ck-s${s.slot})">`
+if (area && !s.dashed && !s.band && pts.length > 1) {
+const base = sy(Math.max(spec.y.domain[0], 0))
+b += `<path fill="url(#${id}-g${s.slot})" d="${path} L${r1(pts[pts.length - 1][0])},${r1(base)} L${r1(pts[0][0])},${r1(base)} Z"/>`
+}
+b += `<path class="ck-line" d="${path}"${s.dashed ? ' stroke-dasharray="6 5"' : ''}/>`
+if (spec.markers !== false && spacing >= 9)
+for (const p of pts) b += `<circle class="ck-mk" cx="${r1(p[0])}" cy="${r1(p[1])}" r="${s.dashed ? 3 : 3.5}"/>`
+b += `</g>`
+}
+b += `</g>`
+
+if (g.endW) {
+const ends = vis.map((s) => {
+const p = s.points[s.points.length - 1]
+return { s, p, x: sx(p[0]), y: sy(p[1]) }
+})
+const ly = dodge(
+ends.map((e) => e.y),
+19,
+T,
+B,
+)
+const lx = L + iw + 14
+ends.forEach((e, k) => {
+b += `<g class="ck-end" data-i="${e.s.i}" style="--s:var(--ck-s${e.s.slot})">`
+if (e.x < L + iw - 2) b += `<line class="ck-link" x1="${r1(e.x + 6)}" x2="${lx - 3}" y1="${r1(e.y)}" y2="${r1(ly[k])}"/>`
+b += `<line class="ck-key" x1="${lx}" x2="${lx + 14}" y1="${r1(ly[k])}" y2="${r1(ly[k])}"${e.s.dashed ? ' stroke-dasharray="4 3"' : ''}/>`
+b += `<text class="ck-endname" x="${lx + 20}" y="${r1(ly[k] + 4.5)}" font-size="${S.end}">${esc(e.s.short || e.s.name)} <tspan class="ck-endval" font-size="12">${esc(fmt(spec.labels.end, ptVars(spec, e.p)))}</tspan></text></g>`
+})
+}
+
+if (g.interactive) {
+b += `<g class="ck-hover"><line class="ck-cross" y1="${T}" y2="${B}"/><g class="ck-hdots"/></g>`
+b += `<rect class="ck-hit" x="${L}" y="${T - 6}" width="${iw}" height="${ih + 12}" tabindex="0" aria-label="${esc(spec.title || '')}: use the arrow keys to read values"/>`
+}
+return shell(g, spec, o, b, defs)
+}
+
+
+function barGeometry(spec, o) {
+const rows = spec.rows || []
+const natural = (W) => {
+const narrow = W < 560
+return rows.length * (narrow ? 62 : 46) + 40
+}
+const f = frame(spec, o, [], natural)
+const { S, plot } = f
+const max = spec.max ?? Math.max(...rows.map((r) => r[1]))
+const stacked = S.narrow // labels above bars on small screens
+const labelW = stacked ? 0 : Math.min(plot.w * 0.45, Math.max(...rows.map((r) => textWidth(r[0], S.cat))) + 14)
+const m = { l: Math.ceil(labelW), r: 44, t: 2, b: S.thumb ? 26 : 44 }
+const iw = plot.w - m.l - m.r
+const avail = plot.h - m.t - m.b
+const rowH = avail / Math.max(1, rows.length)
+const labelSpace = stacked ? 20 : 0
+const bar = clamp((rowH - labelSpace) * 0.64, 14, 56)
+const L = plot.x + m.l
+const sx = (v) => L + (v / max) * iw
+const yBar = (i) => plot.y + m.t + i * rowH + labelSpace + (rowH - labelSpace - bar) / 2
+return { ...f, rows, max, m, iw, rowH, bar, L, sx, yBar, stacked, B: plot.y + m.t + rows.length * rowH }
+}
+
+function renderBar(spec, o) {
+const g = barGeometry(spec, o)
+const { S, L, iw, sx, yBar, bar, B, rows } = g
+const style = spec.style || 'track'
+let b = ''
+for (const t of spec.x?.ticks || []) {
+if (t > 0) b += `<line class="ck-grid" x1="${r1(sx(t))}" x2="${r1(sx(t))}" y1="${g.plot.y}" y2="${r1(B + 4)}"/>`
+b += `<text class="ck-tick" x="${r1(sx(t))}" y="${r1(B + 20)}" text-anchor="middle" font-size="${S.tick}">${esc(tickFmt(spec.x, t))}</text>`
+}
+b += `<line class="ck-axis" x1="${L}" x2="${L}" y1="${g.plot.y}" y2="${r1(B + 4)}"/>`
+rows.forEach(([name, v], i) => {
+const y = yBar(i)
+const bw = Math.max(0, sx(v) - L)
+const r = Math.min(4, bw / 2)
+b += `<g class="ck-row" data-i="${i}">`
+if (style === 'track') b += `<rect class="ck-track" x="${L}" y="${r1(y)}" width="${r1(iw)}" height="${r1(bar)}" rx="4"/>`
+b += `<path class="ck-bar" d="M${L},${r1(y)} H${r1(L + bw - r)} Q${r1(L + bw)},${r1(y)} ${r1(L + bw)},${r1(y + r)} V${r1(y + bar - r)} Q${r1(L + bw)},${r1(y + bar)} ${r1(L + bw - r)},${r1(y + bar)} H${L} Z"/>`
+const lx = g.stacked ? L : L - 12
+const ly = g.stacked ? y - 7 : y + bar / 2 + S.cat * 0.36
+b += `<text class="ck-cat" x="${lx}" y="${r1(ly)}" text-anchor="${g.stacked ? 'start' : 'end'}" font-size="${S.cat}">${esc(name)}</text>`
+const val = spec.labels?.value ? fmt(spec.labels.value, { ...(spec.vars || {}), v, max: g.max }) : FORMATS.int(v)
+const inside = style === 'track' && bw + 8 + textWidth(val, S.cat, 650) > iw
+b += `<text class="ck-val" x="${r1(inside ? L + bw - 8 : L + bw + 8)}" y="${r1(y + bar / 2 + S.cat * 0.36)}"${inside ? ' text-anchor="end" style="fill:#fff"' : ''} font-size="${S.cat}">${esc(val)}</text>`
+if (g.interactive)
+b += `<rect class="ck-rowhit" x="${g.plot.x}" y="${r1(y - (g.rowH - bar) / 2)}" width="${g.plot.w}" height="${r1(g.rowH)}" tabindex="0" aria-label="${esc(`${name}: ${val}`)}"/>`
+b += `</g>`
+})
+if (spec.x?.title && !S.thumb)
+b += `<text class="ck-axtitle" x="${r1(L + iw / 2)}" y="${r1(B + 40)}" text-anchor="middle" font-size="${S.ax}">${esc(spec.x.title)}</text>`
+return shell(g, spec, o, b)
+}
+
+
+function renderSVG(spec, opts = {}) {
+if (spec.type === 'bar') return renderBar(spec, opts)
+return renderLine(spec, opts)
+}
+
+
+const NS = 'http://www.w3.org/2000/svg'
+
+function el(doc, name, attrs = {}, text) {
+const n = doc.createElementNS(NS, name)
+for (const [k, v] of Object.entries(attrs)) n.setAttribute(k, String(v))
+if (text !== undefined) n.textContent = text
+return n
+}
+
+function hydrate(svg, spec, opts = {}) {
+const doc = svg.ownerDocument
+const win = doc.defaultView
+const standalone = doc.documentElement === svg
+const hidden = new Set()
+const reduce = win.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+const belowFold = standalone || svg.getBoundingClientRect().top > win.innerHeight
+let wantAnim = opts.animate !== false && !reduce && belowFold
+let lastW = 0
+let lastH = 0
+let geo = null
+let cur = -1
+const off = []
+const listen = (t, ev, fn, o) => {
+t.addEventListener(ev, fn, o)
+off.push(() => t.removeEventListener(ev, fn, o))
+}
+
+const measure = () => {
+if (standalone) return [win.innerWidth, win.innerHeight]
+const box = svg.parentElement?.getBoundingClientRect()
+return [box ? box.width : 0, 0]
+}
+
+function draw(force) {
+const [w, h] = measure()
+if (!w) return
+if (!force && Math.round(w) === lastW && Math.round(h) === lastH) return
+lastW = Math.round(w)
+lastH = Math.round(h)
+const o = {
+theme: opts.theme || 'auto',
+width: w,
+height: h,
+layout: standalone ? 'screen' : opts.layout || 'full',
+idPrefix: opts.idPrefix || 'ck',
+hidden: [...hidden],
+interactive: true,
+animate: wantAnim,
+}
+const fresh = new win.DOMParser().parseFromString(renderSVG(spec, o), 'image/svg+xml').documentElement
+for (const a of ['class', 'viewBox', 'width', 'height', 'role', 'aria-label', 'aria-labelledby']) {
+if (fresh.hasAttribute(a)) svg.setAttribute(a, fresh.getAttribute(a))
+else svg.removeAttribute(a)
+}
+if (standalone) {
+svg.setAttribute('width', '100%')
+svg.setAttribute('height', '100%')
+} else {
+svg.style.maxWidth = '100%'
+svg.style.height = 'auto'
+svg.style.display = 'block'
+}
+svg.replaceChildren(...[...fresh.childNodes].map((n) => doc.importNode(n, true)))
+geo = spec.type === 'bar' ? barGeometry(spec, o) : lineGeometry(spec, o)
+cur = -1
+wire()
+if (wantAnim) reveal()
+}
+
+function reveal() {
+wantAnim = false
+const go = () => win.requestAnimationFrame(() => win.requestAnimationFrame(() => svg.classList.remove('ck-pre')))
+if (standalone || !('IntersectionObserver' in win)) return go()
+const io = new win.IntersectionObserver(
+(es) => {
+if (es.some((e) => e.isIntersecting)) {
+io.disconnect()
+go()
+}
+},
+{ threshold: 0.35 },
+)
+io.observe(svg)
+off.push(() => io.disconnect())
+}
+
+function tipShow(lines, place) {
+const tip = svg.querySelector('.ck-tip')
+const c = tip.querySelector('.ck-tipc')
+const box = tip.querySelector('.ck-tipbox')
+c.replaceChildren()
+const px = 11
+let y = 9
+let w = 0
+for (const ln of lines) {
+if (ln.kind === 'head') {
+y += 13
+const t = el(doc, 'text', { class: 'ck-tiph', x: px, y, 'font-size': 12.5 }, ln.text)
+c.append(t)
+w = Math.max(w, t.getComputedTextLength())
+y += 6
+} else if (ln.kind === 'row') {
+y += 15
+const g = el(doc, 'g', { class: 'ck-tiprow', 'data-i': ln.i })
+let x = px
+if (ln.slot) {
+g.append(
+el(doc, 'line', {
+class: 'ck-key',
+x1: x + 1,
+x2: x + 13,
+y1: y - 4.5,
+y2: y - 4.5,
+style: `--s:var(--ck-s${ln.slot})`,
+...(ln.dashed ? { 'stroke-dasharray': '4 3' } : {}),
+}),
+)
+x += 20
+}
+const v = el(doc, 'text', { class: 'ck-tipv', x, y, 'font-size': 12.5 }, ln.value)
+g.append(v)
+c.append(g)
+const vw = v.getComputedTextLength()
+let rw = x + vw
+if (ln.name) {
+const n = el(doc, 'text', { class: 'ck-tipn', x: x + vw + 7, y, 'font-size': 12.5 }, ln.name)
+g.append(n)
+rw += 7 + n.getComputedTextLength()
+}
+w = Math.max(w, rw - px)
+if (ln.detail) {
+y += 15
+const d = el(doc, 'text', { class: 'ck-tipx', x, y, 'font-size': 11.5 }, ln.detail)
+g.append(d)
+w = Math.max(w, x - px + d.getComputedTextLength())
+}
+y += 3
+} else if (ln.kind === 'foot') {
+y += 6
+c.append(el(doc, 'line', { class: 'ck-tipsep', x1: px, x2: px, y1: y, y2: y, 'data-sep': '1' }))
+y += 17
+const t = el(doc, 'text', { class: 'ck-tipf', x: px, y, 'font-size': 12.5 }, ln.text)
+c.append(t)
+w = Math.max(w, t.getComputedTextLength())
+y += 2
+}
+}
+const tw = Math.ceil(w + 2 * px)
+const th = Math.ceil(y + 9)
+for (const s of c.querySelectorAll('[data-sep]')) s.setAttribute('x2', String(tw - px))
+box.setAttribute('width', String(tw))
+box.setAttribute('height', String(th))
+const { W, H } = geo
+let x
+let ty
+if (place.above) {
+x = clamp(place.x - tw / 2, 4, W - tw - 4)
+ty = place.y - th - 10
+if (ty < 4) ty = place.yBelow + 10
+} else {
+x = place.x + 16
+if (x + tw > W - 4) x = place.x - 16 - tw
+ty = clamp(place.y - th / 2, 4, H - th - 4)
+}
+tip.setAttribute('transform', `translate(${r1(Math.max(4, x))},${r1(ty)})`)
+tip.classList.add('on')
+}
+const tipHide = () => svg.querySelector('.ck-tip')?.classList.remove('on')
+
+function focusSeries(i) {
+svg.classList.toggle('is-focusing', i >= 0)
+for (const n of svg.querySelectorAll('.ck-series, .ck-end')) {
+const on = Number(n.dataset.i) === i
+n.classList.toggle('is-focus', on)
+n.classList.toggle('is-dim', i >= 0 && !on)
+}
+for (const n of svg.querySelectorAll('.ck-fband')) n.classList.toggle('is-focus', Number(n.dataset.i) === i)
+for (const n of svg.querySelectorAll('.ck-tiprow')) n.classList.toggle('is-dim', i >= 0 && Number(n.dataset.i) !== i)
+}
+
+function lineShow(k, py) {
+const g = geo
+if (k < 0 || !g.xs.length) return
+cur = k
+const xv = g.xs[k]
+const cx = g.sx(xv)
+svg.classList.add('is-hovering')
+const cross = svg.querySelector('.ck-cross')
+cross.setAttribute('x1', String(r1(cx)))
+cross.setAttribute('x2', String(r1(cx)))
+const rows = g.vis.map((s) => ({ s, p: s.points.find((q) => q[0] === xv) })).filter((r) => r.p)
+const dots = svg.querySelector('.ck-hdots')
+dots.replaceChildren(
+...rows.map((r) =>
+el(doc, 'circle', { class: 'ck-hdot', style: `--s:var(--ck-s${r.s.slot})`, cx: r1(cx), cy: r1(g.sy(r.p[1])), r: 4.5 }),
+),
+)
+let near = -1
+if (py != null) {
+let best = 26
+for (const r of rows) {
+const d = Math.abs(g.sy(r.p[1]) - py)
+if (d < best) {
+best = d
+near = r.s.i
+}
+}
+}
+const tt = spec.tooltip || {}
+const lines = [{ kind: 'head', text: fmt(spec.x.tip || '{x}', { ...(spec.vars || {}), x: xv }) }]
+for (const r of [...rows].sort((a, b) => b.p[1] - a.p[1])) {
+const v = ptVars(spec, r.p)
+lines.push({
+kind: 'row',
+i: r.s.i,
+slot: r.s.slot,
+dashed: r.s.dashed,
+value: fmt(tt.value || '{y}', v),
+name: r.s.short || r.s.name,
+detail: tt.detail && (r.p.length > 2 || !tt.detail.includes('{lo')) ? fmt(tt.detail, v) : '',
+})
+}
+const foot = footer(tt.footer, rows)
+if (foot) lines.push({ kind: 'foot', text: foot })
+const ys = rows.map((r) => g.sy(r.p[1]))
+tipShow(lines, { x: cx, y: py ?? (ys.length ? Math.min(...ys) : g.T + g.ih / 3) })
+focusSeries(near)
+}
+
+function footer(f, rows) {
+if (!f || rows.length < 2) return ''
+if (f.kind === 'gap') {
+const [a, b] = rows
+const hi = a.p[1] >= b.p[1] ? a : b
+const lo = hi === a ? b : a
+const d = hi.p[1] - lo.p[1]
+return fmt(f.text, { ...(spec.vars || {}), lead: hi.s.short || hi.s.name, lag: lo.s.short || lo.s.name, d, r: d / lo.p[1] })
+}
+return ''
+}
+
+function lineHide() {
+svg.classList.remove('is-hovering')
+tipHide()
+focusSeries(-1)
+}
+
+function toLocal(e) {
+const r = svg.getBoundingClientRect()
+const k = geo.W / r.width
+return [(e.clientX - r.left) * k, (e.clientY - r.top) * k]
+}
+
+function wire() {
+if (spec.type === 'bar') return wireBars()
+const hit = svg.querySelector('.ck-hit')
+const g = geo
+let touch = false
+const onMove = (e) => {
+touch = e.pointerType === 'touch'
+const [px, py] = toLocal(e)
+const xv = spec.x.domain[0] + ((px - g.L) / g.iw) * (spec.x.domain[1] - spec.x.domain[0])
+let k = 0
+let best = Number.POSITIVE_INFINITY
+g.xs.forEach((x, j) => {
+const d = Math.abs(x - xv)
+if (d < best) {
+best = d
+k = j
+}
+})
+lineShow(k, py)
+}
+hit.addEventListener('pointermove', onMove)
+hit.addEventListener('pointerdown', onMove)
+hit.addEventListener('pointerleave', () => {
+if (!touch) lineHide()
+})
+hit.addEventListener('focus', () => lineShow(cur >= 0 ? cur : Math.floor(g.xs.length / 2)))
+hit.addEventListener('blur', lineHide)
+hit.addEventListener('keydown', (e) => {
+const n = g.xs.length
+if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+e.preventDefault()
+lineShow(clamp((cur < 0 ? 0 : cur) + (e.key === 'ArrowRight' ? 1 : -1), 0, n - 1))
+} else if (e.key === 'Home') {
+e.preventDefault()
+lineShow(0)
+} else if (e.key === 'End') {
+e.preventDefault()
+lineShow(n - 1)
+} else if (e.key === 'Escape') lineHide()
+})
+for (const chip of svg.querySelectorAll('.ck-chip')) {
+const i = Number(chip.dataset.i)
+const toggle = () => {
+if (hidden.has(i)) hidden.delete(i)
+else if (hidden.size < g.series.length - 1) hidden.add(i)
+draw(true)
+svg.querySelector(`.ck-chip[data-i="${i}"]`)?.focus()
+}
+chip.addEventListener('click', toggle)
+chip.addEventListener('keydown', (e) => {
+if (e.key === 'Enter' || e.key === ' ') {
+e.preventDefault()
+toggle()
+}
+})
+chip.addEventListener('pointerenter', () => !hidden.has(i) && focusSeries(i))
+chip.addEventListener('pointerleave', () => focusSeries(-1))
+}
+}
+
+function wireBars() {
+const g = geo
+const tt = spec.tooltip || {}
+svg.querySelectorAll('.ck-row').forEach((row) => {
+const i = Number(row.dataset.i)
+const [name, v] = g.rows[i]
+const hit = row.querySelector('.ck-rowhit')
+const on = () => {
+svg.classList.add('is-hovering')
+for (const r of svg.querySelectorAll('.ck-row')) r.classList.toggle('is-on', r === row)
+const vv = { ...(spec.vars || {}), v, max: g.max, first: g.rows[0][1], r: g.rows[0][1] / v }
+const lines = [
+{ kind: 'head', text: name },
+{ kind: 'row', value: fmt(tt.value || '{v}', vv), name: tt.detail ? fmt(tt.detail, vv) : '' },
+]
+if (tt.footer && i > 0) lines.push({ kind: 'foot', text: fmt(tt.footer.text || '', vv) })
+tipShow(lines, { above: true, x: g.sx(v), y: g.yBar(i), yBelow: g.yBar(i) + g.bar })
+}
+const offRow = () => {
+svg.classList.remove('is-hovering')
+row.classList.remove('is-on')
+tipHide()
+}
+hit.addEventListener('pointerenter', on)
+hit.addEventListener('pointerdown', on)
+hit.addEventListener('pointerleave', (e) => e.pointerType !== 'touch' && offRow())
+hit.addEventListener('focus', on)
+hit.addEventListener('blur', offRow)
+})
+}
+
+listen(doc, 'pointerdown', (e) => {
+if (!svg.contains(e.target)) {
+svg.classList.remove('is-hovering', 'is-focusing')
+tipHide()
+}
+})
+
+draw(true)
+let t
+const onResize = () => {
+win.clearTimeout(t)
+t = win.setTimeout(() => draw(false), 80)
+}
+if (standalone || !('ResizeObserver' in win)) listen(win, 'resize', onResize)
+else {
+const ro = new win.ResizeObserver(onResize)
+ro.observe(svg.parentElement)
+off.push(() => ro.disconnect())
+}
+return () => {
+for (const f of off) f()
+win.clearTimeout(t)
+}
+}
+
+hydrate(document.documentElement, {"chartkit":1,"type":"line","area":false,"title":"Extra attacks caught with kernel evidence + notes","subtitle":"Difference from commands only, out of 233 successful attacks, with a 95% band from 1,000 resamples.","alt":"Line chart with a shaded band of the difference in attacks caught between kernel evidence plus notes and commands only, for audit budgets from 0 to 25%. The line starts about 20 attacks above zero below 1%, then hovers a few attacks below zero; the 95% band includes zero throughout","x":{"title":"Audit budget: share of honest runs a human reviews","short":"Audit budget","domain":[0,0.25],"ticks":[0,0.05,0.1,0.15,0.2,0.25],"format":"pct","tip":"Reviewing {x|pct:1} of honest runs"},"y":{"title":"Extra attacks caught","domain":[-40,60],"ticks":[-40,-20,0,20,40,60],"format":"signed"},"zero":{"label":"no difference"},"labels":{"end":"{y|signed}"},"tooltip":{"value":"{y|signed} attacks","detail":"95% band: {lo|signed} to {hi|signed}"},"series":[{"name":"Kernel evidence + notes − commands only","short":"Difference","slot":3,"band":"always","points":[[0,0,-14,41],[0.005,22.35,-36.12,59.84],[0.01,6.25,-32.91,52.04],[0.015,-4.13,-36.81,38.96],[0.02,-2.96,-39.58,28.9],[0.025,-9.02,-32.59,17.37],[0.03,-8.15,-25.4,10.68],[0.035,-7.29,-22.54,6.53],[0.04,-6.42,-21.11,7.9],[0.045,-5.55,-20.78,8.77],[0.05,-4.68,-20.06,9.51],[0.055,-3.82,-19.77,8.23],[0.06,-4.37,-19.49,7.57],[0.065,-6.32,-19.26,6.83],[0.07,-7.2,-18.35,5.55],[0.075,-6.53,-17.46,4.67],[0.08,-5.87,-16.64,4.15],[0.085,-5.21,-15.91,4.07],[0.09,-5.13,-15.96,3.79],[0.095,-5.48,-15.65,3.36],[0.1,-5.83,-15.53,2.97],[0.105,-6.18,-15.69,2.69],[0.11,-6.53,-16.35,2.42],[0.115,-6.88,-16.15,2.15],[0.12,-7.08,-16.23,2.01],[0.125,-7.19,-16.39,1.97],[0.13,-7.31,-16.56,1.84],[0.135,-7.43,-16.98,1.64],[0.14,-7.54,-17.18,1.6],[0.145,-7.66,-17.31,1.71],[0.15,-7.71,-17.68,1.66],[0.155,-7.74,-17.76,1.6],[0.16,-7.76,-17.5,1.64],[0.165,-7.79,-17.13,1.69],[0.17,-7.51,-16.92,1.93],[0.175,-6.98,-16.55,2.08],[0.18,-6.46,-15.82,2.36],[0.185,-5.93,-15.69,2.59],[0.19,-5.41,-14.97,3.07],[0.195,-4.88,-14.38,3.47],[0.2,-4.35,-13.62,3.81],[0.205,-3.83,-12.88,4.16],[0.21,-3.3,-12.33,4.64],[0.215,-2.77,-11.66,5.09],[0.22,-2.25,-11.17,5.51],[0.225,-1.75,-10.76,5.79],[0.23,-1.76,-10.39,5.81],[0.235,-1.77,-9.99,5.83],[0.24,-1.79,-9.6,6.04],[0.245,-1.8,-9.47,5.96],[0.25,-1.81,-9.39,5.9]]}]}, {theme: "light", idPrefix: 'ck'});})();
+]]></script></svg>

@@ -1,4 +1,5 @@
-import HeroImage from '@/components/HeroImage'
+import Chart from '@/components/Chart'
+import HeroImage, { HERO_WRAPPER_STYLE } from '@/components/HeroImage'
 import Image from '@/components/Image'
 import Link from '@/components/Link'
 import PageTitle from '@/components/PageTitle'
@@ -29,8 +30,19 @@ interface LayoutProps {
 }
 
 export default function PostLayout({ content, authorDetails, children }: LayoutProps) {
-  const { filePath, path, slug, date, title, projectLink, images, heroImageSize, readingTime } =
-    content
+  const {
+    filePath,
+    path,
+    slug,
+    date,
+    title,
+    projectLink,
+    images,
+    heroImageSize,
+    heroDarkImage,
+    heroChart,
+    readingTime,
+  } = content
   const [loadComments, setLoadComments] = useState(true)
 
   return (
@@ -54,9 +66,19 @@ export default function PostLayout({ content, authorDetails, children }: LayoutP
               <div className="p-name">
                 <PageTitle>{title}</PageTitle>
               </div>
-              {images?.[0] && (
-                <HeroImage src={images[0]} size={heroImageSize} customLink={projectLink} />
-              )}
+              {images?.[0] &&
+                (heroChart ? (
+                  <div style={HERO_WRAPPER_STYLE}>
+                    <Chart spec={heroChart} src={images[0]} darkSrc={heroDarkImage} />
+                  </div>
+                ) : (
+                  <HeroImage
+                    src={images[0]}
+                    darkSrc={heroDarkImage}
+                    size={heroImageSize}
+                    customLink={projectLink}
+                  />
+                ))}
             </div>
           </header>
           <div className="grid-rows-[auto_1fr] divide-y divide-gray-200 pb-8 dark:divide-gray-700 xl:grid xl:grid-cols-4 xl:gap-x-6 xl:divide-y-0">

@@ -1,0 +1,48 @@
+{
+ "chartkit": 1,
+ "type": "bar",
+ "style": "track",
+ "title": "Same model, different prompt",
+ "subtitle": "Successful attacks caught out of 569, reviewing 5% of 596 honest runs. Original leaderboard trajectories.",
+ "alt": "Bar chart of successful attacks caught out of 569 at a 5% audit budget: Haiku 5.5 on control-arena's prompt 362, Haiku 5.5 on the leaderboard's prompt 208, GLM-4.6 on the leaderboard's prompt 124, Haiku 4.5 on the leaderboard's prompt 44",
+ "max": 569,
+ "x": {
+  "title": "Successful attacks caught (of 569)",
+  "ticks": [
+   0,
+   100,
+   200,
+   300,
+   400,
+   500
+  ]
+ },
+ "rows": [
+  [
+   "Haiku 5.5, control-arena prompt",
+   362.0
+  ],
+  [
+   "Haiku 5.5, leaderboard prompt",
+   208.4
+  ],
+  [
+   "GLM-4.6, leaderboard prompt",
+   123.7
+  ],
+  [
+   "Haiku 4.5, leaderboard prompt",
+   44.0
+  ]
+ ],
+ "labels": {
+  "value": "{v|int}"
+ },
+ "tooltip": {
+  "value": "{v|int} of {max}",
+  "detail": "caught ({v/max|pct:1})",
+  "footer": {
+   "text": "{r|fixed:1}× fewer than the top row"
+  }
+ }
+}

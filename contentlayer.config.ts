@@ -19,6 +19,8 @@ import rehypeSlug from 'rehype-slug'
 // Remark packages
 import remarkGfm from 'remark-gfm'
 import remarkMath from 'remark-math'
+import { remarkThemedImages } from './lib/remark-themed-images.mjs'
+import { chartSidecar, darkVariant, ogVariant, thumbVariant } from './lib/themed-images.mjs'
 
 const root = process.cwd()
 
@@ -41,6 +43,16 @@ const heroImageSize = (images?: Iterable<string>): { width: number; height: numb
   }
 }
 
+/** First frontmatter image (see the `Array.from` note on `heroImageSize`). */
+const firstImage = (images?: Iterable<string>): string | undefined =>
+  images ? Array.from(images)[0] : undefined
+
+/** A `-thumb` variant of the hero for list views, falling back to the hero itself. */
+const thumbImage = (images?: Iterable<string>): string | null => {
+  const hero = firstImage(images)
+  return (hero && thumbVariant(hero, root)) ?? hero ?? null
+}
+
 const computedFields: ComputedFields = {
   readingTime: { type: 'json', resolve: (doc) => readingTime(doc.body.raw) },
   slug: {
@@ -57,6 +69,20 @@ const computedFields: ComputedFields = {
   },
   toc: { type: 'string', resolve: (doc) => extractTocHeadings(doc.body.raw) },
   heroImageSize: { type: 'json', resolve: (doc) => heroImageSize(doc.images) },
+  heroDarkImage: {
+    type: 'string',
+    resolve: (doc) => darkVariant(firstImage(doc.images), root),
+  },
+  heroChart: {
+    type: 'string',
+    resolve: (doc) => chartSidecar(firstImage(doc.images), root),
+  },
+  thumbImage: { type: 'string', resolve: (doc) => thumbImage(doc.images) },
+  thumbDarkImage: {
+    type: 'string',
+    resolve: (doc) => darkVariant(thumbImage(doc.images), root),
+  },
+  ogImage: { type: 'string', resolve: (doc) => ogVariant(firstImage(doc.images), root) },
 }
 
 export const Blog = defineDocumentType(() => ({
@@ -129,6 +155,7 @@ export default makeSource({
       remarkCodeTitles,
       remarkMath,
       remarkImgToJsx,
+      remarkThemedImages,
     ],
     rehypePlugins: [
       rehypeSlug,

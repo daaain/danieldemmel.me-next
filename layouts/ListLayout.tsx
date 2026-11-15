@@ -59,7 +59,18 @@ export function PostList({ filteredBlogPosts, displayPosts, hideTags }) {
     <ul className="divide-y divide-gray-200 dark:divide-gray-700">
       {!filteredBlogPosts.length && 'No entries found.'}
       {displayPosts.map((post) => {
-        const { path, date, lastmod, title, summary, tags, images, readingTime } = post
+        const {
+          path,
+          date,
+          lastmod,
+          title,
+          summary,
+          tags,
+          images,
+          thumbImage,
+          thumbDarkImage,
+          readingTime,
+        } = post
         const showUpdated =
           lastmod && new Date(lastmod).toDateString() !== new Date(date).toDateString()
         return (
@@ -69,7 +80,8 @@ export function PostList({ filteredBlogPosts, displayPosts, hideTags }) {
                 <div className="xl:mr-4" style={{ position: 'relative', padding: '70% 0 0 0' }}>
                   <Image
                     fill
-                    src={images[0]}
+                    src={thumbImage ?? images[0]}
+                    darkSrc={thumbDarkImage}
                     customLink={`/${path}`}
                     alt="Hero image"
                     style={{

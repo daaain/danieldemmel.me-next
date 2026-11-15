@@ -28,6 +28,7 @@
   "include": [
     "next-env.d.ts",
     "**/*.js",
+    "**/*.mjs",
     "**/*.ts",
     "**/*.tsx",
     ".contentlayer/generated",

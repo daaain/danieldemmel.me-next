@@ -116,12 +116,16 @@ export const BlogSEO = ({
   lastmod,
   url,
   images = [],
+  ogImage,
   canonicalUrl,
 }: BlogSeoProps) => {
   const publishedAt = new Date(date).toISOString()
   const modifiedAt = new Date(lastmod || date).toISOString()
-  const imagesArr =
-    images.length === 0
+  // A dedicated `-og.png` social card wins over the frontmatter images (which may be SVGs or
+  // charts that social networks won't render)
+  const imagesArr = ogImage
+    ? [ogImage]
+    : images.length === 0
       ? [siteMetadata.socialBanner]
       : typeof images === 'string'
         ? [images]

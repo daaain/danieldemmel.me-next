@@ -1,0 +1,949 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" class="ck ck-dark ck-full" viewBox="0 0 960 556" width="960" height="556" role="img" aria-labelledby="ck-t ck-d"><title id="ck-t">GLM writing speed with and without MTP on a MacBook Pro M3 Max</title><desc id="ck-d">Line chart of GLM writing speed with and without MTP: the plain line is smooth between about 15 and 18 tokens per second, the MTP line is much lower and jagged, between about 7.5 and 15.5, never reaching the plain line</desc><style>.ck{--ck-page:#f4f4f2;--ck-surface:#fcfcfb;--ck-ink:#0b0b0b;--ck-ink2:#52514e;--ck-muted:#898781;--ck-grid:#e9e8e2;--ck-grid-v:#f0efea;--ck-axis:#c3c2b7;--ck-zero:#52514e;--ck-shade:#f2f1ec;--ck-track:#efeee9;--ck-area:.2;--ck-border:rgba(11,11,11,.09);--ck-chip:rgba(11,11,11,.13);--ck-hover:rgba(11,11,11,.05);--ck-tip-bg:#ffffff;--ck-tip-border:rgba(11,11,11,.10);--ck-shadow:rgba(11,11,11,.16);--ck-cross:#a8a79f;--ck-s1:#2a78d6;--ck-s2:#eb6834;--ck-s3:#1baf7a;--ck-s4:#eda100;--ck-s5:#e87ba4;--ck-s6:#008300;--ck-s7:#6250d6;--ck-s8:#e34948;font-family:Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;-webkit-font-smoothing:antialiased}
+@media (prefers-color-scheme:dark){.ck.ck-auto{--ck-page:#121212;--ck-surface:#1e1e1d;--ck-ink:#f0efec;--ck-ink2:#c3c2b7;--ck-muted:#8f8e88;--ck-grid:#2e2e2c;--ck-grid-v:#262625;--ck-axis:#43433f;--ck-zero:#c3c2b7;--ck-shade:#252524;--ck-track:#2a2a28;--ck-area:.12;--ck-border:rgba(255,255,255,.09);--ck-chip:rgba(255,255,255,.15);--ck-hover:rgba(255,255,255,.06);--ck-tip-bg:#2a2a29;--ck-tip-border:rgba(255,255,255,.10);--ck-shadow:rgba(0,0,0,.55);--ck-cross:#5d5c57;--ck-s1:#3987e5;--ck-s2:#d95926;--ck-s3:#199e70;--ck-s4:#c98500;--ck-s5:#d55181;--ck-s6:#0ca30c;--ck-s7:#9085e9;--ck-s8:#e66767}}
+html:not(.dark) .ck.ck-auto{--ck-page:#f4f4f2;--ck-surface:#fcfcfb;--ck-ink:#0b0b0b;--ck-ink2:#52514e;--ck-muted:#898781;--ck-grid:#e9e8e2;--ck-grid-v:#f0efea;--ck-axis:#c3c2b7;--ck-zero:#52514e;--ck-shade:#f2f1ec;--ck-track:#efeee9;--ck-area:.2;--ck-border:rgba(11,11,11,.09);--ck-chip:rgba(11,11,11,.13);--ck-hover:rgba(11,11,11,.05);--ck-tip-bg:#ffffff;--ck-tip-border:rgba(11,11,11,.10);--ck-shadow:rgba(11,11,11,.16);--ck-cross:#a8a79f;--ck-s1:#2a78d6;--ck-s2:#eb6834;--ck-s3:#1baf7a;--ck-s4:#eda100;--ck-s5:#e87ba4;--ck-s6:#008300;--ck-s7:#6250d6;--ck-s8:#e34948}
+html.dark .ck.ck-auto,.ck.ck-dark{--ck-page:#121212;--ck-surface:#1e1e1d;--ck-ink:#f0efec;--ck-ink2:#c3c2b7;--ck-muted:#8f8e88;--ck-grid:#2e2e2c;--ck-grid-v:#262625;--ck-axis:#43433f;--ck-zero:#c3c2b7;--ck-shade:#252524;--ck-track:#2a2a28;--ck-area:.12;--ck-border:rgba(255,255,255,.09);--ck-chip:rgba(255,255,255,.15);--ck-hover:rgba(255,255,255,.06);--ck-tip-bg:#2a2a29;--ck-tip-border:rgba(255,255,255,.10);--ck-shadow:rgba(0,0,0,.55);--ck-cross:#5d5c57;--ck-s1:#3987e5;--ck-s2:#d95926;--ck-s3:#199e70;--ck-s4:#c98500;--ck-s5:#d55181;--ck-s6:#0ca30c;--ck-s7:#9085e9;--ck-s8:#e66767}
+.ck text{font-family:inherit}
+.ck-page{fill:var(--ck-page)}
+.ck-card{fill:var(--ck-surface);stroke:var(--ck-border)}
+.ck-title{font-weight:650;fill:var(--ck-ink);letter-spacing:-.005em}
+.ck-sub{fill:var(--ck-ink2)}
+.ck-chip rect{fill:transparent;stroke:var(--ck-chip)}
+.ck-chip text{fill:var(--ck-ink)}
+.ck-chip{transition:opacity .15s}
+.ck-interactive .ck-chip{cursor:pointer;outline:none}
+.ck-interactive .ck-chip:hover rect{fill:var(--ck-hover)}
+.ck-chip:focus-visible rect{stroke:var(--ck-ink2);stroke-width:1.5}
+.ck-chip[aria-pressed="false"]{opacity:.45}
+.ck-chip[aria-pressed="false"] text{text-decoration:line-through}
+.ck-key{stroke:var(--s);stroke-width:2.5;stroke-linecap:round}
+.ck-tick{fill:var(--ck-muted);font-variant-numeric:tabular-nums}
+.ck-axtitle{fill:var(--ck-ink2);font-weight:500}
+.ck-grid{stroke:var(--ck-grid);shape-rendering:crispEdges}
+.ck-grid-v{stroke:var(--ck-grid-v);shape-rendering:crispEdges}
+.ck-axis{stroke:var(--ck-axis);shape-rendering:crispEdges}
+.ck-zero{stroke:var(--ck-zero);stroke-width:1.25;shape-rendering:crispEdges}
+.ck-shade{fill:var(--ck-shade)}
+.ck-note{fill:var(--ck-ink2)}
+.ck-series,.ck-end{transition:opacity .18s}
+.ck-line{fill:none;stroke:var(--s);stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+.ck-mk{fill:var(--s);stroke:var(--ck-surface);stroke-width:2}
+.ck-band{fill:var(--s);opacity:.16}
+.ck-stop0{stop-opacity:var(--ck-area)}
+.ck-fband{fill:var(--s);opacity:0;transition:opacity .2s;pointer-events:none}
+.ck.is-focusing .ck-series.is-dim,.ck.is-focusing .ck-end.is-dim{opacity:.3}
+.ck.is-focusing .ck-series.is-focus .ck-line{stroke-width:2.5}
+.ck.is-focusing .ck-fband.is-focus{opacity:.14}
+.ck-endname{font-weight:600;fill:var(--ck-ink)}
+.ck-endval{font-weight:400;fill:var(--ck-muted);font-variant-numeric:tabular-nums}
+.ck-link{stroke:var(--ck-grid);stroke-dasharray:2 3}
+.ck-hover{opacity:0;transition:opacity .12s;pointer-events:none}
+.ck.is-hovering .ck-hover{opacity:1}
+.ck-cross{stroke:var(--ck-cross);shape-rendering:crispEdges}
+.ck-hdot{fill:var(--s);stroke:var(--ck-surface);stroke-width:2.5}
+.ck-hit{fill:transparent;outline:none}
+.ck-interactive .ck-hit{cursor:crosshair}
+.ck-hit:focus-visible{stroke:var(--ck-ink2);stroke-dasharray:3 3}
+.ck-tip{pointer-events:none;opacity:0;transition:opacity .12s}
+.ck-tip.on{opacity:1}
+.ck-tipbox{fill:var(--ck-tip-bg);stroke:var(--ck-tip-border)}
+.ck feDropShadow{flood-color:var(--ck-shadow)}
+.ck-tiph{font-weight:600;fill:var(--ck-ink);font-variant-numeric:tabular-nums}
+.ck-tipv{font-weight:650;fill:var(--ck-ink);font-variant-numeric:tabular-nums}
+.ck-tipn{fill:var(--ck-ink2)}
+.ck-tipx{fill:var(--ck-muted);font-variant-numeric:tabular-nums}
+.ck-tipf{fill:var(--ck-ink2);font-variant-numeric:tabular-nums}
+.ck-tipsep{stroke:var(--ck-tip-border)}
+.ck-tiprow{transition:opacity .15s}
+.ck-tiprow.is-dim{opacity:.45}
+.ck-bar{fill:var(--ck-s1);transition:filter .15s}
+.ck-track{fill:var(--ck-track)}
+.ck-cat{fill:var(--ck-ink)}
+.ck-val{font-weight:650;fill:var(--ck-ink);font-variant-numeric:tabular-nums}
+.ck-row{transition:opacity .15s}
+.ck.is-hovering .ck-row:not(.is-on){opacity:.45}
+.ck-row.is-on .ck-bar{filter:brightness(1.08)}
+.ck-rowhit{fill:transparent;outline:none}
+.ck-rowhit:focus-visible{stroke:var(--ck-ink2);stroke-dasharray:3 3}
+.ck-reveal{transform-box:fill-box;transform-origin:left center;transition:transform 1.4s cubic-bezier(.25,.7,.25,1)}
+.ck.ck-pre .ck-reveal{transform:scaleX(0);transition:none}
+@media (prefers-reduced-motion:reduce){.ck *{transition:none!important}.ck.ck-pre .ck-reveal{transform:none}}</style><defs><filter id="ck-shadow" x="-20%" y="-20%" width="140%" height="160%"><feDropShadow dx="0" dy="4" stdDeviation="8"/></filter><clipPath id="ck-clip"><rect class="ck-reveal" x="42" y="120.30000000000001" width="762" height="379.7"/></clipPath><linearGradient id="ck-g2" x1="0" x2="0" y1="0" y2="1"><stop class="ck-stop0" offset="0" stop-color="var(--ck-s2)" stop-opacity=".2"/><stop offset="1" stop-color="var(--ck-s2)" stop-opacity="0"/></linearGradient><linearGradient id="ck-g3" x1="0" x2="0" y1="0" y2="1"><stop class="ck-stop0" offset="0" stop-color="var(--ck-s3)" stop-opacity=".2"/><stop offset="1" stop-color="var(--ck-s3)" stop-opacity="0"/></linearGradient></defs><rect class="ck-card" x="0.5" y="0.5" width="959" height="555" rx="12"/><text class="ck-title" x="20" y="34" font-size="17">GLM writing speed with and without MTP on a MacBook Pro M3 Max</text><text class="ck-sub" x="20" y="55.3" font-size="14">Tokens produced per second once the answer has started. Higher is better.</text><g class="ck-chip" data-i="0" style="--s:var(--ck-s2)" aria-pressed="true"><rect x="20.5" y="70.8" width="131" height="23" rx="12"/><line class="ck-key" x1="30" x2="44" y1="82.3" y2="82.3"/><text x="51" y="86.8" font-size="12.5">GLM 5.3 Flash</text></g><g class="ck-chip" data-i="1" style="--s:var(--ck-s3)" aria-pressed="true"><rect x="158.5" y="70.8" width="174" height="23" rx="12"/><line class="ck-key" x1="168" x2="182" y1="82.3" y2="82.3"/><text x="189" y="86.8" font-size="12.5">GLM 5.3 Flash + MTP</text></g><line class="ck-grid-v" x1="141.8" x2="141.8" y1="128.3" y2="492"/><line class="ck-grid-v" x1="235.5" x2="235.5" y1="128.3" y2="492"/><line class="ck-grid-v" x1="329.3" x2="329.3" y1="128.3" y2="492"/><line class="ck-grid-v" x1="423" x2="423" y1="128.3" y2="492"/><line class="ck-grid-v" x1="516.8" x2="516.8" y1="128.3" y2="492"/><line class="ck-grid-v" x1="610.5" x2="610.5" y1="128.3" y2="492"/><line class="ck-grid-v" x1="704.3" x2="704.3" y1="128.3" y2="492"/><line class="ck-grid-v" x1="798" x2="798" y1="128.3" y2="492"/><text class="ck-tick" x="38" y="496" text-anchor="end" font-size="11.5">0</text><line class="ck-grid" x1="48" x2="798" y1="401.1" y2="401.1"/><text class="ck-tick" x="38" y="405.1" text-anchor="end" font-size="11.5">5</text><line class="ck-grid" x1="48" x2="798" y1="310.2" y2="310.2"/><text class="ck-tick" x="38" y="314.2" text-anchor="end" font-size="11.5">10</text><line class="ck-grid" x1="48" x2="798" y1="219.2" y2="219.2"/><text class="ck-tick" x="38" y="223.2" text-anchor="end" font-size="11.5">15</text><line class="ck-grid" x1="48" x2="798" y1="128.3" y2="128.3"/><text class="ck-tick" x="38" y="132.3" text-anchor="end" font-size="11.5">20</text><line class="ck-axis" x1="48" x2="48" y1="492" y2="497"/><text class="ck-tick" x="48" y="511" text-anchor="middle" font-size="11.5">0</text><line class="ck-axis" x1="141.8" x2="141.8" y1="492" y2="497"/><text class="ck-tick" x="141.8" y="511" text-anchor="middle" font-size="11.5">8K</text><line class="ck-axis" x1="235.5" x2="235.5" y1="492" y2="497"/><text class="ck-tick" x="235.5" y="511" text-anchor="middle" font-size="11.5">16K</text><line class="ck-axis" x1="329.3" x2="329.3" y1="492" y2="497"/><text class="ck-tick" x="329.3" y="511" text-anchor="middle" font-size="11.5">24K</text><line class="ck-axis" x1="423" x2="423" y1="492" y2="497"/><text class="ck-tick" x="423" y="511" text-anchor="middle" font-size="11.5">32K</text><line class="ck-axis" x1="516.8" x2="516.8" y1="492" y2="497"/><text class="ck-tick" x="516.8" y="511" text-anchor="middle" font-size="11.5">40K</text><line class="ck-axis" x1="610.5" x2="610.5" y1="492" y2="497"/><text class="ck-tick" x="610.5" y="511" text-anchor="middle" font-size="11.5">48K</text><line class="ck-axis" x1="704.3" x2="704.3" y1="492" y2="497"/><text class="ck-tick" x="704.3" y="511" text-anchor="middle" font-size="11.5">56K</text><line class="ck-axis" x1="798" x2="798" y1="492" y2="497"/><text class="ck-tick" x="798" y="511" text-anchor="middle" font-size="11.5">64K</text><line class="ck-axis" x1="48" x2="798" y1="492" y2="492"/><text class="ck-axtitle" x="20" y="116.30000000000001" font-size="12">Tokens per second</text><text class="ck-axtitle" x="423" y="531" text-anchor="middle" font-size="12">Context length (tokens already in the conversation)</text><g clip-path="url(#ck-clip)"><g class="ck-series" data-i="0" style="--s:var(--ck-s2)"><path fill="url(#ck-g2)" d="M71.4,181.2 L94.9,170.1 L118.3,169.4 L141.8,171 L165.2,174.3 L188.6,178.9 L212.1,186.3 L235.5,190.7 L258.9,196.1 L282.4,200.9 L305.8,203.4 L329.3,208.5 L352.7,208.9 L376.1,210 L399.6,209.6 L423,211.6 L446.4,211.6 L469.9,211 L493.3,211.6 L516.8,226.9 L540.2,210.9 L563.6,212.5 L587.1,210.1 L610.5,213.4 L633.9,210.1 L657.4,209.6 L680.8,209 L704.3,208.7 L727.7,213.8 L751.1,214.7 L774.6,211.2 L798,214.5 L798,492 L71.4,492 Z"/><path class="ck-line" d="M71.4,181.2 L94.9,170.1 L118.3,169.4 L141.8,171 L165.2,174.3 L188.6,178.9 L212.1,186.3 L235.5,190.7 L258.9,196.1 L282.4,200.9 L305.8,203.4 L329.3,208.5 L352.7,208.9 L376.1,210 L399.6,209.6 L423,211.6 L446.4,211.6 L469.9,211 L493.3,211.6 L516.8,226.9 L540.2,210.9 L563.6,212.5 L587.1,210.1 L610.5,213.4 L633.9,210.1 L657.4,209.6 L680.8,209 L704.3,208.7 L727.7,213.8 L751.1,214.7 L774.6,211.2 L798,214.5"/><circle class="ck-mk" cx="71.4" cy="181.2" r="3.5"/><circle class="ck-mk" cx="94.9" cy="170.1" r="3.5"/><circle class="ck-mk" cx="118.3" cy="169.4" r="3.5"/><circle class="ck-mk" cx="141.8" cy="171" r="3.5"/><circle class="ck-mk" cx="165.2" cy="174.3" r="3.5"/><circle class="ck-mk" cx="188.6" cy="178.9" r="3.5"/><circle class="ck-mk" cx="212.1" cy="186.3" r="3.5"/><circle class="ck-mk" cx="235.5" cy="190.7" r="3.5"/><circle class="ck-mk" cx="258.9" cy="196.1" r="3.5"/><circle class="ck-mk" cx="282.4" cy="200.9" r="3.5"/><circle class="ck-mk" cx="305.8" cy="203.4" r="3.5"/><circle class="ck-mk" cx="329.3" cy="208.5" r="3.5"/><circle class="ck-mk" cx="352.7" cy="208.9" r="3.5"/><circle class="ck-mk" cx="376.1" cy="210" r="3.5"/><circle class="ck-mk" cx="399.6" cy="209.6" r="3.5"/><circle class="ck-mk" cx="423" cy="211.6" r="3.5"/><circle class="ck-mk" cx="446.4" cy="211.6" r="3.5"/><circle class="ck-mk" cx="469.9" cy="211" r="3.5"/><circle class="ck-mk" cx="493.3" cy="211.6" r="3.5"/><circle class="ck-mk" cx="516.8" cy="226.9" r="3.5"/><circle class="ck-mk" cx="540.2" cy="210.9" r="3.5"/><circle class="ck-mk" cx="563.6" cy="212.5" r="3.5"/><circle class="ck-mk" cx="587.1" cy="210.1" r="3.5"/><circle class="ck-mk" cx="610.5" cy="213.4" r="3.5"/><circle class="ck-mk" cx="633.9" cy="210.1" r="3.5"/><circle class="ck-mk" cx="657.4" cy="209.6" r="3.5"/><circle class="ck-mk" cx="680.8" cy="209" r="3.5"/><circle class="ck-mk" cx="704.3" cy="208.7" r="3.5"/><circle class="ck-mk" cx="727.7" cy="213.8" r="3.5"/><circle class="ck-mk" cx="751.1" cy="214.7" r="3.5"/><circle class="ck-mk" cx="774.6" cy="211.2" r="3.5"/><circle class="ck-mk" cx="798" cy="214.5" r="3.5"/></g><g class="ck-series" data-i="1" style="--s:var(--ck-s3)"><path fill="url(#ck-g3)" d="M71.4,282.7 L94.9,210.1 L118.3,289.8 L141.8,300.1 L165.2,274.5 L188.6,316.2 L212.1,324 L235.5,309.1 L258.9,320.9 L282.4,353.8 L305.8,330.3 L329.3,316.2 L352.7,343.4 L376.1,317.2 L399.6,324 L423,332.7 L446.4,339.4 L469.9,336.9 L493.3,243.4 L516.8,335.1 L540.2,328.5 L563.6,308 L587.1,276.1 L610.5,346.9 L633.9,342.7 L657.4,341.4 L680.8,354.9 L704.3,347.1 L727.7,291.4 L751.1,352.9 L774.6,305.8 L798,236.5 L798,492 L71.4,492 Z"/><path class="ck-line" d="M71.4,282.7 L94.9,210.1 L118.3,289.8 L141.8,300.1 L165.2,274.5 L188.6,316.2 L212.1,324 L235.5,309.1 L258.9,320.9 L282.4,353.8 L305.8,330.3 L329.3,316.2 L352.7,343.4 L376.1,317.2 L399.6,324 L423,332.7 L446.4,339.4 L469.9,336.9 L493.3,243.4 L516.8,335.1 L540.2,328.5 L563.6,308 L587.1,276.1 L610.5,346.9 L633.9,342.7 L657.4,341.4 L680.8,354.9 L704.3,347.1 L727.7,291.4 L751.1,352.9 L774.6,305.8 L798,236.5"/><circle class="ck-mk" cx="71.4" cy="282.7" r="3.5"/><circle class="ck-mk" cx="94.9" cy="210.1" r="3.5"/><circle class="ck-mk" cx="118.3" cy="289.8" r="3.5"/><circle class="ck-mk" cx="141.8" cy="300.1" r="3.5"/><circle class="ck-mk" cx="165.2" cy="274.5" r="3.5"/><circle class="ck-mk" cx="188.6" cy="316.2" r="3.5"/><circle class="ck-mk" cx="212.1" cy="324" r="3.5"/><circle class="ck-mk" cx="235.5" cy="309.1" r="3.5"/><circle class="ck-mk" cx="258.9" cy="320.9" r="3.5"/><circle class="ck-mk" cx="282.4" cy="353.8" r="3.5"/><circle class="ck-mk" cx="305.8" cy="330.3" r="3.5"/><circle class="ck-mk" cx="329.3" cy="316.2" r="3.5"/><circle class="ck-mk" cx="352.7" cy="343.4" r="3.5"/><circle class="ck-mk" cx="376.1" cy="317.2" r="3.5"/><circle class="ck-mk" cx="399.6" cy="324" r="3.5"/><circle class="ck-mk" cx="423" cy="332.7" r="3.5"/><circle class="ck-mk" cx="446.4" cy="339.4" r="3.5"/><circle class="ck-mk" cx="469.9" cy="336.9" r="3.5"/><circle class="ck-mk" cx="493.3" cy="243.4" r="3.5"/><circle class="ck-mk" cx="516.8" cy="335.1" r="3.5"/><circle class="ck-mk" cx="540.2" cy="328.5" r="3.5"/><circle class="ck-mk" cx="563.6" cy="308" r="3.5"/><circle class="ck-mk" cx="587.1" cy="276.1" r="3.5"/><circle class="ck-mk" cx="610.5" cy="346.9" r="3.5"/><circle class="ck-mk" cx="633.9" cy="342.7" r="3.5"/><circle class="ck-mk" cx="657.4" cy="341.4" r="3.5"/><circle class="ck-mk" cx="680.8" cy="354.9" r="3.5"/><circle class="ck-mk" cx="704.3" cy="347.1" r="3.5"/><circle class="ck-mk" cx="727.7" cy="291.4" r="3.5"/><circle class="ck-mk" cx="751.1" cy="352.9" r="3.5"/><circle class="ck-mk" cx="774.6" cy="305.8" r="3.5"/><circle class="ck-mk" cx="798" cy="236.5" r="3.5"/></g></g><g class="ck-end" data-i="0" style="--s:var(--ck-s2)"><line class="ck-key" x1="812" x2="826" y1="214.5" y2="214.5"/><text class="ck-endname" x="832" y="219" font-size="12.5">GLM <tspan class="ck-endval" font-size="12">15.3</tspan></text></g><g class="ck-end" data-i="1" style="--s:var(--ck-s3)"><line class="ck-key" x1="812" x2="826" y1="236.5" y2="236.5"/><text class="ck-endname" x="832" y="241" font-size="12.5">GLM + MTP <tspan class="ck-endval" font-size="12">14.1</tspan></text></g><script><![CDATA[
+(function(){
+const VERSION = 1
+
+const FONT = "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif"
+
+const THEMES = {
+light: {
+page: '#f4f4f2', surface: '#fcfcfb', ink: '#0b0b0b', ink2: '#52514e', muted: '#898781',
+grid: '#e9e8e2', 'grid-v': '#f0efea', axis: '#c3c2b7', zero: '#52514e', shade: '#f2f1ec',
+track: '#efeee9', area: '.2', border: 'rgba(11,11,11,.09)', chip: 'rgba(11,11,11,.13)', hover: 'rgba(11,11,11,.05)',
+'tip-bg': '#ffffff', 'tip-border': 'rgba(11,11,11,.10)', shadow: 'rgba(11,11,11,.16)', cross: '#a8a79f',
+s1: '#2a78d6', s2: '#eb6834', s3: '#1baf7a', s4: '#eda100', s5: '#e87ba4', s6: '#008300', s7: '#6250d6', s8: '#e34948',
+},
+dark: {
+page: '#121212', surface: '#1e1e1d', ink: '#f0efec', ink2: '#c3c2b7', muted: '#8f8e88',
+grid: '#2e2e2c', 'grid-v': '#262625', axis: '#43433f', zero: '#c3c2b7', shade: '#252524',
+track: '#2a2a28', area: '.12', border: 'rgba(255,255,255,.09)', chip: 'rgba(255,255,255,.15)', hover: 'rgba(255,255,255,.06)',
+'tip-bg': '#2a2a29', 'tip-border': 'rgba(255,255,255,.10)', shadow: 'rgba(0,0,0,.55)', cross: '#5d5c57',
+s1: '#3987e5', s2: '#d95926', s3: '#199e70', s4: '#c98500', s5: '#d55181', s6: '#0ca30c', s7: '#9085e9', s8: '#e66767',
+},
+}
+
+const vars = (t) => Object.entries(t).map(([k, v]) => `--ck-${k}:${v}`).join(';')
+
+const CSS = `
+.ck{${vars(THEMES.light)};font-family:${FONT};-webkit-font-smoothing:antialiased}
+@media (prefers-color-scheme:dark){.ck.ck-auto{${vars(THEMES.dark)}}}
+html:not(.dark) .ck.ck-auto{${vars(THEMES.light)}}
+html.dark .ck.ck-auto,.ck.ck-dark{${vars(THEMES.dark)}}
+.ck text{font-family:inherit}
+.ck-page{fill:var(--ck-page)}
+.ck-card{fill:var(--ck-surface);stroke:var(--ck-border)}
+.ck-title{font-weight:650;fill:var(--ck-ink);letter-spacing:-.005em}
+.ck-sub{fill:var(--ck-ink2)}
+.ck-chip rect{fill:transparent;stroke:var(--ck-chip)}
+.ck-chip text{fill:var(--ck-ink)}
+.ck-chip{transition:opacity .15s}
+.ck-interactive .ck-chip{cursor:pointer;outline:none}
+.ck-interactive .ck-chip:hover rect{fill:var(--ck-hover)}
+.ck-chip:focus-visible rect{stroke:var(--ck-ink2);stroke-width:1.5}
+.ck-chip[aria-pressed="false"]{opacity:.45}
+.ck-chip[aria-pressed="false"] text{text-decoration:line-through}
+.ck-key{stroke:var(--s);stroke-width:2.5;stroke-linecap:round}
+.ck-tick{fill:var(--ck-muted);font-variant-numeric:tabular-nums}
+.ck-axtitle{fill:var(--ck-ink2);font-weight:500}
+.ck-grid{stroke:var(--ck-grid);shape-rendering:crispEdges}
+.ck-grid-v{stroke:var(--ck-grid-v);shape-rendering:crispEdges}
+.ck-axis{stroke:var(--ck-axis);shape-rendering:crispEdges}
+.ck-zero{stroke:var(--ck-zero);stroke-width:1.25;shape-rendering:crispEdges}
+.ck-shade{fill:var(--ck-shade)}
+.ck-note{fill:var(--ck-ink2)}
+.ck-series,.ck-end{transition:opacity .18s}
+.ck-line{fill:none;stroke:var(--s);stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+.ck-mk{fill:var(--s);stroke:var(--ck-surface);stroke-width:2}
+.ck-band{fill:var(--s);opacity:.16}
+.ck-stop0{stop-opacity:var(--ck-area)}
+.ck-fband{fill:var(--s);opacity:0;transition:opacity .2s;pointer-events:none}
+.ck.is-focusing .ck-series.is-dim,.ck.is-focusing .ck-end.is-dim{opacity:.3}
+.ck.is-focusing .ck-series.is-focus .ck-line{stroke-width:2.5}
+.ck.is-focusing .ck-fband.is-focus{opacity:.14}
+.ck-endname{font-weight:600;fill:var(--ck-ink)}
+.ck-endval{font-weight:400;fill:var(--ck-muted);font-variant-numeric:tabular-nums}
+.ck-link{stroke:var(--ck-grid);stroke-dasharray:2 3}
+.ck-hover{opacity:0;transition:opacity .12s;pointer-events:none}
+.ck.is-hovering .ck-hover{opacity:1}
+.ck-cross{stroke:var(--ck-cross);shape-rendering:crispEdges}
+.ck-hdot{fill:var(--s);stroke:var(--ck-surface);stroke-width:2.5}
+.ck-hit{fill:transparent;outline:none}
+.ck-interactive .ck-hit{cursor:crosshair}
+.ck-hit:focus-visible{stroke:var(--ck-ink2);stroke-dasharray:3 3}
+.ck-tip{pointer-events:none;opacity:0;transition:opacity .12s}
+.ck-tip.on{opacity:1}
+.ck-tipbox{fill:var(--ck-tip-bg);stroke:var(--ck-tip-border)}
+.ck feDropShadow{flood-color:var(--ck-shadow)}
+.ck-tiph{font-weight:600;fill:var(--ck-ink);font-variant-numeric:tabular-nums}
+.ck-tipv{font-weight:650;fill:var(--ck-ink);font-variant-numeric:tabular-nums}
+.ck-tipn{fill:var(--ck-ink2)}
+.ck-tipx{fill:var(--ck-muted);font-variant-numeric:tabular-nums}
+.ck-tipf{fill:var(--ck-ink2);font-variant-numeric:tabular-nums}
+.ck-tipsep{stroke:var(--ck-tip-border)}
+.ck-tiprow{transition:opacity .15s}
+.ck-tiprow.is-dim{opacity:.45}
+.ck-bar{fill:var(--ck-s1);transition:filter .15s}
+.ck-track{fill:var(--ck-track)}
+.ck-cat{fill:var(--ck-ink)}
+.ck-val{font-weight:650;fill:var(--ck-ink);font-variant-numeric:tabular-nums}
+.ck-row{transition:opacity .15s}
+.ck.is-hovering .ck-row:not(.is-on){opacity:.45}
+.ck-row.is-on .ck-bar{filter:brightness(1.08)}
+.ck-rowhit{fill:transparent;outline:none}
+.ck-rowhit:focus-visible{stroke:var(--ck-ink2);stroke-dasharray:3 3}
+.ck-reveal{transform-box:fill-box;transform-origin:left center;transition:transform 1.4s cubic-bezier(.25,.7,.25,1)}
+.ck.ck-pre .ck-reveal{transform:scaleX(0);transition:none}
+@media (prefers-reduced-motion:reduce){.ck *{transition:none!important}.ck.ck-pre .ck-reveal{transform:none}}
+`.trim()
+
+
+const esc = (s) =>
+String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c])
+
+const NARROW = "ijl.,:;'|!` "
+const SEMI = 'frtI()[]{}-/\\"*'
+const WIDE = 'mwMW@%'
+function textWidth(s, size, weight = 400) {
+let w = 0
+for (const ch of String(s)) {
+if (NARROW.includes(ch)) w += 0.27
+else if (SEMI.includes(ch)) w += 0.37
+else if (WIDE.includes(ch)) w += 0.86
+else if (ch >= 'A' && ch <= 'Z') w += 0.67
+else if (ch >= '0' && ch <= '9') w += 0.59
+else w += 0.54
+}
+return w * size * 1.06 * (weight >= 600 ? 1.05 : 1)
+}
+
+function wrapText(text, size, maxWidth, weight = 400) {
+const words = String(text).split(/\s+/).filter(Boolean)
+const lines = []
+let line = ''
+for (const word of words) {
+const next = line ? `${line} ${word}` : word
+if (line && textWidth(next, size, weight) > maxWidth) {
+lines.push(line)
+line = word
+} else line = next
+}
+if (line) lines.push(line)
+return lines
+}
+
+
+const group = (n) => {
+const s = String(Math.abs(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+return n < 0 ? `−${s}` : s
+}
+const trimZeros = (s) => s.replace(/\.0+$/, '').replace(/(\.\d*?)0+$/, '$1')
+
+const FORMATS = {
+int: (v) => group(Math.round(v)),
+fixed: (v, d = 0) => {
+const s = Number(v).toFixed(d)
+return s.startsWith('-') ? `−${s.slice(1)}` : s
+},
+pct: (v, d = 0) => `${(v * 100).toFixed(d)}%`,
+kilo: (v) => (v === 0 ? '0' : `${trimZeros((v / 1024).toFixed(1))}K`),
+signed: (v, d = 0) => {
+const a = Math.abs(v).toFixed(d)
+if (Number(a) === 0) return '0'
+return (v > 0 ? '+' : '−') + a
+},
+raw: (v) => (Number.isInteger(v) ? group(v) : trimZeros(Number(v).toFixed(2))),
+}
+
+const operand = (tok, vars) => {
+if (/^-?\d+(\.\d+)?$/.test(tok)) return Number(tok)
+return vars[tok]
+}
+
+function fmt(template, vars = {}) {
+return String(template).replace(/\{([^}|]+)(?:\|(\w+)(?::(\d+))?)?\}/g, (_, expr, f, d) => {
+const m = expr.trim().match(/^([\w.-]+)\s*(?:([*/])\s*([\w.-]+))?$/)
+if (!m) return ''
+let v = operand(m[1], vars)
+if (v === undefined || v === null) return ''
+if (m[2]) {
+const w = operand(m[3], vars)
+if (typeof w !== 'number' || typeof v !== 'number') return ''
+v = m[2] === '*' ? v * w : v / w
+}
+if (typeof v === 'string') return v
+const fn = FORMATS[f || 'raw'] || FORMATS.raw
+return fn(v, d === undefined ? undefined : Number(d))
+})
+}
+
+const tickFmt = (axis, v) => {
+const f = axis?.format || 'raw'
+if (f.includes('{')) return fmt(f, { v, x: v, y: v })
+return (FORMATS[f] || FORMATS.raw)(v, axis?.digits)
+}
+
+
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v))
+const r1 = (v) => Math.round(v * 10) / 10
+
+function dodge(ys, gap, lo = Number.NEGATIVE_INFINITY, hi = Number.POSITIVE_INFINITY) {
+if (!ys.length) return []
+const order = ys.map((_, i) => i).sort((a, b) => ys[a] - ys[b])
+const placed = order.map((i) => ys[i])
+for (let k = 1; k < placed.length; k++) placed[k] = Math.max(placed[k], placed[k - 1] + gap)
+const shift = (placed.reduce((a, b) => a + b, 0) - order.reduce((a, i) => a + ys[i], 0)) / placed.length
+const out = []
+order.forEach((i, k) => {
+out[i] = placed[k] - shift
+})
+const min = Math.min(...out)
+const max = Math.max(...out)
+const nudge = min < lo ? lo - min : max > hi ? hi - max : 0
+return out.map((y) => y + nudge)
+}
+
+const linePath = (pts) => pts.map((p, i) => `${i ? 'L' : 'M'}${r1(p[0])},${r1(p[1])}`).join(' ')
+
+
+function sizes(layout, W) {
+const thumb = layout === 'thumb'
+const narrow = W < 560
+return {
+thumb,
+narrow,
+pad: thumb ? 20 : narrow ? 14 : 20,
+title: thumb ? 22 : narrow ? 16 : 17,
+sub: narrow ? 13 : 14,
+chip: thumb ? 13.5 : 12.5,
+chipH: thumb ? 28 : 24,
+tick: thumb ? 12.5 : 11.5,
+ax: 12,
+end: 12.5,
+cat: thumb ? 14 : 13,
+}
+}
+
+function header(spec, S, x0, W, y0, interactive, hidden, legend) {
+const inner = W - 2 * x0
+let y = y0
+let out = ''
+const tl = wrapText(spec.title || '', S.title, inner, 650)
+tl.forEach((line, i) => {
+y += i === 0 ? S.title : S.title * 1.3
+out += `<text class="ck-title" x="${x0}" y="${r1(y)}" font-size="${S.title}">${esc(line)}</text>`
+})
+if (spec.subtitle && !S.thumb) {
+const sl = wrapText(spec.subtitle, S.sub, inner)
+y += 4
+sl.forEach((line) => {
+y += S.sub * 1.45
+out += `<text class="ck-sub" x="${x0}" y="${r1(y - 3)}" font-size="${S.sub}">${esc(line)}</text>`
+})
+}
+if (legend.length > 1) {
+y += S.thumb ? 14 : 12
+let cx = x0
+let row = y
+for (const s of legend) {
+const tw = textWidth(s.name, S.chip)
+const w = Math.ceil(tw + 42)
+if (cx > x0 && cx + w > x0 + inner) {
+cx = x0
+row += S.chipH + 6
+}
+const pressed = !hidden.has(s.i)
+const ky = row + S.chipH / 2
+const attrs = interactive ? ` tabindex="0" role="button" aria-pressed="${pressed}"` : ` aria-pressed="${pressed}"`
+out +=
+`<g class="ck-chip" data-i="${s.i}" style="--s:var(--ck-s${s.slot})"${attrs}>` +
+`<rect x="${cx + 0.5}" y="${row + 0.5}" width="${w - 1}" height="${S.chipH - 1}" rx="${S.chipH / 2}"/>` +
+`<line class="ck-key" x1="${cx + 10}" x2="${cx + 24}" y1="${ky}" y2="${ky}"${s.dashed ? ' stroke-dasharray="4 3"' : ''}/>` +
+`<text x="${cx + 31}" y="${r1(ky + S.chip * 0.36)}" font-size="${S.chip}">${esc(s.name)}</text></g>`
+cx += w + 6
+}
+y = row + S.chipH
+}
+return { out, y }
+}
+
+function frame(spec, o, legend, naturalPlotH) {
+const layout = o.layout || 'full'
+const W = Math.max(280, Math.round(o.width || 960))
+const S = sizes(layout, W)
+const hidden = new Set(o.hidden || [])
+const interactive = !!o.interactive
+const outer = layout === 'screen' ? (W < 560 ? 8 : 16) : 0
+const x0 = outer + S.pad
+const cardW = W - 2 * outer
+const h = header(spec, S, x0, W, outer + S.pad - 3, interactive, hidden, legend)
+const plotY = h.y + (S.thumb ? 14 : 12)
+let H
+if (layout === 'full') H = Math.round(plotY + naturalPlotH(W) + S.pad + outer)
+else H = Math.max(Math.round(o.height || 600), Math.round(plotY + 140 + S.pad + outer))
+const plot = { x: x0, y: plotY, w: cardW - 2 * S.pad, h: H - outer - S.pad - plotY }
+return { layout, W, H, S, hidden, interactive, outer, cardW, head: h.out, plot }
+}
+
+function shell(f, spec, o, body, defs = '') {
+const id = o.idPrefix || 'ck'
+const theme = o.theme || 'auto'
+const cls = `ck ck-${theme} ck-${f.layout}${f.interactive ? ' ck-interactive' : ''}${o.animate ? ' ck-pre' : ''}`
+const role = f.interactive
+? `role="group" aria-label="${esc(spec.title || '')}"`
+: `role="img" aria-labelledby="${id}-t ${id}-d"`
+const label = f.interactive
+? ''
+: `<title id="${id}-t">${esc(spec.title || '')}</title><desc id="${id}-d">${esc(spec.alt || spec.subtitle || '')}</desc>`
+const page = f.outer ? `<rect class="ck-page" width="${f.W}" height="${f.H}"/>` : ''
+return (
+`<svg xmlns="http://www.w3.org/2000/svg" class="${cls}" viewBox="0 0 ${f.W} ${f.H}" width="${f.W}" height="${f.H}" ${role}>` +
+label +
+`<style>${CSS}</style>` +
+`<defs><filter id="${id}-shadow" x="-20%" y="-20%" width="140%" height="160%"><feDropShadow dx="0" dy="4" stdDeviation="8"/></filter>${defs}</defs>` +
+page +
+`<rect class="ck-card" x="${f.outer + 0.5}" y="${f.outer + 0.5}" width="${f.cardW - 1}" height="${f.H - 2 * f.outer - 1}" rx="12"/>` +
+f.head +
+body +
+(f.interactive ? `<g class="ck-tip"><rect class="ck-tipbox" rx="10" filter="url(#${id}-shadow)"/><g class="ck-tipc"/></g>` : '') +
+`</svg>`
+)
+}
+
+
+function lineGeometry(spec, o) {
+const series = (spec.series || []).map((s, i) => ({ ...s, i }))
+const f = frame(spec, o, series, (W) => clamp(Math.round(W * 0.5), W < 560 ? 300 : 240, 430))
+const { S, plot } = f
+const vis = series.filter((s) => !f.hidden.has(s.i))
+const endTpl = spec.labels?.end
+let endW = 0
+if (!S.thumb && !S.narrow && endTpl && vis.length) {
+const need =
+Math.max(
+...vis.map((s) => {
+const p = s.points[s.points.length - 1]
+return textWidth(s.short || s.name, S.end, 600) + textWidth(` ${fmt(endTpl, ptVars(spec, p))}`, 12)
+}),
+) + 30
+if (need <= plot.w * 0.38) endW = Math.ceil(need)
+}
+const yTicks = spec.y?.ticks || []
+const tickW = Math.max(18, ...yTicks.map((t) => textWidth(tickFmt(spec.y, t), S.tick)))
+const m = {
+l: Math.ceil(tickW + 10),
+r: endW ? endW + 6 : 8,
+t: S.thumb ? 8 : 22,
+b: S.thumb ? 24 : 44,
+}
+const iw = Math.max(40, plot.w - m.l - m.r)
+const ih = Math.max(40, plot.h - m.t - m.b)
+const [x0, x1] = spec.x.domain
+const [y0, y1] = spec.y.domain
+const L = plot.x + m.l
+const T = plot.y + m.t
+const sx = (v) => L + ((v - x0) / (x1 - x0)) * iw
+const sy = (v) => T + ih - ((v - y0) / (y1 - y0)) * ih
+const xs = [...new Set(vis.flatMap((s) => s.points.map((p) => p[0])))].sort((a, b) => a - b)
+return { ...f, series, vis, m, iw, ih, L, T, sx, sy, xs, endW }
+}
+
+const ptVars = (spec, p) => ({ ...(spec.vars || {}), x: p[0], y: p[1], lo: p[2], hi: p[3] })
+
+function renderLine(spec, o) {
+const g = lineGeometry(spec, o)
+const { S, L, T, iw, ih, sx, sy, vis } = g
+const id = o.idPrefix || 'ck'
+const B = T + ih
+let b = ''
+let defs = `<clipPath id="${id}-clip"><rect class="ck-reveal" x="${L - 6}" y="${T - 8}" width="${iw + 12}" height="${ih + 16}"/></clipPath>`
+for (const slot of new Set(g.series.map((s) => s.slot)))
+defs += `<linearGradient id="${id}-g${slot}" x1="0" x2="0" y1="0" y2="1"><stop class="ck-stop0" offset="0" stop-color="var(--ck-s${slot})" stop-opacity=".2"/><stop offset="1" stop-color="var(--ck-s${slot})" stop-opacity="0"/></linearGradient>`
+
+const xTicks = iw < 420 && spec.x.ticksCompact ? spec.x.ticksCompact : spec.x.ticks || []
+if (spec.shade) {
+const a = sx(spec.shade.from)
+const w = sx(spec.shade.to) - a
+b += `<rect class="ck-shade" x="${r1(a)}" y="${T}" width="${r1(w)}" height="${ih}"/>`
+if (!S.thumb)
+(spec.shade.label || []).forEach((line, k) => {
+b += `<text class="ck-note" x="${r1(a + 8)}" y="${T + 16 + k * 15}" font-size="11.5">${esc(line)}</text>`
+})
+}
+for (const t of xTicks)
+if (t !== spec.x.domain[0]) b += `<line class="ck-grid-v" x1="${r1(sx(t))}" x2="${r1(sx(t))}" y1="${T}" y2="${B}"/>`
+for (const t of spec.y.ticks || []) {
+const y = sy(t)
+if (t !== spec.y.domain[0] && !(spec.zero && t === 0)) b += `<line class="ck-grid" x1="${L}" x2="${L + iw}" y1="${r1(y)}" y2="${r1(y)}"/>`
+b += `<text class="ck-tick" x="${L - 10}" y="${r1(y + 4)}" text-anchor="end" font-size="${S.tick}">${esc(tickFmt(spec.y, t))}</text>`
+}
+for (const t of xTicks) {
+b += `<line class="ck-axis" x1="${r1(sx(t))}" x2="${r1(sx(t))}" y1="${B}" y2="${B + 5}"/>`
+b += `<text class="ck-tick" x="${r1(sx(t))}" y="${B + 19}" text-anchor="middle" font-size="${S.tick}">${esc(tickFmt(spec.x, t))}</text>`
+}
+b += `<line class="ck-axis" x1="${L}" x2="${L + iw}" y1="${B}" y2="${B}"/>`
+if (!S.thumb) {
+if (spec.y.title) b += `<text class="ck-axtitle" x="${g.plot.x}" y="${T - 12}" font-size="${S.ax}">${esc(spec.y.title)}</text>`
+const xt = S.narrow && spec.x.short ? spec.x.short : spec.x.title
+if (xt) b += `<text class="ck-axtitle" x="${r1(L + iw / 2)}" y="${B + 39}" text-anchor="middle" font-size="${S.ax}">${esc(xt)}</text>`
+}
+if (spec.zero) {
+b += `<line class="ck-zero" x1="${L}" x2="${L + iw}" y1="${r1(sy(0))}" y2="${r1(sy(0))}"/>`
+if (spec.zero.label && !S.thumb)
+b += `<text class="ck-note" x="${L + iw - 4}" y="${r1(sy(0) - 7)}" text-anchor="end" font-size="11.5">${esc(spec.zero.label)}</text>`
+}
+
+b += `<g clip-path="url(#${id}-clip)">`
+for (const s of vis) {
+if (!s.band) continue
+const up = s.points.map((p) => [sx(p[0]), sy(p[2])])
+const dn = s.points.map((p) => [sx(p[0]), sy(p[3])]).reverse()
+const d = `${linePath(up)} ${linePath(dn).replace(/^M/, 'L')} Z`
+const cls = s.band === 'always' ? 'ck-band' : 'ck-fband'
+if (s.band === 'always' || g.interactive) b += `<path class="${cls}" data-i="${s.i}" style="--s:var(--ck-s${s.slot})" d="${d}"/>`
+}
+const area = spec.area !== false
+const spacing = iw / Math.max(1, Math.max(...vis.map((s) => s.points.length)) - 1)
+for (const s of vis) {
+const pts = s.points.map((p) => [sx(p[0]), sy(p[1])])
+const path = linePath(pts)
+b += `<g class="ck-series" data-i="${s.i}" style="--s:var(--ck-s${s.slot})">`
+if (area && !s.dashed && !s.band && pts.length > 1) {
+const base = sy(Math.max(spec.y.domain[0], 0))
+b += `<path fill="url(#${id}-g${s.slot})" d="${path} L${r1(pts[pts.length - 1][0])},${r1(base)} L${r1(pts[0][0])},${r1(base)} Z"/>`
+}
+b += `<path class="ck-line" d="${path}"${s.dashed ? ' stroke-dasharray="6 5"' : ''}/>`
+if (spec.markers !== false && spacing >= 9)
+for (const p of pts) b += `<circle class="ck-mk" cx="${r1(p[0])}" cy="${r1(p[1])}" r="${s.dashed ? 3 : 3.5}"/>`
+b += `</g>`
+}
+b += `</g>`
+
+if (g.endW) {
+const ends = vis.map((s) => {
+const p = s.points[s.points.length - 1]
+return { s, p, x: sx(p[0]), y: sy(p[1]) }
+})
+const ly = dodge(
+ends.map((e) => e.y),
+19,
+T,
+B,
+)
+const lx = L + iw + 14
+ends.forEach((e, k) => {
+b += `<g class="ck-end" data-i="${e.s.i}" style="--s:var(--ck-s${e.s.slot})">`
+if (e.x < L + iw - 2) b += `<line class="ck-link" x1="${r1(e.x + 6)}" x2="${lx - 3}" y1="${r1(e.y)}" y2="${r1(ly[k])}"/>`
+b += `<line class="ck-key" x1="${lx}" x2="${lx + 14}" y1="${r1(ly[k])}" y2="${r1(ly[k])}"${e.s.dashed ? ' stroke-dasharray="4 3"' : ''}/>`
+b += `<text class="ck-endname" x="${lx + 20}" y="${r1(ly[k] + 4.5)}" font-size="${S.end}">${esc(e.s.short || e.s.name)} <tspan class="ck-endval" font-size="12">${esc(fmt(spec.labels.end, ptVars(spec, e.p)))}</tspan></text></g>`
+})
+}
+
+if (g.interactive) {
+b += `<g class="ck-hover"><line class="ck-cross" y1="${T}" y2="${B}"/><g class="ck-hdots"/></g>`
+b += `<rect class="ck-hit" x="${L}" y="${T - 6}" width="${iw}" height="${ih + 12}" tabindex="0" aria-label="${esc(spec.title || '')}: use the arrow keys to read values"/>`
+}
+return shell(g, spec, o, b, defs)
+}
+
+
+function barGeometry(spec, o) {
+const rows = spec.rows || []
+const natural = (W) => {
+const narrow = W < 560
+return rows.length * (narrow ? 62 : 46) + 40
+}
+const f = frame(spec, o, [], natural)
+const { S, plot } = f
+const max = spec.max ?? Math.max(...rows.map((r) => r[1]))
+const stacked = S.narrow // labels above bars on small screens
+const labelW = stacked ? 0 : Math.min(plot.w * 0.45, Math.max(...rows.map((r) => textWidth(r[0], S.cat))) + 14)
+const m = { l: Math.ceil(labelW), r: 44, t: 2, b: S.thumb ? 26 : 44 }
+const iw = plot.w - m.l - m.r
+const avail = plot.h - m.t - m.b
+const rowH = avail / Math.max(1, rows.length)
+const labelSpace = stacked ? 20 : 0
+const bar = clamp((rowH - labelSpace) * 0.64, 14, 56)
+const L = plot.x + m.l
+const sx = (v) => L + (v / max) * iw
+const yBar = (i) => plot.y + m.t + i * rowH + labelSpace + (rowH - labelSpace - bar) / 2
+return { ...f, rows, max, m, iw, rowH, bar, L, sx, yBar, stacked, B: plot.y + m.t + rows.length * rowH }
+}
+
+function renderBar(spec, o) {
+const g = barGeometry(spec, o)
+const { S, L, iw, sx, yBar, bar, B, rows } = g
+const style = spec.style || 'track'
+let b = ''
+for (const t of spec.x?.ticks || []) {
+if (t > 0) b += `<line class="ck-grid" x1="${r1(sx(t))}" x2="${r1(sx(t))}" y1="${g.plot.y}" y2="${r1(B + 4)}"/>`
+b += `<text class="ck-tick" x="${r1(sx(t))}" y="${r1(B + 20)}" text-anchor="middle" font-size="${S.tick}">${esc(tickFmt(spec.x, t))}</text>`
+}
+b += `<line class="ck-axis" x1="${L}" x2="${L}" y1="${g.plot.y}" y2="${r1(B + 4)}"/>`
+rows.forEach(([name, v], i) => {
+const y = yBar(i)
+const bw = Math.max(0, sx(v) - L)
+const r = Math.min(4, bw / 2)
+b += `<g class="ck-row" data-i="${i}">`
+if (style === 'track') b += `<rect class="ck-track" x="${L}" y="${r1(y)}" width="${r1(iw)}" height="${r1(bar)}" rx="4"/>`
+b += `<path class="ck-bar" d="M${L},${r1(y)} H${r1(L + bw - r)} Q${r1(L + bw)},${r1(y)} ${r1(L + bw)},${r1(y + r)} V${r1(y + bar - r)} Q${r1(L + bw)},${r1(y + bar)} ${r1(L + bw - r)},${r1(y + bar)} H${L} Z"/>`
+const lx = g.stacked ? L : L - 12
+const ly = g.stacked ? y - 7 : y + bar / 2 + S.cat * 0.36
+b += `<text class="ck-cat" x="${lx}" y="${r1(ly)}" text-anchor="${g.stacked ? 'start' : 'end'}" font-size="${S.cat}">${esc(name)}</text>`
+const val = spec.labels?.value ? fmt(spec.labels.value, { ...(spec.vars || {}), v, max: g.max }) : FORMATS.int(v)
+const inside = style === 'track' && bw + 8 + textWidth(val, S.cat, 650) > iw
+b += `<text class="ck-val" x="${r1(inside ? L + bw - 8 : L + bw + 8)}" y="${r1(y + bar / 2 + S.cat * 0.36)}"${inside ? ' text-anchor="end" style="fill:#fff"' : ''} font-size="${S.cat}">${esc(val)}</text>`
+if (g.interactive)
+b += `<rect class="ck-rowhit" x="${g.plot.x}" y="${r1(y - (g.rowH - bar) / 2)}" width="${g.plot.w}" height="${r1(g.rowH)}" tabindex="0" aria-label="${esc(`${name}: ${val}`)}"/>`
+b += `</g>`
+})
+if (spec.x?.title && !S.thumb)
+b += `<text class="ck-axtitle" x="${r1(L + iw / 2)}" y="${r1(B + 40)}" text-anchor="middle" font-size="${S.ax}">${esc(spec.x.title)}</text>`
+return shell(g, spec, o, b)
+}
+
+
+function renderSVG(spec, opts = {}) {
+if (spec.type === 'bar') return renderBar(spec, opts)
+return renderLine(spec, opts)
+}
+
+
+const NS = 'http://www.w3.org/2000/svg'
+
+function el(doc, name, attrs = {}, text) {
+const n = doc.createElementNS(NS, name)
+for (const [k, v] of Object.entries(attrs)) n.setAttribute(k, String(v))
+if (text !== undefined) n.textContent = text
+return n
+}
+
+function hydrate(svg, spec, opts = {}) {
+const doc = svg.ownerDocument
+const win = doc.defaultView
+const standalone = doc.documentElement === svg
+const hidden = new Set()
+const reduce = win.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+const belowFold = standalone || svg.getBoundingClientRect().top > win.innerHeight
+let wantAnim = opts.animate !== false && !reduce && belowFold
+let lastW = 0
+let lastH = 0
+let geo = null
+let cur = -1
+const off = []
+const listen = (t, ev, fn, o) => {
+t.addEventListener(ev, fn, o)
+off.push(() => t.removeEventListener(ev, fn, o))
+}
+
+const measure = () => {
+if (standalone) return [win.innerWidth, win.innerHeight]
+const box = svg.parentElement?.getBoundingClientRect()
+return [box ? box.width : 0, 0]
+}
+
+function draw(force) {
+const [w, h] = measure()
+if (!w) return
+if (!force && Math.round(w) === lastW && Math.round(h) === lastH) return
+lastW = Math.round(w)
+lastH = Math.round(h)
+const o = {
+theme: opts.theme || 'auto',
+width: w,
+height: h,
+layout: standalone ? 'screen' : opts.layout || 'full',
+idPrefix: opts.idPrefix || 'ck',
+hidden: [...hidden],
+interactive: true,
+animate: wantAnim,
+}
+const fresh = new win.DOMParser().parseFromString(renderSVG(spec, o), 'image/svg+xml').documentElement
+for (const a of ['class', 'viewBox', 'width', 'height', 'role', 'aria-label', 'aria-labelledby']) {
+if (fresh.hasAttribute(a)) svg.setAttribute(a, fresh.getAttribute(a))
+else svg.removeAttribute(a)
+}
+if (standalone) {
+svg.setAttribute('width', '100%')
+svg.setAttribute('height', '100%')
+} else {
+svg.style.maxWidth = '100%'
+svg.style.height = 'auto'
+svg.style.display = 'block'
+}
+svg.replaceChildren(...[...fresh.childNodes].map((n) => doc.importNode(n, true)))
+geo = spec.type === 'bar' ? barGeometry(spec, o) : lineGeometry(spec, o)
+cur = -1
+wire()
+if (wantAnim) reveal()
+}
+
+function reveal() {
+wantAnim = false
+const go = () => win.requestAnimationFrame(() => win.requestAnimationFrame(() => svg.classList.remove('ck-pre')))
+if (standalone || !('IntersectionObserver' in win)) return go()
+const io = new win.IntersectionObserver(
+(es) => {
+if (es.some((e) => e.isIntersecting)) {
+io.disconnect()
+go()
+}
+},
+{ threshold: 0.35 },
+)
+io.observe(svg)
+off.push(() => io.disconnect())
+}
+
+function tipShow(lines, place) {
+const tip = svg.querySelector('.ck-tip')
+const c = tip.querySelector('.ck-tipc')
+const box = tip.querySelector('.ck-tipbox')
+c.replaceChildren()
+const px = 11
+let y = 9
+let w = 0
+for (const ln of lines) {
+if (ln.kind === 'head') {
+y += 13
+const t = el(doc, 'text', { class: 'ck-tiph', x: px, y, 'font-size': 12.5 }, ln.text)
+c.append(t)
+w = Math.max(w, t.getComputedTextLength())
+y += 6
+} else if (ln.kind === 'row') {
+y += 15
+const g = el(doc, 'g', { class: 'ck-tiprow', 'data-i': ln.i })
+let x = px
+if (ln.slot) {
+g.append(
+el(doc, 'line', {
+class: 'ck-key',
+x1: x + 1,
+x2: x + 13,
+y1: y - 4.5,
+y2: y - 4.5,
+style: `--s:var(--ck-s${ln.slot})`,
+...(ln.dashed ? { 'stroke-dasharray': '4 3' } : {}),
+}),
+)
+x += 20
+}
+const v = el(doc, 'text', { class: 'ck-tipv', x, y, 'font-size': 12.5 }, ln.value)
+g.append(v)
+c.append(g)
+const vw = v.getComputedTextLength()
+let rw = x + vw
+if (ln.name) {
+const n = el(doc, 'text', { class: 'ck-tipn', x: x + vw + 7, y, 'font-size': 12.5 }, ln.name)
+g.append(n)
+rw += 7 + n.getComputedTextLength()
+}
+w = Math.max(w, rw - px)
+if (ln.detail) {
+y += 15
+const d = el(doc, 'text', { class: 'ck-tipx', x, y, 'font-size': 11.5 }, ln.detail)
+g.append(d)
+w = Math.max(w, x - px + d.getComputedTextLength())
+}
+y += 3
+} else if (ln.kind === 'foot') {
+y += 6
+c.append(el(doc, 'line', { class: 'ck-tipsep', x1: px, x2: px, y1: y, y2: y, 'data-sep': '1' }))
+y += 17
+const t = el(doc, 'text', { class: 'ck-tipf', x: px, y, 'font-size': 12.5 }, ln.text)
+c.append(t)
+w = Math.max(w, t.getComputedTextLength())
+y += 2
+}
+}
+const tw = Math.ceil(w + 2 * px)
+const th = Math.ceil(y + 9)
+for (const s of c.querySelectorAll('[data-sep]')) s.setAttribute('x2', String(tw - px))
+box.setAttribute('width', String(tw))
+box.setAttribute('height', String(th))
+const { W, H } = geo
+let x
+let ty
+if (place.above) {
+x = clamp(place.x - tw / 2, 4, W - tw - 4)
+ty = place.y - th - 10
+if (ty < 4) ty = place.yBelow + 10
+} else {
+x = place.x + 16
+if (x + tw > W - 4) x = place.x - 16 - tw
+ty = clamp(place.y - th / 2, 4, H - th - 4)
+}
+tip.setAttribute('transform', `translate(${r1(Math.max(4, x))},${r1(ty)})`)
+tip.classList.add('on')
+}
+const tipHide = () => svg.querySelector('.ck-tip')?.classList.remove('on')
+
+function focusSeries(i) {
+svg.classList.toggle('is-focusing', i >= 0)
+for (const n of svg.querySelectorAll('.ck-series, .ck-end')) {
+const on = Number(n.dataset.i) === i
+n.classList.toggle('is-focus', on)
+n.classList.toggle('is-dim', i >= 0 && !on)
+}
+for (const n of svg.querySelectorAll('.ck-fband')) n.classList.toggle('is-focus', Number(n.dataset.i) === i)
+for (const n of svg.querySelectorAll('.ck-tiprow')) n.classList.toggle('is-dim', i >= 0 && Number(n.dataset.i) !== i)
+}
+
+function lineShow(k, py) {
+const g = geo
+if (k < 0 || !g.xs.length) return
+cur = k
+const xv = g.xs[k]
+const cx = g.sx(xv)
+svg.classList.add('is-hovering')
+const cross = svg.querySelector('.ck-cross')
+cross.setAttribute('x1', String(r1(cx)))
+cross.setAttribute('x2', String(r1(cx)))
+const rows = g.vis.map((s) => ({ s, p: s.points.find((q) => q[0] === xv) })).filter((r) => r.p)
+const dots = svg.querySelector('.ck-hdots')
+dots.replaceChildren(
+...rows.map((r) =>
+el(doc, 'circle', { class: 'ck-hdot', style: `--s:var(--ck-s${r.s.slot})`, cx: r1(cx), cy: r1(g.sy(r.p[1])), r: 4.5 }),
+),
+)
+let near = -1
+if (py != null) {
+let best = 26
+for (const r of rows) {
+const d = Math.abs(g.sy(r.p[1]) - py)
+if (d < best) {
+best = d
+near = r.s.i
+}
+}
+}
+const tt = spec.tooltip || {}
+const lines = [{ kind: 'head', text: fmt(spec.x.tip || '{x}', { ...(spec.vars || {}), x: xv }) }]
+for (const r of [...rows].sort((a, b) => b.p[1] - a.p[1])) {
+const v = ptVars(spec, r.p)
+lines.push({
+kind: 'row',
+i: r.s.i,
+slot: r.s.slot,
+dashed: r.s.dashed,
+value: fmt(tt.value || '{y}', v),
+name: r.s.short || r.s.name,
+detail: tt.detail && (r.p.length > 2 || !tt.detail.includes('{lo')) ? fmt(tt.detail, v) : '',
+})
+}
+const foot = footer(tt.footer, rows)
+if (foot) lines.push({ kind: 'foot', text: foot })
+const ys = rows.map((r) => g.sy(r.p[1]))
+tipShow(lines, { x: cx, y: py ?? (ys.length ? Math.min(...ys) : g.T + g.ih / 3) })
+focusSeries(near)
+}
+
+function footer(f, rows) {
+if (!f || rows.length < 2) return ''
+if (f.kind === 'gap') {
+const [a, b] = rows
+const hi = a.p[1] >= b.p[1] ? a : b
+const lo = hi === a ? b : a
+const d = hi.p[1] - lo.p[1]
+return fmt(f.text, { ...(spec.vars || {}), lead: hi.s.short || hi.s.name, lag: lo.s.short || lo.s.name, d, r: d / lo.p[1] })
+}
+return ''
+}
+
+function lineHide() {
+svg.classList.remove('is-hovering')
+tipHide()
+focusSeries(-1)
+}
+
+function toLocal(e) {
+const r = svg.getBoundingClientRect()
+const k = geo.W / r.width
+return [(e.clientX - r.left) * k, (e.clientY - r.top) * k]
+}
+
+function wire() {
+if (spec.type === 'bar') return wireBars()
+const hit = svg.querySelector('.ck-hit')
+const g = geo
+let touch = false
+const onMove = (e) => {
+touch = e.pointerType === 'touch'
+const [px, py] = toLocal(e)
+const xv = spec.x.domain[0] + ((px - g.L) / g.iw) * (spec.x.domain[1] - spec.x.domain[0])
+let k = 0
+let best = Number.POSITIVE_INFINITY
+g.xs.forEach((x, j) => {
+const d = Math.abs(x - xv)
+if (d < best) {
+best = d
+k = j
+}
+})
+lineShow(k, py)
+}
+hit.addEventListener('pointermove', onMove)
+hit.addEventListener('pointerdown', onMove)
+hit.addEventListener('pointerleave', () => {
+if (!touch) lineHide()
+})
+hit.addEventListener('focus', () => lineShow(cur >= 0 ? cur : Math.floor(g.xs.length / 2)))
+hit.addEventListener('blur', lineHide)
+hit.addEventListener('keydown', (e) => {
+const n = g.xs.length
+if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+e.preventDefault()
+lineShow(clamp((cur < 0 ? 0 : cur) + (e.key === 'ArrowRight' ? 1 : -1), 0, n - 1))
+} else if (e.key === 'Home') {
+e.preventDefault()
+lineShow(0)
+} else if (e.key === 'End') {
+e.preventDefault()
+lineShow(n - 1)
+} else if (e.key === 'Escape') lineHide()
+})
+for (const chip of svg.querySelectorAll('.ck-chip')) {
+const i = Number(chip.dataset.i)
+const toggle = () => {
+if (hidden.has(i)) hidden.delete(i)
+else if (hidden.size < g.series.length - 1) hidden.add(i)
+draw(true)
+svg.querySelector(`.ck-chip[data-i="${i}"]`)?.focus()
+}
+chip.addEventListener('click', toggle)
+chip.addEventListener('keydown', (e) => {
+if (e.key === 'Enter' || e.key === ' ') {
+e.preventDefault()
+toggle()
+}
+})
+chip.addEventListener('pointerenter', () => !hidden.has(i) && focusSeries(i))
+chip.addEventListener('pointerleave', () => focusSeries(-1))
+}
+}
+
+function wireBars() {
+const g = geo
+const tt = spec.tooltip || {}
+svg.querySelectorAll('.ck-row').forEach((row) => {
+const i = Number(row.dataset.i)
+const [name, v] = g.rows[i]
+const hit = row.querySelector('.ck-rowhit')
+const on = () => {
+svg.classList.add('is-hovering')
+for (const r of svg.querySelectorAll('.ck-row')) r.classList.toggle('is-on', r === row)
+const vv = { ...(spec.vars || {}), v, max: g.max, first: g.rows[0][1], r: g.rows[0][1] / v }
+const lines = [
+{ kind: 'head', text: name },
+{ kind: 'row', value: fmt(tt.value || '{v}', vv), name: tt.detail ? fmt(tt.detail, vv) : '' },
+]
+if (tt.footer && i > 0) lines.push({ kind: 'foot', text: fmt(tt.footer.text || '', vv) })
+tipShow(lines, { above: true, x: g.sx(v), y: g.yBar(i), yBelow: g.yBar(i) + g.bar })
+}
+const offRow = () => {
+svg.classList.remove('is-hovering')
+row.classList.remove('is-on')
+tipHide()
+}
+hit.addEventListener('pointerenter', on)
+hit.addEventListener('pointerdown', on)
+hit.addEventListener('pointerleave', (e) => e.pointerType !== 'touch' && offRow())
+hit.addEventListener('focus', on)
+hit.addEventListener('blur', offRow)
+})
+}
+
+listen(doc, 'pointerdown', (e) => {
+if (!svg.contains(e.target)) {
+svg.classList.remove('is-hovering', 'is-focusing')
+tipHide()
+}
+})
+
+draw(true)
+let t
+const onResize = () => {
+win.clearTimeout(t)
+t = win.setTimeout(() => draw(false), 80)
+}
+if (standalone || !('ResizeObserver' in win)) listen(win, 'resize', onResize)
+else {
+const ro = new win.ResizeObserver(onResize)
+ro.observe(svg.parentElement)
+off.push(() => ro.disconnect())
+}
+return () => {
+for (const f of off) f()
+win.clearTimeout(t)
+}
+}
+
+hydrate(document.documentElement, {"chartkit":1,"type":"line","title":"GLM writing speed with and without MTP on a MacBook Pro M3 Max","subtitle":"Tokens produced per second once the answer has started. Higher is better.","alt":"Line chart of GLM writing speed with and without MTP: the plain line is smooth between about 15 and 18 tokens per second, the MTP line is much lower and jagged, between about 7.5 and 15.5, never reaching the plain line","x":{"title":"Context length (tokens already in the conversation)","short":"Context length","domain":[0,65536],"ticks":[0,8192,16384,24576,32768,40960,49152,57344,65536],"ticksCompact":[0,16384,32768,49152,65536],"format":"kilo","tip":"{x|int} tokens of context"},"y":{"title":"Tokens per second","domain":[0,20],"ticks":[0,5,10,15,20],"format":"int"},"labels":{"end":"{y|fixed:1}"},"tooltip":{"value":"{y|fixed:2} tok/s","footer":{"kind":"gap","text":"{lead} ahead by {d|fixed:2} tok/s (+{r|pct})"}},"series":[{"name":"GLM 5.3 Flash","short":"GLM","slot":2,"points":[[2048,17.09],[4096,17.7],[6144,17.74],[8192,17.65],[10240,17.47],[12288,17.22],[14336,16.81],[16384,16.57],[18432,16.27],[20480,16.01],[22528,15.87],[24576,15.59],[26624,15.57],[28672,15.51],[30720,15.53],[32768,15.42],[34816,15.42],[36864,15.45],[38912,15.42],[40960,14.58],[43008,15.46],[45056,15.37],[47104,15.5],[49152,15.32],[51200,15.5],[53248,15.53],[55296,15.56],[57344,15.58],[59392,15.3],[61440,15.25],[63488,15.44],[65536,15.26]]},{"name":"GLM 5.3 Flash + MTP","short":"GLM + MTP","slot":3,"points":[[2048,11.51],[4096,15.5],[6144,11.12],[8192,10.55],[10240,11.96],[12288,9.67],[14336,9.24],[16384,10.06],[18432,9.41],[20480,7.6],[22528,8.89],[24576,9.67],[26624,8.17],[28672,9.61],[30720,9.24],[32768,8.76],[34816,8.39],[36864,8.53],[38912,13.67],[40960,8.63],[43008,8.99],[45056,10.12],[47104,11.87],[49152,7.98],[51200,8.21],[53248,8.28],[55296,7.54],[57344,7.97],[59392,11.03],[61440,7.65],[63488,10.24],[65536,14.05]]}]}, {theme: "dark", idPrefix: 'ck'});})();
+]]></script></svg>

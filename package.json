@@ -7,8 +7,8 @@
   },
   "scripts": {
     "start": "next dev",
-    "dev": "contentlayer2 build && INIT_CWD=$PWD next dev",
-    "build": "contentlayer2 build && INIT_CWD=$PWD next build && cross-env NODE_OPTIONS='--experimental-json-modules' node -r esbuild-register ./scripts/postbuild.mjs",
+    "dev": "contentlayer2 build --clearCache && INIT_CWD=$PWD next dev",
+    "build": "contentlayer2 build --clearCache && INIT_CWD=$PWD next build && cross-env NODE_OPTIONS='--experimental-json-modules' node -r esbuild-register ./scripts/postbuild.mjs",
     "serve": "next start",
     "format": "biome format --write .",
     "check": "biome check --write .",

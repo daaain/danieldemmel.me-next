@@ -94,7 +94,8 @@ export default function Home({ posts, projects }: InferGetStaticPropsType<typeof
         {projects.length <= 2 ? (
           <div className="grid gap-8 md:grid-cols-2 md:gap-6">
             {projects.slice(0, 2).map((project, index) => {
-              const { path, title, summary, images, projectLink } = project
+              const { path, title, summary, images, thumbImage, thumbDarkImage, projectLink } =
+                project
               const animationDelay = `animation-delay-${(index + 3) * 100}`
 
               return (
@@ -107,7 +108,8 @@ export default function Home({ posts, projects }: InferGetStaticPropsType<typeof
                       >
                         <Image
                           fill
-                          src={images[0]}
+                          src={thumbImage ?? images[0]}
+                          darkSrc={thumbDarkImage}
                           alt={title}
                           className="object-cover transition-transform duration-500 group-hover:scale-105"
                           shouldOpenWhenClicked={false}
@@ -136,7 +138,8 @@ export default function Home({ posts, projects }: InferGetStaticPropsType<typeof
             {/* Left column: 2 small stacked projects */}
             <div className="flex flex-col gap-8 md:col-span-5 md:gap-6">
               {projects.slice(0, 2).map((project, index) => {
-                const { path, title, summary, images, projectLink } = project
+                const { path, title, summary, images, thumbImage, thumbDarkImage, projectLink } =
+                  project
                 const animationDelay = `animation-delay-${(index + 3) * 100}`
 
                 return (
@@ -149,7 +152,8 @@ export default function Home({ posts, projects }: InferGetStaticPropsType<typeof
                         >
                           <Image
                             fill
-                            src={images[0]}
+                            src={thumbImage ?? images[0]}
+                            darkSrc={thumbDarkImage}
                             alt={title}
                             className="object-cover transition-transform duration-500 group-hover:scale-105"
                             shouldOpenWhenClicked={false}
@@ -184,7 +188,8 @@ export default function Home({ posts, projects }: InferGetStaticPropsType<typeof
                   >
                     <Image
                       fill
-                      src={projects[2].images[0]}
+                      src={projects[2].thumbImage ?? projects[2].images[0]}
+                      darkSrc={projects[2].thumbDarkImage}
                       alt={projects[2].title}
                       className="object-cover transition-transform duration-500 group-hover:scale-105"
                       shouldOpenWhenClicked={false}
@@ -222,7 +227,17 @@ export default function Home({ posts, projects }: InferGetStaticPropsType<typeof
 
         <div className="grid gap-8 md:grid-cols-12 md:gap-6">
           {posts.slice(0, MAX_POSTS).map((post, index) => {
-            const { path, date, lastmod, title, summary, images, readingTime } = post
+            const {
+              path,
+              date,
+              lastmod,
+              title,
+              summary,
+              images,
+              thumbImage,
+              thumbDarkImage,
+              readingTime,
+            } = post
             const isLead = index === 0
             const showUpdated =
               lastmod && new Date(lastmod).toDateString() !== new Date(date).toDateString()
@@ -243,7 +258,8 @@ export default function Home({ posts, projects }: InferGetStaticPropsType<typeof
                           <Image
                             fill
                             priority
-                            src={images[0]}
+                            src={thumbImage ?? images[0]}
+                            darkSrc={thumbDarkImage}
                             alt={title}
                             className="object-cover transition-transform duration-500 group-hover:scale-105"
                             shouldOpenWhenClicked={false}
@@ -294,7 +310,8 @@ export default function Home({ posts, projects }: InferGetStaticPropsType<typeof
                     >
                       <Image
                         fill
-                        src={images[0]}
+                        src={thumbImage ?? images[0]}
+                        darkSrc={thumbDarkImage}
                         alt={title}
                         className="object-cover transition-transform duration-500 group-hover:scale-105"
                         shouldOpenWhenClicked={false}
