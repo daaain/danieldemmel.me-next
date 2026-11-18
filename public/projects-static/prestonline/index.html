@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>prestonline</title>
+	<meta name="description" content="Archived 2005 Flash website of Preston, running in the Ruffle Flash emulator" />
+	<style>
+		html, body {
+			height: 100%;
+			margin: 0;
+			padding: 0;
+			background: #000;
+			color: #fff;
+			font-family: Arial, Helvetica, sans-serif;
+			overflow: hidden;
+		}
+		#banner {
+			height: 2em;
+			line-height: 2em;
+			text-align: center;
+			border-bottom: 1px solid #333;
+		}
+		#banner a {
+			color: #fff;
+			font-weight: bold;
+			text-decoration: none;
+		}
+		#banner a:hover {
+			text-decoration: underline;
+		}
+		#player {
+			height: calc(100% - 2em - 1px);
+		}
+		#player ruffle-player, #player ruffle-embed {
+			width: 100%;
+			height: 100%;
+		}
+		/* The original front door: logo.swf + instructions, as on prestonline.hu */
+		#door {
+			height: calc(100% - 2em - 1px);
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			gap: 1.5em;
+			padding: 0 16px;
+			text-align: center;
+		}
+		#logo {
+			width: min(800px, 100%);
+			aspect-ratio: 800 / 150;
+			cursor: pointer;
+		}
+		#logo ruffle-player {
+			width: 100%;
+			height: 100%;
+		}
+		#door p {
+			margin: 0;
+			max-width: 40em;
+		}
+		#door .translation {
+			color: #888;
+			font-size: 0.85em;
+		}
+	</style>
+	<script>
+		window.RufflePlayer = window.RufflePlayer || {};
+		window.RufflePlayer.config = {
+			autoplay: "on",
+			unmuteOverlay: "hidden",
+			warnOnUnsupportedContent: false,
+			backgroundColor: "#000000",
+			letterbox: "on",
+			// The site's "retry" button reloads the blog from the long-gone domain
+			urlRewriteRules: [
+				[/^https?:\/\/(www\.)?prestonline\.hu\//, "/projects-static/prestonline/"],
+			],
+			logLevel: "error",
+		};
+	</script>
+	<script src="ruffle/ruffle.js"></script>
+</head>
+<body>
+	<div id="banner" lang="en">
+		<a href="/projects/prestonline">This is an archived website. Click here to read the story behind it.</a>
+	</div>
+	<div id="door">
+		<div id="logo" title="belépés / enter"></div>
+		<p>[ a belépéshez kattints a feliratra ]</p>
+		<p>A teljes katarzishoz javasolt legalább 1024*768-as felbontáson és bekapcsolt hanggal nézni az oldalt.</p>
+		<p class="translation" lang="en">Click the logo to enter. For the full catharsis, view it at 1024×768 or larger with the sound on.</p>
+	</div>
+	<div id="player" hidden></div>
+	<script>
+		var entered = false;
+
+		// logo.swf calls getURL("javascript:fullscreen()") on click, which on the original
+		// site opened the main movie in a 1008×734 popup. Here it swaps it in, in place.
+		// Entering on a click also gives the browser the user gesture it needs before
+		// allowing audio, so the intro's soundtrack can actually play.
+		window.fullscreen = function () {
+			if (entered) return;
+			entered = true;
+			document.getElementById("door").remove();
+			var container = document.getElementById("player");
+			container.hidden = false;
+			var player = window.RufflePlayer.newest().createPlayer();
+			container.appendChild(player);
+			// pre_5.swf is the preloader, it pulls in pron_6.swf (the actual site)
+			player.ruffle().load({ url: "pre_5.swf", allowScriptAccess: false });
+		};
+
+		window.addEventListener("load", function () {
+			var logo = document.getElementById("logo");
+			var player = window.RufflePlayer.newest().createPlayer();
+			logo.appendChild(player);
+			// allowScriptAccess lets the logo's javascript: URL reach fullscreen() above
+			player.ruffle().load({ url: "logo.swf", allowScriptAccess: true, menu: false });
+			// Fallback in case the javascript: URL gets blocked, and so the whole logo
+			// is a click target rather than just the lettering. Capture phase, because
+			// Ruffle doesn't let pointer events bubble out of the player.
+			logo.addEventListener("pointerup", function () {
+				setTimeout(window.fullscreen, 50);
+			}, true);
+		});
+	</script>
+</body>
+</html>

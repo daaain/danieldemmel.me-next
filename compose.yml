@@ -17,11 +17,9 @@ services:
       - .:/app
       - node_modules:/app/node_modules
       - next:/app/.next
-      - contentlayer:/app/.contentlayer
       - yarn_cache:/usr/local/share/.cache/yarn
 
 volumes:
   node_modules:
   next:
-  contentlayer:
   yarn_cache:

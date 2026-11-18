@@ -55,12 +55,7 @@ export default function Home({ posts, projects }: InferGetStaticPropsType<typeof
             </h1>
             <p className="mt-6 max-w-2xl text-xl leading-relaxed text-gray-600 dark:text-gray-300 md:text-2xl">
               Design technologist and full-stack AI engineer at{' '}
-              <Link
-                href="https://www.tangible.finance/"
-                className="underline decoration-lime-accent decoration-2 underline-offset-2"
-              >
-                Tangible
-              </Link>
+              <Link href="https://www.tangible.finance/">Tangible</Link>
               , helping green hardware startups scale through debt, not dilution. Climate tech only
               makes a difference at gigatonne CO₂e scale – I want to help it get there.
             </p>

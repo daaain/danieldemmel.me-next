@@ -216,7 +216,7 @@ APP_PORT = 3210
 # and re-downloads every time.
 [box]
 image = { dockerfile = "box.Dockerfile", tag = "danieldemmel-me-next-box:latest" }
-shadow_volumes = ["node_modules", ".next", ".contentlayer"]   # checkout-relative
+shadow_volumes = ["node_modules", ".next"]   # checkout-relative
 warmup = [{ dir = ".", run = "yarn install --frozen-lockfile" }]
 env = { NEXT_TELEMETRY_DISABLED = "1", YARN_CACHE_FOLDER = "~/.cache/yarn" }   # yarn 1 as root would otherwise cache under /usr/local/share
 caches = [
