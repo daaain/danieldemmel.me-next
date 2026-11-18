@@ -1,0 +1,377 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<kepek>
+
+<vegyes cim="Budapest by light">
+     <pic>
+          <kep>galeria/to_serve_and_protect.jpg</kep>
+          <leiras>to serve and to protect</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/kontroll.jpg</kep>
+          <leiras>kontroll</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/blue_danube_walzer.jpg</kep>
+          <leiras>blue danube walzer</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/bridge.jpg</kep>
+          <leiras>fog above the river 1</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/bridge2.jpg</kep>
+          <leiras>fog above the river 2</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/traminfog.jpg</kep>
+          <leiras>fog above the river 3</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/blue_fog.jpg</kep>
+          <leiras>blue fog</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/citylight.jpg</kep>
+          <leiras>citylight</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/erste.jpg</kep>
+          <leiras>on fire</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/for_whom_the_bell.jpg</kep>
+          <leiras>for whom the bell</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/daruk_green.jpg</kep>
+          <leiras>green</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/from_dusk_till_dawn.jpg</kep>
+          <leiras>from dusk till dawn</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/from_stone_and_wood.jpg</kep>
+          <leiras>from stone and wood</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/i_feel_so_blue.jpg</kep>
+          <leiras>I feel so blue</leiras>
+     </pic>     
+     <pic>
+          <kep>galeria/heroes.jpg</kep>
+          <leiras>my heroes</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/view.jpg</kep>
+          <leiras>gloomy morning</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/the_essential.jpg</kep>
+          <leiras>the essential moment</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/frontal.jpg</kep>
+          <leiras>frontal</leiras>
+     </pic><pic>
+          <kep>galeria/artemis.jpg</kep>
+          <leiras>artemis</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/morning_lake.jpg</kep>
+          <leiras>sunset on the lake</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/dunakorzo.jpg</kep>
+          <leiras>stubs</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/babel.jpg</kep>
+          <leiras>tower</leiras>
+     </pic>
+</vegyes>
+<mixed cim="Budapest by night">
+     <pic>
+          <kep>galeria/lines_of_dates.jpg</kep>
+          <leiras>data</leiras>
+     </pic>     
+     <pic>
+          <kep>galeria/astoria.jpg</kep>
+          <leiras>astoria</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/chasing_liberty.jpg</kep>
+          <leiras>chasing liberty</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/country_cross.jpg</kep>
+          <leiras>cross over countryside</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/bright_oranges.jpg</kep>
+          <leiras>bright oranges</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/also_starring.jpg</kep>
+           <leiras>also starring</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/duna1.jpg</kep>
+          <leiras>blackness</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/one_way_traffic.jpg</kep>
+          <leiras>to buda, please!</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/chains.jpg</kep>
+          <leiras>chains</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/fire_and_co.jpg</kep>
+          <leiras>fire and co</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/global.jpg</kep>
+          <leiras>global</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/grafitti.jpg</kep>
+          <leiras>grafitti</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/fisher-s_gloaming.jpg</kep>
+          <leiras>fisher</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/great_ball_of_fire.jpg</kep>
+          <leiras>great ball of fire</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/gresham.jpg</kep>
+          <leiras>gresham</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/in_view.jpg</kep>
+          <leiras>in view</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/just_the_2_of_us.jpg</kep>
+          <leiras>close to you</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/silversusgold.jpg</kep>
+          <leiras>silversusgold</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/see_you_tomorrow.jpg</kep>
+          <leiras>see you tomorrow</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/stairway_to_heaven.jpg</kep>
+          <leiras>stairway</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/nightswimming.jpg</kep>
+          <leiras>nightswimming</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/tdk.jpg</kep>
+          <leiras>tdk</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/var.jpg</kep>
+          <leiras>redness</leiras>
+     </pic>
+</mixed>
+<masen cim="Somewhere on my planet">
+     <pic>
+          <kep>galeria/crossover.jpg</kep>
+          <leiras>crossover</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/the_port.jpg</kep>
+          <leiras>old port</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/this_way.jpg</kep>
+          <leiras>arrow</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/under_clouds.jpg</kep>
+          <leiras>under cloudy sky</leiras>
+     </pic>     
+</masen>
+<masmilyen cim="Me, myself and I">
+     <pic>
+          <kep>galeria/dani4.jpg</kep>
+          <leiras>big dumb face</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/white.jpg</kep>
+          <leiras>colgate whitening</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/dance_1.jpg</kep>
+          <leiras>holdudvar</leiras>
+     </pic>
+</masmilyen>
+<masilyen cim="People">
+     <pic>
+          <kep>galeria/mi1.jpg</kep>
+          <leiras>close to you</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/neni1.jpg</kep>
+          <leiras>please</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/felhobea.jpg</kep>
+          <leiras>beus és felho</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/dance_2.jpg</kep>
+          <leiras>girls</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/baba.jpg</kep>
+          <leiras>look at me</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/weight_of_the_world.jpg</kep>
+          <leiras>weight of the world</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/pace_rocks.jpg</kep>
+          <leiras>pace rocks</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/zp.jpg</kep>
+          <leiras>green energy</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/beyond_the_words.jpg</kep>
+          <leiras>beyond the words</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/friendly_meteor.jpg</kep>
+          <leiras>meteor</leiras>
+     </pic>     
+     <pic>
+          <kep>galeria/champagne_and_tram.jpg</kep>
+          <leiras>tram</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/eatmeat.jpg</kep>
+          <leiras>big plate</leiras>
+     </pic>
+</masilyen>
+<maslyen cim="Nature">
+     <pic>
+          <kep>galeria/contrast.jpg</kep>
+          <leiras>contrast</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/mojito.jpg</kep>
+          <leiras>mojito?</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/sleep.jpg</kep>
+          <leiras>daydream</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/duck.jpg</kep>
+          <leiras>duck</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/ducks.jpg</kep>
+          <leiras>smoke on the water</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/birds.jpg</kep>
+          <leiras>birds</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/bluecouple.jpg</kep>
+          <leiras>couple</leiras>
+     </pic>     
+     <pic>
+          <kep>galeria/sky_wars .jpg</kep>
+          <leiras>sky wars</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/snowflower.jpg</kep>
+          <leiras>snowflower</leiras>
+     </pic>     
+     <pic>
+          <kep>galeria/the_red_ones.jpg</kep>
+          <leiras>redheads</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/pinktree.jpg</kep>
+          <leiras>pinknick</leiras>
+     </pic>
+</maslyen>
+<masyen cim="Out of orders">
+     <pic>
+          <kep>galeria/secrets.jpg</kep>
+          <leiras>secret</leiras>
+     </pic>     
+     <pic>
+          <kep>galeria/glass1.jpg</kep>
+          <leiras>glassy</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/floyd-s_wall.jpg</kep>
+          <leiras>floyd's wall</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/the_dark_side.jpg</kep>
+          <leiras>dark side is in TV</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/honestly.jpg</kep>
+          <leiras>honestly</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/darth_modius.jpg</kep>
+           <leiras>darth modius</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/7_is_my_lucky_number.jpg</kep>
+          <leiras>7 is my lucky number</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/black_tie.jpg</kep>
+          <leiras>black tie</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/exit.jpg</kep>
+          <leiras>exit</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/smsng.jpg</kep>
+          <leiras>samsung</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/love.jpg</kep>
+          <leiras>real love</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/pluss.jpg</kep>
+          <leiras>pluss</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/into_the_space.jpg</kep>
+          <leiras>into the space</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/morning_glory.jpg</kep>
+          <leiras>morning glory 1</leiras>
+     </pic>
+     <pic>
+          <kep>galeria/morning_glory_2.jpg</kep>
+          <leiras>morning glory 2</leiras>
+     </pic>
+</masyen>
+</kepek>

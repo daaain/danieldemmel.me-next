@@ -22,6 +22,7 @@ public/sitemap.xml
 /build
 *.xml
 !public/projects-static/flaunt-it/xml/flaunt.xml
+!public/projects-static/prestonline/*.xml
 
 # rss feed
 /public/feed.xml
